@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"github.com/louisevanderlith/mango/app/www/logic"
-	"github.com/louisevanderlith/mango/pkg/control"
+	"github.com/louisevanderlith/mango/control"
+	"github.com/louisevanderlith/www/logic"
 )
 
 type DefaultController struct {

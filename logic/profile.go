@@ -4,7 +4,7 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/louisevanderlith/mango/pkg"
+	"github.com/louisevanderlith/mango"
 )
 
 type BasicSite struct {
@@ -66,7 +66,7 @@ func GetProfileSite(instanceID, name string) (BasicSite, error) {
 		name = "avosa"
 	}
 
-	resp, err := util.GETMessage(instanceID, "Folio.API", "profile", name)
+	resp, err := mango.GETMessage(instanceID, "Folio.API", "profile", name)
 
 	if err != nil {
 		return result, err
@@ -103,7 +103,7 @@ func (obj *BasicSite) setImageURLs(instanceID string) {
 }
 
 func setUploadURL(instanceID string) {
-	url, err := util.GetServiceURL(instanceID, "Artifact.API", true)
+	url, err := mango.GetServiceURL(instanceID, "Artifact.API", true)
 
 	if err != nil {
 		log.Print("setImageURLs:", err)
