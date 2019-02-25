@@ -2,66 +2,15 @@ package logic
 
 import (
 	"log"
-	"strconv"
 
+	folio "github.com/louisevanderlith/folio/core"
 	"github.com/louisevanderlith/mango"
 )
 
-type BasicSite struct {
-	ID             int64
-	Title          string
-	Description    string
-	ContactEmail   string
-	ContactPhone   string
-	URL            string
-	ImageID        int64
-	ImageURL       string
-	StyleSheet     string
-	SocialLinks    SocialLinks
-	PortfolioItems PortfolioItems
-	AboutSections  AboutSections
-	Headers        HeaderItems
-}
-
-type SocialLinks []socialLink
-
-type PortfolioItems []portfolioItem
-
-type AboutSections []aboutSection
-
-type HeaderItems []headerItem
-
-type socialLink struct {
-	ID   int64
-	Icon string
-	URL  string
-}
-
-type portfolioItem struct {
-	ID       int64
-	ImageID  int64
-	ImageURL string
-	URL      string
-	Name     string
-}
-
-type aboutSection struct {
-	ID          int64
-	SectionText string
-}
-
-type headerItem struct {
-	ID       int64
-	Heading  string
-	Text     string
-	ImageID  int64
-	ImageURL string
-}
-
 var uploadURL string
 
-func GetProfileSite(instanceID, name string) (BasicSite, error) {
-	result := BasicSite{}
+func GetProfileSite(instanceID, name string) (folio.Profile, error) {
+	result := folio.Profile{}
 	if name == "" {
 		name = "avosa"
 	}
@@ -78,12 +27,13 @@ func GetProfileSite(instanceID, name string) (BasicSite, error) {
 
 	log.Printf("GetProfileSite- %#v\n", resp.Data)
 
-	result = resp.Data.(BasicSite)
-	result.setImageURLs(instanceID)
+	result = resp.Data.(folio.Profile)
+	//result.setImageURLs(instanceID)
 
 	return result, nil
 }
 
+/*
 func (obj *BasicSite) setImageURLs(instanceID string) {
 	if uploadURL == "" {
 		setUploadURL(instanceID)
@@ -111,3 +61,4 @@ func setUploadURL(instanceID string) {
 
 	uploadURL = url + "v1/upload/file/"
 }
+*/

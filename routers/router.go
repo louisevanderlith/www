@@ -9,6 +9,8 @@ import (
 
 func Setup(s *mango.Service) {
 	ctrlmap := control.CreateControlMap(s)
-	beego.Router("/", controllers.NewDefaultCtrl(ctrlmap))
-	beego.Router("/:siteName", controllers.NewDefaultCtrl(ctrlmap))
+	deftCtrl := controllers.NewDefaultCtrl(ctrlmap)
+
+	beego.Router("/", deftCtrl)
+	beego.Router("/:siteName", deftCtrl)
 }
