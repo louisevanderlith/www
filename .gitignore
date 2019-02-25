@@ -12,3 +12,5 @@
 *.out
 
 www
+node_modules
+dist
