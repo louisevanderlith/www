@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/mango"
@@ -11,7 +12,8 @@ import (
 
 func main() {
 	// Register with router
-	mode := beego.BConfig.RunMode
+	mode := os.Getenv("RUNMODE")
+	log.Println("Running in ", mode)
 	name := beego.BConfig.AppName
 	srv := mango.NewService(mode, name, enums.APP)
 

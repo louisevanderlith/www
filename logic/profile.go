@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"encoding/json"
 	"log"
 
 	folio "github.com/louisevanderlith/folio/core"
@@ -25,9 +26,26 @@ func GetProfileSite(instanceID, name string) (folio.Profile, error) {
 		return result, resp
 	}
 
-	log.Printf("GetProfileSite- %#v\n", resp.Data)
+	switch resp.Data.(type) {
+	case map[string]interface{}:
+		dirty, err := json.Marshal(resp.Data)
 
-	result = resp.Data.(folio.Profile)
+		if err != nil {
+			return result, err
+		}
+
+		err = json.Unmarshal(dirty, &result)
+
+		if err != nil {
+			return result, err
+		}
+	case folio.Profile:
+		result = resp.Data.(folio.Profile)
+	default:
+		log.Printf("Dont Know: %v\n", resp)
+	}
+
+	//result = resp.Data.(folio.Profile)
 	//result.setImageURLs(instanceID)
 
 	return result, nil

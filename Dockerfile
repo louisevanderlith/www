@@ -6,10 +6,11 @@ COPY views views
 COPY static static
 
 ##Download the latest templates
+RUN mkdir -p /views/_shared
 RUN apk add --update curl && rm -rf /var/cache/apk/*
 RUN apk --no-cache add jq
-RUN for k in $(curl -XGET localhost:8093/v1/asset/html | jq ".Data | .[]"); do curl -O views/_shared/$k localhost:8093/v1/asset/html/$k; done
+RUN for k in $(curl -XGET 172.18.0.1:8093/v1/asset/html | jq -r ".Data | .[]"); do curl -o views/_shared/$k 172.18.0.1:8093/v1/asset/html/$k; done
 
 EXPOSE 8091
 
-CMD [ "./www"]
+ENTRYPOINT [ "./www" ]
