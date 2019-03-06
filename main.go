@@ -24,6 +24,8 @@ func main() {
 		log.Print("Register: ", err)
 	} else {
 		routers.Setup(srv)
+
+		beego.SetStaticPath("/dist", "dist")
 		beego.Run()
 	}
 }
