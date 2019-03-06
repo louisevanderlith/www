@@ -1,8 +1,9 @@
 package controllers
 
 import (
+	"github.com/astaxie/beego"
+	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
-	"github.com/louisevanderlith/www/logic"
 )
 
 type DefaultController struct {
@@ -16,13 +17,44 @@ func NewDefaultCtrl(ctrlMap *control.ControllerMap) *DefaultController {
 	return result
 }
 
-func (c *DefaultController) Get() {
+func (c *DefaultController) GetDefault() {
+	c.Setup("default")
+	c.CreateTopMenu(getTopMenu())
+	siteName := beego.AppConfig.String("defaultsite")
+
+	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", siteName)
+
+	if err != nil {
+		c.Serve(nil, err)
+		return
+	}
+
+	if resp.Failed() {
+		c.Serve(nil, resp)
+		return
+	}
+
+	c.Serve(resp.Data, err)
+}
+
+func (c *DefaultController) GetSite() {
 	c.Setup("default")
 	c.CreateTopMenu(getTopMenu())
 	siteName := c.Ctx.Input.Param(":siteName")
-	data, err := logic.GetProfileSite(c.GetInstanceID(), siteName)
 
-	c.Serve(data, err)
+	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", siteName)
+
+	if err != nil {
+		c.Serve(nil, err)
+		return
+	}
+
+	if resp.Failed() {
+		c.Serve(nil, resp)
+		return
+	}
+
+	c.Serve(resp.Data, err)
 }
 
 func getTopMenu() *control.Menu {

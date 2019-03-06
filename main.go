@@ -13,7 +13,6 @@ import (
 func main() {
 	// Register with router
 	mode := os.Getenv("RUNMODE")
-	log.Println("Running in ", mode)
 	name := beego.BConfig.AppName
 	srv := mango.NewService(mode, name, enums.APP)
 

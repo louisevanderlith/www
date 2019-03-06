@@ -11,6 +11,6 @@ func Setup(s *mango.Service) {
 	ctrlmap := control.CreateControlMap(s)
 	deftCtrl := controllers.NewDefaultCtrl(ctrlmap)
 
-	beego.Router("/", deftCtrl)
-	beego.Router("/:siteName", deftCtrl)
+	beego.Router("/", deftCtrl, "get:GetDefault")
+	beego.Router("/:siteName", deftCtrl, "get:GetSite")
 }
