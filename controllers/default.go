@@ -22,19 +22,20 @@ func (c *DefaultController) GetDefault() {
 	c.CreateTopMenu(getTopMenu())
 	siteName := beego.AppConfig.String("defaultsite")
 
-	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", siteName)
+	result := make(map[string]interface{})
+	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", siteName)
 
 	if err != nil {
 		c.Serve(nil, err)
 		return
 	}
 
-	if resp.Failed() {
-		c.Serve(nil, resp)
+	if fail != nil {
+		c.Serve(nil, fail)
 		return
 	}
 
-	c.Serve(resp.Data, err)
+	c.Serve(result, nil)
 }
 
 func (c *DefaultController) GetSite() {
@@ -42,27 +43,28 @@ func (c *DefaultController) GetSite() {
 	c.CreateTopMenu(getTopMenu())
 	siteName := c.Ctx.Input.Param(":siteName")
 
-	resp, err := mango.GETMessage(c.GetInstanceID(), "Folio.API", "profile", siteName)
+	result := make(map[string]interface{})
+	fail, err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", siteName)
 
 	if err != nil {
 		c.Serve(nil, err)
 		return
 	}
 
-	if resp.Failed() {
-		c.Serve(nil, resp)
+	if fail != nil {
+		c.Serve(nil, fail)
 		return
 	}
 
-	c.Serve(resp.Data, err)
+	c.Serve(result, nil)
 }
 
 func getTopMenu() *control.Menu {
 	result := control.NewMenu("/home")
 
-	result.AddItem("#portfolio", "Portfolio", "home gome fa-home", nil)
-	result.AddItem("#aboutus", "About Us", "home gome fa-home", nil)
-	result.AddItem("#contact", "Contact", "home gome fa-home", nil)
+	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
+	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
+	result.AddItem("#contact", "Contact", "home fa fa-phone", nil)
 
 	return result
 }

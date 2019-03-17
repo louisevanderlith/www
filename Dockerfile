@@ -1,15 +1,34 @@
+FROM golang:1.11 as builder
+
+WORKDIR /box
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+
+COPY main.go .
+COPY controllers ./controllers
+COPY logic ./logic
+COPY routers ./routers
+
+RUN CGO_ENABLED="0" go build
+
+FROM google/dart AS pyltjie
+
+WORKDIR /arrow
+COPY static/dart ./assets/dart
+
+RUN mkdir -p assets/js
+COPY compiledart.sh .
+RUN sh ./compiledart.sh
+
 FROM alpine:latest
 
-COPY www .
+COPY --from=builder /box/www .
+COPY --from=pyltjie /arrow/assets/js dist/js
 COPY conf conf
 COPY views views
-COPY dist dist
 
-##Download the latest templates
 RUN mkdir -p /views/_shared
-RUN apk add --update curl && rm -rf /var/cache/apk/*
-RUN apk --no-cache add jq
-RUN for k in $(curl -XGET 172.18.0.1:8093/v1/asset/html | jq -r ".Data | .[]"); do curl -o views/_shared/$k 172.18.0.1:8093/v1/asset/html/$k; done
 
 EXPOSE 8091
 

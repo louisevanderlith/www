@@ -1,0 +1,103 @@
+version: "3.7"
+
+services:
+  WWWDEV:
+      image: avosa/www:latest
+      build: .
+      environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+      depends_on:
+        - RouterDEV
+        - FolioDEV
+        - ThemeDEV
+        - CommsDEV
+      networks:
+        - mango_net
+      ports:
+        - "8091:8091"
+      command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
+
+  RouterDEV:
+    image: avosa/router:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "8080:8080"
+    networks:
+        - mango_net
+
+  FolioDEV:
+    image: avosa/folio:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "8090:8090"
+    networks:
+        - mango_net
+    depends_on:
+        - RouterDEV
+        - SecureDEV
+    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+
+  SecureDEV:
+    image: avosa/secure:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "8086:8086"
+    networks:
+        - mango_net
+    depends_on:
+        - RouterDEV
+    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+
+  ThemeDEV:
+    image: avosa/theme:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "8093:8093"
+    networks:
+        - mango_net
+    depends_on:
+        - RouterDEV
+    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+
+  CommsDEV:
+    image: avosa/comms:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "8085:8085"
+    networks:
+        - mango_net
+    depends_on:
+        - RouterDEV
+    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+
+  GateDEV:
+    image: avosa/gate:latest
+    environment:
+        - RUNMODE=${RUNMODE}
+        - HOST=${HOST}
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+        - mango_net
+    depends_on:
+        - WWWDEV
+    volumes:
+      - ../gate/certs:/certs:ro
+    command: ["./wait-for-it.sh", "WWWDEV:8091", "--", "python", "app.py"]
+
+networks:
+  mango_net:
+    driver: bridge
+    name: mango_net
