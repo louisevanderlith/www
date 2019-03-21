@@ -75,11 +75,11 @@ class ContactForm extends FormState {
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
-      submitSend().then((obj) => {disableSubmit(false)});
+      submitSend();
     }
   }
 
-  Future submitSend() async {
+  submitSend() async {
     var url = await buildPath("Comms.API", "message", new List<String>());
     var data = jsonEncode({
       "Body": message,
@@ -89,8 +89,15 @@ class ContactForm extends FormState {
       "To": ""
     });
 
-    var resp = await HttpRequest.requestCrossOrigin(url, method: "POST", sendData: data);
-
-    print(resp);
+    var resp = await HttpRequest.requestCrossOrigin(url,
+        method: "POST", sendData: data);
+    var content = jsonDecode(resp);
+    
+    if (content['Error'] != "") {
+      window.console.error(content['Error']);
+    } else {
+      window.alert(content['Data']);
+      this.resetForm();
+    }
   }
 }

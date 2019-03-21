@@ -15,6 +15,10 @@ class FormState {
     return _form.checkValidity();
   }
 
+  void resetForm() {
+    _form.reset();
+  }
+
   void disableSubmit(bool disable) {
     _sendBtn.disabled = disable;
   }
