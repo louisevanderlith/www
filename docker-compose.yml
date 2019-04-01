@@ -35,6 +35,8 @@ services:
         - HOST=${HOST}
     ports:
       - "8090:8090"
+    volumes:
+      - "../folio/db:/db/"
     networks:
         - mango_net
     depends_on:
