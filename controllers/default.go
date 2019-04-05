@@ -18,8 +18,7 @@ func NewDefaultCtrl(ctrlMap *control.ControllerMap) *DefaultController {
 }
 
 func (c *DefaultController) GetDefault() {
-	c.Setup("default")
-	c.CreateTopMenu(getTopMenu())
+
 	siteName := beego.AppConfig.String("defaultsite")
 
 	result := make(map[string]interface{})
@@ -35,12 +34,19 @@ func (c *DefaultController) GetDefault() {
 		return
 	}
 
+	pageTitle := "Home"
+	dataObj, ok := result["Data"].(map[string]interface{})
+
+	if ok {
+		pageTitle = dataObj["Title"].(string)
+	}
+
+	c.Setup("default", pageTitle, true)
+	c.CreateTopMenu(getTopMenu())
 	c.Serve(result, nil)
 }
 
 func (c *DefaultController) GetSite() {
-	c.Setup("default")
-	c.CreateTopMenu(getTopMenu())
 	siteName := c.Ctx.Input.Param(":siteName")
 
 	result := make(map[string]interface{})
@@ -56,6 +62,15 @@ func (c *DefaultController) GetSite() {
 		return
 	}
 
+	pageTitle := "Home"
+	dataObj, ok := result["Data"].(map[string]interface{})
+
+	if ok {
+		pageTitle = dataObj["Title"].(string)
+	}
+
+	c.Setup("default", pageTitle, true)
+	c.CreateTopMenu(getTopMenu())
 	c.Serve(result, nil)
 }
 
