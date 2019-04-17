@@ -18,7 +18,7 @@ class ContactForm extends FormState {
     _message = querySelector(messageElem);
 
     querySelector(submitBtn).onClick.listen(onSend);
-    registerValidation();
+    registerFormElements([_name, _email, _phone, _message]);
   }
 
   String get name {
@@ -35,41 +35,6 @@ class ContactForm extends FormState {
 
   String get message {
     return _message.value;
-  }
-
-  void registerValidation() {
-    _name.onBlur.listen((e) => {validate(e, _name)});
-    _email.onBlur.listen((e) => {validate(e, _email)});
-    _phone.onBlur.listen((e) => {validate(e, _phone)});
-    _message.onBlur.listen((e) => {validateArea(e, _message)});
-  }
-
-  void validate(Event e, InputElement elem) {
-    var elemValid = elem.checkValidity();
-
-    if (!elemValid) {
-      elem.setAttribute("invalid", "");
-    } else {
-      elem.removeAttribute("invalid");
-    }
-
-    elem.nextElementSibling.text = elem.validationMessage;
-
-    super.disableSubmit(!super.isFormValid());
-  }
-
-  void validateArea(Event e, TextAreaElement elem) {
-    var elemValid = elem.checkValidity();
-
-    if (!elemValid) {
-      elem.setAttribute("invalid", "");
-    } else {
-      elem.removeAttribute("invalid");
-    }
-
-    elem.nextElementSibling.text = elem.validationMessage;
-
-    super.disableSubmit(!super.isFormValid());
   }
 
   void onSend(Event e) {
@@ -92,12 +57,12 @@ class ContactForm extends FormState {
     var resp = await HttpRequest.requestCrossOrigin(url,
         method: "POST", sendData: data);
     var content = jsonDecode(resp);
-    
+
     if (content['Error'] != "") {
       window.console.error(content['Error']);
     } else {
       window.alert(content['Data']);
-      this.resetForm();
+      //this.resetForm();
     }
   }
 }

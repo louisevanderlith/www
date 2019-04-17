@@ -9,17 +9,44 @@ class FormState {
     _sendBtn = querySelector(submitID);
 
     disableSubmit(true);
+
+    _form.onKeyUp.listen(pressEnter);
   }
 
   bool isFormValid() {
     return _form.checkValidity();
   }
 
-  void resetForm() {
-    _form.reset();
-  }
-
   void disableSubmit(bool disable) {
     _sendBtn.disabled = disable;
+  }
+
+  void registerFormElements(List<Element> elements) {
+    for (var elem in elements) {
+      elem.onBlur.listen((e) => {validateElement(e, elem)});
+    }
+  }
+
+  void validateElement(Event e, InputElement elem) {
+    var elemValid = elem.checkValidity();
+
+    if (!elemValid) {
+      elem.setAttribute("invalid", "");
+    } else {
+      elem.removeAttribute("invalid");
+    }
+
+    elem.nextElementSibling.text = elem.validationMessage;
+
+    disableSubmit(!isFormValid());
+  }
+
+  void pressEnter(KeyboardEvent e) {
+    if (e.key != 'Enter') {
+      return;
+    }
+
+    e.preventDefault();
+    _sendBtn.click();
   }
 }
