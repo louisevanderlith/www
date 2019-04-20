@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   WWWDEV:
-      image: avosa/www:latest
+      image: avosa/www:dev
       build: .
       environment:
         - RUNMODE=${RUNMODE}
@@ -21,7 +21,7 @@ services:
       command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
 
   RouterDEV:
-    image: avosa/router:latest
+    image: avosa/router:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -31,7 +31,7 @@ services:
         - mango_net
 
   FolioDEV:
-    image: avosa/folio:latest
+    image: avosa/folio:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -47,7 +47,7 @@ services:
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   SecureDEV:
-    image: avosa/secure:latest
+    image: avosa/secure:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -62,7 +62,7 @@ services:
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   ThemeDEV:
-    image: avosa/theme:latest
+    image: avosa/theme:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -75,7 +75,7 @@ services:
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   CommsDEV:
-    image: avosa/comms:latest
+    image: avosa/comms:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -90,7 +90,7 @@ services:
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   GateDEV:
-    image: avosa/gate:latest
+    image: avosa/gate:dev
     environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -106,7 +106,7 @@ services:
     command: ["./wait-for-it.sh", "WWWDEV:8091", "--", "python", "app.py"]
 
   ArtifactDEV:
-    image: avosa/artifact:latest
+    image: avosa/artifact:dev
     environment:
       - RUNMODE=${RUNMODE}
       - HOST=${HOST}
@@ -121,7 +121,7 @@ services:
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   AdminDEV:
-      image: avosa/admin:latest
+      image: avosa/admin:dev
       environment:
         - RUNMODE=${RUNMODE}
         - HOST=${HOST}
@@ -139,7 +139,7 @@ services:
       command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
 
   AuthDEV:
-    image: avosa/auth:latest
+    image: avosa/auth:dev
     environment:
       - RUNMODE=${RUNMODE}
       - HOST=${HOST}

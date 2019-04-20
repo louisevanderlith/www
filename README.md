@@ -4,9 +4,9 @@ Website for avosa
 This is the website man.
 
 ## Run from Docker
-* $ docker build -t avosa/www:latest .
+* $ docker build -t avosa/www:dev .
 * $ docker rm WWWDEV
-* $ docker run -d -e RUNMODE=DEV -p 8091:8091 --network mango_net --name WWWDEV avosa/www:latest
+* $ docker run -d -e RUNMODE=DEV -p 8091:8091 --network mango_net --name WWWDEV avosa/www:dev
 * $ docker logs WWWDEV
 
 ## Run with docker-compose
