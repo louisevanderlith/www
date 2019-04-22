@@ -9,7 +9,15 @@ import (
 
 func Setup(s *mango.Service) {
 	ctrlmap := control.CreateControlMap(s)
-	deftCtrl := controllers.NewDefaultCtrl(ctrlmap)
+
+	siteName := beego.AppConfig.String("defaultsite")
+	theme, err := mango.GetDefaultTheme(ctrlmap.GetInstanceID(), siteName)
+
+	if err != nil {
+		panic(err)
+	}
+
+	deftCtrl := controllers.NewDefaultCtrl(ctrlmap, theme)
 
 	beego.Router("/", deftCtrl, "get:GetDefault")
 	beego.Router("/:siteName", deftCtrl, "get:GetSite")

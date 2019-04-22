@@ -9,7 +9,6 @@ services:
         - HOST=${HOST}
       depends_on:
         - RouterDEV
-        - FolioDEV
         - ThemeDEV
         - CommsDEV
         - ArtifactDEV
@@ -38,12 +37,11 @@ services:
     ports:
       - "8090:8090"
     volumes:
-      - "../folio/db:/db/"
+      - ../folio/db:/db
     networks:
         - mango_net
     depends_on:
         - RouterDEV
-        - SecureDEV
     command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
 
   SecureDEV:
@@ -71,8 +69,8 @@ services:
     networks:
         - mango_net
     depends_on:
-        - RouterDEV
-    command: ["./wait-for-it.sh", "RouterDEV:8080", "--", "python", "app.py"]
+        - FolioDEV
+    command: ["./wait-for-it.sh", "FolioDEV:8090", "--", "python", "app.py"]
 
   CommsDEV:
     image: avosa/comms:dev
@@ -148,8 +146,8 @@ services:
     networks:
       - "mango_net"
     depends_on:
-      - "ThemeDEV"
-    command: ["./wait-for-it.sh", "ThemeDEV:8093", "--", "python", "app.py"]
+      - "SecureDEV"
+    command: ["./wait-for-it.sh", "SecureDEV:8086", "--", "python", "app.py"]
 
 networks:
   mango_net:
