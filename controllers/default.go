@@ -24,7 +24,7 @@ func NewDefaultCtrl(ctrlMap *control.ControllerMap, theme mango.ThemeSetting) *D
 //GetDefault returns the 'defaultsite'
 func (c *DefaultController) GetDefault() {
 	result := make(map[string]interface{})
-	err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", c.SiteName)
+	_, err := mango.DoGET("", &result, c.GetInstanceID(), "Folio.API", "profile", c.SiteName)
 
 	if err != nil {
 		c.Serve(nil, err)
@@ -33,6 +33,7 @@ func (c *DefaultController) GetDefault() {
 
 	c.Setup("default", "Home", true)
 	c.CreateTopMenu(getTopMenu())
+
 	c.Serve(result, nil)
 }
 
@@ -40,7 +41,7 @@ func (c *DefaultController) GetSite() {
 	siteName := c.Ctx.Input.Param(":siteName")
 
 	result := make(map[string]interface{})
-	err := mango.DoGET(&result, c.GetInstanceID(), "Folio.API", "profile", siteName)
+	_, err := mango.DoGET("", &result, c.GetInstanceID(), "Folio.API", "profile", siteName)
 
 	if err != nil {
 		c.Serve(nil, err)
