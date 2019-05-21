@@ -23,7 +23,9 @@ class FormState {
 
   void registerFormElements(List<Element> elements) {
     for (var elem in elements) {
-      elem.onBlur.listen((e) => {validateElement(e, elem)});
+      elem.onBlur.listen((e) {
+        validateElement(e, elem);
+      });
     }
   }
 

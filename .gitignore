@@ -12,6 +12,10 @@
 *.out
 
 www
-node_modules
 dist
-db
+
+#Dart
+.dart_tool
+build
+pubspec.lock
+.packages
