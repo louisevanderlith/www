@@ -16,7 +16,7 @@ require (
 	github.com/kr/pty v1.1.4 // indirect
 	github.com/lib/pq v1.1.0 // indirect
 	github.com/louisevanderlith/folio v0.1.32
-	github.com/louisevanderlith/mango v0.3.50
+	github.com/louisevanderlith/mango v0.3.55
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
 	github.com/pelletier/go-toml v1.3.0 // indirect
