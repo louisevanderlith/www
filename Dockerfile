@@ -19,11 +19,14 @@ FROM google/dart AS pyltjie
 ENV PATH="$PATH:/root/.pub-cache/bin"
 
 WORKDIR /arrow
-COPY web ./web
 COPY pubspec.yaml pubspec.yaml
 
 RUN pub global activate webdev
 RUN pub get
+
+COPY lib ./lib
+COPY web ./web
+
 RUN webdev build
 
 FROM alpine:latest

@@ -8,6 +8,7 @@ class ContactForm extends FormState {
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextAreaElement _message;
+  ParagraphElement _error;
 
   ContactForm(String idElem, String nameElem, String emailElem,
       String phoneElem, String messageElem, String submitBtn)
@@ -16,11 +17,11 @@ class ContactForm extends FormState {
     _email = querySelector(emailElem);
     _phone = querySelector(phoneElem);
     _message = querySelector(messageElem);
+    _error = querySelector("${idElem}Err");
 
     querySelector(submitBtn).onClick.listen(onSend);
-    registerFormElements([_name, _email, _phone, _message]);
   }
-
+  
   String get name {
     return _name.value;
   }
@@ -59,10 +60,9 @@ class ContactForm extends FormState {
     var content = jsonDecode(resp);
 
     if (content['Error'] != "") {
-      window.console.error(content['Error']);
+      _error.text = content['Error'];
     } else {
       window.alert(content['Data']);
-      //this.resetForm();
     }
   }
 }
