@@ -32,7 +32,7 @@ func (c *DefaultController) GetDefault() {
 	}
 
 	c.Setup("default", "Home", true)
-	c.CreateTopMenu(getTopMenu())
+	c.CreateTopMenu(getHomeMenu())
 
 	c.Serve(result, nil)
 }
@@ -56,11 +56,11 @@ func (c *DefaultController) GetSite() {
 	}
 
 	c.Setup("default", pageTitle, true)
-	c.CreateTopMenu(getTopMenu())
+	c.CreateTopMenu(getHomeMenu())
 	c.Serve(result, nil)
 }
 
-func getTopMenu() *control.Menu {
+func getHomeMenu() *control.Menu {
 	result := control.NewMenu("/home")
 
 	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
