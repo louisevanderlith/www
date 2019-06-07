@@ -66,6 +66,7 @@ func getTopMenu() *control.Menu {
 	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
 	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
 	result.AddItem("#contact", "Contact", "home fa fa-phone", nil)
+	result.AddItem("/blog", "Blog", "home fa fa-phone", nil)
 
 	return result
 }
