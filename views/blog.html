@@ -1,157 +1,80 @@
-<div id="root">
-    <!-- top navigation -->
-    <div class="main-navigation">
-  <nav class="nav">
-    <div class="container">
-      <!-- this is always shown -->
-      <div class="nav-left">
-            <a class="nav-item is-tab" href="index.html">Blogpage</a>
-      </div>
-      <!-- this is only shown on mobile platform dimensions -->
-      <div class="nav-center is-hidden-desktop is-hidden-tablet">
-        <a class="nav-item is-tab" href="post.html">post</a>
-        <a class="nav-item is-tab" href="category.html">category</a>
-      </div>
-      <!-- this is shown in every other dimension (desktops, tablets) -->
-      <div class="nav-right is-hidden-mobile">
-        <a class="nav-item is-tab" href="post.html">post</a>
-        <a class="nav-item is-tab" href="category.html">category</a>
-      </div>
-    </div>
-  </nav>
-  <!-- end top navigation -->
-    </div>
-
-    <!-- main header (text and image hero) -->
-    <div class="main-header">
-  <section class="hero is-medium">
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Blog.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
+    </ul>
+</nav>
+<section class="hero is-info welcome is-small">
     <div class="hero-body">
-      <div class="container">
-        <div class="columns is-mobile is-centered">
-      <div class="column is-7 has-text-centered">
-        <div class="buffer">
-          <h3 class="title is-3">Avosa Blog</h3>
+        <div class="container">
+            <h1 class="title">
+                View Blog
+            </h1>
         </div>
-        <div class="buffer">
-          <h4 class="subtitle is-4">I mean, it could be</h4>
-        </div>
-      </div>
-        </div>
-      </div>
     </div>
-  </section>
-    </div>
-    <!-- end main header -->
+</section>
+<br>
+<!-- main content -->
+<div class="main-content">
+    <div class="container">
+        <div class="columns is-mobile">
+            <!-- side bar -->
+            <div class="column is-4 is-narrow">
+                <div class="section">
+                    <div class="sidebar">
+                        <!-- side bar header-->
+                        {{range $key, $val := .Data}}
+                        <div class="sidebar-header-single">
+                            <h4 class="title is-4">{{$val.Title}}</h4>
+                        </div>
+                        <!-- end of side bar header -->
+                        <!-- side bar content -->
+                        <div class="sidebar-list-single">
+                            <p>Posted on date</p>
+                            <p>{{$val.WrittenBy}}</p>
+                        </div>
+                        <!-- end of side bar content -->
+                        <!-- side bar footer -->
+                        <div class="sidebar-footer-single">
+                            <p><a href="index.html">Back to Home</a></p>
+                        </div>
+                        <!-- end of side bar footer -->
+                    </div>
+                </div>
+            </div>
+            <!-- end of side bar -->
+            <!-- post -->
+            <div class="column is-8">
+                <div class="section">
+                    <div class="post-single">
+                        <div class="post-single-content">
+                            <p>{{$val.Content}}</p>
 
-    <!-- main content  -->
-    <div class="main-content">
-  <div class="container">
-    <div class="columns is-mobile">
-      <!-- start of posts -->
-      <div class="column is-8">
-        <!-- header for posts -->
-        <div class="section-header">
-      <h4 class="title is-4">Listing all from: <a href="category.html">Category</a></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of post -->
         </div>
-        <!-- end of header for posts -->
-        <!-- post -->
-        <div class="section">
-      <div class="post">
-        <div class="post-header">
-          <h4 class="title is-4"><a href="post.html">Some Post</a></h4>
-          <h5 class="subtitle is-5">A Subtitle</h5>
-        </div>
-        <div class="post-content">
-          <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-
-        </div>
-      </div>
-        </div>
-        <!-- end of post -->
-        <!-- post -->
-        <div class="section">
-      <div class="post">
-        <div class="post-header">
-          <h4 class="title is-4"><a href="post.html">Some Post</a></h4>
-          <h5 class="subtitle is-5">A Subtitle</h5>
-        </div>
-        <div class="post-content">
-          <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla BlaBla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla BlaBla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla BlaBla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-        </div>
-      </div>
-        </div>
-        <!-- end of post -->
-        <!-- post -->
-        <div class="section">
-      <div class="post">
-        <div class="post-header">
-          <h4 class="title is-4"><a href="post.html">Some Post</a></h4>
-          <h5 class="subtitle is-5">A Subtitle</h5>
-        </div>
-        <div class="post-content">
-          <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla BlaBla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla BlaBla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-        </div>
-      </div>
-        </div>
-        <!-- end of post -->
-        <!-- end of posts -->
-        
-        <!-- pagination -->
-        <div class="section">
-      <div class="pagination-content has-text-right is-hidden-mobile">
-        <a class="pagination-previous" disabled>Previous</a>
-        <a class="pagination-next">Next</a>
-      </div>
-      <div class="pagination-content is-hidden-desktop is-hidden-tablet">
-        <div class="pagination">
-          <a class="pagination-previous" disabled>Previous</a>
-          <a class="pagination-next">Next</a>
-        </div>
-      </div>
-        </div>
-        <!-- end of pagination -->
-      </div>
-      <!-- end of main left-side content -->
-
-      <!-- side bar -->
-      <div class="column is-4 is-narrow">
-        <!-- featured posts -->
-        <div class="section">
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <h4 class="title is-4">Featured Posts</h4>
-        </div>
-        <div class="sidebar-list"> 
-          <p><a href="post.html">Some Post</a></p>
-          <p><a href="post.html">Some Post</a></p>
-          <p><a href="post.html">Some Post</a></p>
-          <p><a href="post.html">Some Post</a></p>
-          <p><a href="post.html">Some Post</a></p>
-        </div>
-      </div>
-        </div>
-        <!-- end of featured posts -->
-        <!-- categories -->
-        <div class="section">
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <h4 class="title is-4">Categories</h4>
-        </div>
-        <div class="sidebar-list">
-          <p><a href="category.html">Some Category</a></p>
-          <p><a href="category.html">Some Category</a></p>
-          <p><a href="category.html">Some Category</a></p>
-          <p><a href="category.html">Some Category</a></p>
-          <p><a href="category.html">Some Category</a></p>
-          <p><a href="category.html">Some Category</a></p>
-        </div>
-      </div>
-        </div>
-        <!-- end of categories -->
-      </div>
-      <!-- end of side bar -->
     </div>
-  </div>
+</div>
+{{end}}
+<!-- end of main content -->
+</div>
+<div class="columns">
+    <div class="column left">
+        <figure class="image is-3x2">
+            <img class="is-square" src="images/road1.jpg">
+        </figure>
     </div>
-    <!-- end of main content -->
-  </div>
+    <div class="column center">
+        <figure class="image is-3x2">
+            <img class="is-square" src="images/BMWlogo1.jpg">
+        </figure>
+    </div>
+    <div class="column right">
+        <figure class="image is-3x2">
+            <img class="is-square" src="images/sign.jpg">
+        </figure>
+    </div>
+</div>
