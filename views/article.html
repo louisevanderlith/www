@@ -5,7 +5,7 @@
                 <div class="columns is-mobile is-centered">
                     <div class="column is-7 has-text-centered">
                         <div class="buffer">
-                            <h3 class="title is-3">A blog</h3>
+                            <h3 class="title is-3">{{.Data.Title}}</h3>
                         </div>
                         <div class="buffer">
                             <h4 class="subtitle is-4">I mean, really</h4>
@@ -28,19 +28,19 @@
                     <div class="sidebar">
                         <!-- side bar header-->
                         <div class="sidebar-header-single">
-                            <h4 class="title is-4">Some Post</h4>
+                            <h4 class="title is-4">{{.Data.Title}}</h4>
                             <h5 class="subtitle is-5">A Subtitle</h5>
                         </div>
                         <!-- end of side bar header -->
                         <!-- side bar content -->
                         <div class="sidebar-list-single">
-                            <p>Posted on July 9th 2018, 10:00am</p>
-                            <p>Written by Dirk</p>
+                            <p>Posted on July 9th 3011, 10:00am</p>
+                            <p>Written by {{.Data.WrittenBy}}</p>
                         </div>
                         <!-- end of side bar content -->
                         <!-- side bar footer -->
                         <div class="sidebar-footer-single">
-                            <p><a href="index.html">Back to Home</a></p>
+                            <p><a href="/">Back to Home</a></p>
                         </div>
                         <!-- end of side bar footer -->
                     </div>
@@ -52,11 +52,7 @@
                 <div class="section">
                     <div class="post-single">
                         <div class="post-single-content">
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla koele Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla kruis Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla koeloe Bla kroos Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
-                            <p>Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla Bla</p>
+                            {{.Data.Content}}
                         </div>
                     </div>
                 </div>
