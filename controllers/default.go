@@ -63,10 +63,10 @@ func (c *DefaultController) GetSite() {
 func getHomeMenu() *control.Menu {
 	result := control.NewMenu("/home")
 
-	result.AddItem("", "#portfolio", "Portfolio", "home fa fa-star", nil)
-	result.AddItem("", "#aboutus", "About Us", "home fa fa-info", nil)
-	result.AddItem("", "#contact", "Contact", "home fa fa-phone", nil)
-	result.AddItem("", "/blogs/A10", "Blog", "home fa fa-phone", nil)
+	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
+	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
+	result.AddItem("#contact", "Contact", "home fa fa-phone", nil)
+	result.AddItem("/blogs/A10", "Blog", "home fa fa-phone", nil)
 
 	return result
 }
