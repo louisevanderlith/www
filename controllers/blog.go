@@ -56,16 +56,16 @@ func (c *BlogController) GetArticle() {
 func getBlogMenu() *control.Menu {
 	result := control.NewMenu("/home")
 
-	result.AddItem("/", "Home", "fa fa-house", nil)
-	result.AddItem("#", "Categories", "fa fa-cirlce", categoryChlidren("/categorie"))
+	result.AddItem("", "/", "Home", "fa fa-house", nil)
+	result.AddItem("", "#", "Categories", "fa fa-cirlce", categoryChlidren("/categorie"))
 
 	return result
 }
 
 func categoryChlidren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/blog/cars", "Cars Blog", "fa fa-car", nil)
-	children.AddItem("/blog/tech", "Technology Blog", "fa fa-news", nil)
+	children.AddItem("","/blog/cars", "Cars Blog", "fa fa-car", nil)
+	children.AddItem("","/blog/tech", "Technology Blog", "fa fa-news", nil)
 
 	return children
 }
