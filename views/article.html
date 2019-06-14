@@ -1,23 +1,20 @@
-<div class="main-header">
-    <section class="hero is-medium">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-mobile is-centered">
-                    <div class="column is-7 has-text-centered">
-                        <div class="buffer">
-                            <h3 class="title is-3">{{.Data.Title}}</h3>
-                        </div>
-                        <div class="buffer">
-                            <h4 class="subtitle is-4">I mean, really</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        <li><a href="../">Blog.API</a></li>
+        <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
+    </ul>
+</nav>
+<section class="hero is-medium is-primary has-background">
+        <img alt="Fill Murray" class="hero-background is-transparent" src="https://artifact{{.Host}}v1/upload/file/{{.ImageKey}}" />
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                {{.Data.Title}}
+            </h1>
         </div>
-    </section>
-</div>
-<!-- end main header -->
-
+    </div>
+</section>
+<br>
 <!-- main content -->
 <div class="main-content">
     <div class="container">
@@ -34,8 +31,8 @@
                         <!-- end of side bar header -->
                         <!-- side bar content -->
                         <div class="sidebar-list-single">
-                            <p>Posted on July 9th 3011, 10:00am</p>
-                            <p>Written by {{.Data.WrittenBy}}</p>
+
+                            <p>{{.Data.WrittenBy}}</p>
                         </div>
                         <!-- end of side bar content -->
                         <!-- side bar footer -->
@@ -61,8 +58,8 @@
         </div>
     </div>
 </div>
+
 <!-- end of main content -->
-</div>
 <div class="columns">
     <div class="column left">
         <figure class="image is-3x2">

@@ -25,18 +25,18 @@
                         <!-- side bar header-->
                         {{range $key, $val := .Data}}
                         <div class="sidebar-header-single">
-                            <h4 class="title is-4">{{$val.Title}}</h4>
+                            <h4 class="title is-4"><a href="/article/{{$val.K}}">{{$val.V.Title}}</a></h4>
                         </div>
                         <!-- end of side bar header -->
                         <!-- side bar content -->
                         <div class="sidebar-list-single">
                             <p>Posted on date</p>
-                            <p>{{$val.WrittenBy}}</p>
+                            <p>{{$val.V.WrittenBy}}</p>
                         </div>
                         <!-- end of side bar content -->
                         <!-- side bar footer -->
                         <div class="sidebar-footer-single">
-                            <p><a href="index.html">Back to Home</a></p>
+                            <p><a href="/">Back to Home</a></p>
                         </div>
                         <!-- end of side bar footer -->
                     </div>
@@ -48,7 +48,7 @@
                 <div class="section">
                     <div class="post-single">
                         <div class="post-single-content">
-                            <p>{{$val.Content}}</p>
+                            <p>{{$val.V.Content}}</p>
 
                         </div>
                     </div>
