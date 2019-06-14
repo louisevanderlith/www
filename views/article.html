@@ -4,11 +4,11 @@
         <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
     </ul>
 </nav>
-<section class="hero is-medium is-primary has-background">
-        <img alt="Fill Murray" class="hero-background is-transparent" src="https://artifact{{.Host}}v1/upload/file/{{.ImageKey}}" />
+<section class="hero is-medium has-background">
+        <img alt="YumYum" class="hero-background" src="https://artifact{{.Host}}v1/upload/file/{{.Data.ImageKey}}" />
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">
+            <h1 class="title has-text-white">
                 {{.Data.Title}}
             </h1>
         </div>
@@ -26,14 +26,11 @@
                         <!-- side bar header-->
                         <div class="sidebar-header-single">
                             <h4 class="title is-4">{{.Data.Title}}</h4>
-                            <h5 class="subtitle is-5">A Subtitle</h5>
+                            <h5 class="subtitle is-5">Author: {{.Data.WrittenBy}}</h5>
                         </div>
                         <!-- end of side bar header -->
                         <!-- side bar content -->
-                        <div class="sidebar-list-single">
-
-                            <p>{{.Data.WrittenBy}}</p>
-                        </div>
+                        
                         <!-- end of side bar content -->
                         <!-- side bar footer -->
                         <div class="sidebar-footer-single">
@@ -58,22 +55,4 @@
         </div>
     </div>
 </div>
-
-<!-- end of main content -->
-<div class="columns">
-    <div class="column left">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/road1.jpg">
-        </figure>
-    </div>
-    <div class="column center">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/BMWlogo1.jpg">
-        </figure>
-    </div>
-    <div class="column right">
-        <figure class="image is-3x2">
-            <img class="is-square" src="images/sign.jpg">
-        </figure>
-    </div>
-</div>
+{{template "_shared/comment.html" .}}
