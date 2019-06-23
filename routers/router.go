@@ -25,5 +25,6 @@ func Setup(s *mango.Service) {
 	blogCtrl := controllers.NewBlogCtrl(ctrlmap, theme)
 
 	beego.Router("/blogs/:pagesize", blogCtrl, "get:Get")
+	beego.Router("/blogs/:category/:pagesize", blogCtrl, "get:GetByCategory")
 	beego.Router("/article/:key", blogCtrl, "get:GetArticle")
 }

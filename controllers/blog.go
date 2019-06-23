@@ -27,9 +27,21 @@ func (c *BlogController) Get() {
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
-	//category
 
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "all", pagesize)
+
+	c.Serve(result, err)
+}
+
+func (c *BlogController) GetByCategory() {
+	c.Setup("blog", "Blog", false)
+	c.CreateSideMenu(getBlogMenu())
+
+	result := []interface{}{}
+	category := c.Ctx.Input.Param(":category")
+	pagesize := c.Ctx.Input.Param(":pagesize")
+
+	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "all", category, pagesize)
 
 	c.Serve(result, err)
 }
@@ -56,16 +68,15 @@ func (c *BlogController) GetArticle() {
 func getBlogMenu() *control.Menu {
 	result := control.NewMenu("/home")
 
-	result.AddItem("/", "Home", "fa fa-house", nil)
-	result.AddItem( "#", "Categories", "fa fa-cirlce", categoryChlidren("/categorie"))
+	result.AddItem("#", "Categories", "fa fa-cirlce", categoryChlidren("/categorie"))
 
 	return result
 }
 
 func categoryChlidren(path string) *control.Menu {
 	children := control.NewMenu(path)
-	children.AddItem("/blog/cars", "Cars Blog", "fa fa-car", nil)
-	children.AddItem("/blog/tech", "Technology Blog", "fa fa-news", nil)
+	children.AddItem("/blogs/motoring/A10", "Motoring", "fa fa-car", nil)
+	children.AddItem("/blogs/technology/A10", "Technology", "fa fa-robot", nil)
 
 	return children
 }
