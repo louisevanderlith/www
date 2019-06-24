@@ -1,51 +1,43 @@
-<nav class="breadcrumb" aria-label="breadcrumbs">
-    <ul>
-        <li><a href="../">Blog.API</a></li>
-        <li class="is-active"><a href="#" aria-current="page">blogView</a></li>
-    </ul>
-</nav>
-<section class="hero is-info welcome is-small">
-    <div class="hero-body">
-        <div class="container">
-            <h1 class="title">
-                View Blog
-            </h1>
-        </div>
-    </div>
-</section>
-<br>
-{{range $key, $val := .Data}}
-<article class="media">
-    <figure class="media-left">
-        <p class="sidebar-header-single">
-            <h4 class="title is-4"><a href="/article/{{$val.K}}">{{$val.V.Title}}</a></h4>
-        </p>
-        <p>
-            {{$val.V.WrittenBy}}
-        </p>
-        <p>
-            13 July, 2019
-        </p>
-    </figure>
-    <div class="media-content">
-        <div class="content">
-            <p>
-                {{$val.V.Content}}
-            </p>
-        </div>
-        <nav class="level is-mobile">
-            <div class="level-left">
-                <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-reply"></i></span>
-                </a>
-                <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-                </a>
-                <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-heart"></i></span>
-                </a>
+<div class="box">
+    <div class="row columns is-multiline">
+        {{$host := .Host}}
+        {{range $key, $val := .Data}}
+        <div class="column is-one-quarter">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image">
+                        <img src="https://artifact{{$host}}v1/upload/file/{{$val.V.ImageKey}}" alt="article image" />
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title no-padding"> <a href="/article/{{$val.K}}">{{$val.V.Title}}</a></p>
+                            <p class="subtitle">Author:{{$val.V.WrittenBy}}</p>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item">
+                                        <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                                    </a>
+                                    <a class="level-item">
+                                        <span class="icon is-small"><i class="fas fa-retweet"></i></span>
+                                    </a>
+                                    <a class="level-item">
+                                        <span class="icon is-small"><i class="fas fa-heart"></i></span>
+                                    </a>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="content">
+                        {{$val.V.Intro}}
+                        <br>
+                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                        <a href="/article/{{$val.K}}">Read Article</a>
+                    </div>
+                </div>
             </div>
-        </nav>
+        </div>
+        {{end}}
     </div>
-</article>
-{{end}}
+</div>

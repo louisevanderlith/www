@@ -30,7 +30,13 @@ func (c *BlogController) Get() {
 
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "all", pagesize)
 
-	c.Serve(result, err)
+	if err != nil {
+		log.Println(err)
+		c.Serve(nil, err)
+		return
+	}
+
+	c.Serve(result, nil)
 }
 
 func (c *BlogController) GetByCategory() {
@@ -43,7 +49,13 @@ func (c *BlogController) GetByCategory() {
 
 	_, err := mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", "all", category, pagesize)
 
-	c.Serve(result, err)
+	if err != nil {
+		log.Println(err)
+		c.Serve(nil, err)
+		return
+	}
+
+	c.Serve(result, nil)
 }
 
 func (c *BlogController) GetArticle() {
@@ -53,16 +65,33 @@ func (c *BlogController) GetArticle() {
 
 	if err != nil {
 		c.Serve(nil, err)
+		return
 	}
 
 	result := make(map[string]interface{})
-	_, err = mango.DoGET(c.GetMyToken(), &result, c.GetInstanceID(), "Blog.API", "article", key.String())
+
+	article := make(map[string]interface{})
+	_, err = mango.DoGET(c.GetMyToken(), &article, c.GetInstanceID(), "Blog.API", "article", key.String())
 
 	if err != nil {
 		log.Println(err)
+		c.Serve(nil, err)
+		return
 	}
 
-	c.Serve(result, err)
+	result["Article"] = article
+
+	comments := []interface{}{}
+	code, err := mango.DoGET(c.GetMyToken(), &comments, c.GetInstanceID(), "Comment.API", "message", "Article", key.String())
+
+	if err != nil && code != 404 {
+		c.Serve(nil, err)
+		return
+	}
+
+	result["Comments"] = comments
+
+	c.Serve(result, nil)
 }
 
 func getBlogMenu() *control.Menu {
@@ -76,7 +105,7 @@ func getBlogMenu() *control.Menu {
 func categoryChlidren(path string) *control.Menu {
 	children := control.NewMenu(path)
 	children.AddItem("/blogs/motoring/A10", "Motoring", "fa fa-car", nil)
-	children.AddItem("/blogs/technology/A10", "Technology", "fa fa-robot", nil)
+	children.AddItem("/blogs/technology/A10", "Technology", "fa fa-microchip", nil)
 
 	return children
 }
