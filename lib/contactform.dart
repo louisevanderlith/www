@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:html';
-import 'formstate.dart';
-import 'pathlookup.dart';
+import 'package:mango_ui/formstate.dart';
+import 'package:mango_ui/bodies/message.dart';
+import 'package:mango_ui/services/commsapi.dart';
 
 class ContactForm extends FormState {
   TextInputElement _name;
@@ -9,19 +10,21 @@ class ContactForm extends FormState {
   TelephoneInputElement _phone;
   TextAreaElement _message;
   ParagraphElement _error;
+  String _tomail;
 
   ContactForm(String idElem, String nameElem, String emailElem,
-      String phoneElem, String messageElem, String submitBtn)
+      String phoneElem, String messageElem, String tomail, String submitBtn)
       : super(idElem, submitBtn) {
     _name = querySelector(nameElem);
     _email = querySelector(emailElem);
     _phone = querySelector(phoneElem);
     _message = querySelector(messageElem);
+    _tomail = tomail;
     _error = querySelector("${idElem}Err");
 
     querySelector(submitBtn).onClick.listen(onSend);
   }
-  
+
   String get name {
     return _name.value;
   }
@@ -38,6 +41,10 @@ class ContactForm extends FormState {
     return _message.value;
   }
 
+  String get to {
+    return _tomail;
+  }
+  
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
@@ -46,23 +53,14 @@ class ContactForm extends FormState {
   }
 
   submitSend() async {
-    var url = await buildPath("Comms.API", "message", new List<String>());
-    var data = jsonEncode({
-      "Body": message,
-      "Email": email,
-      "Name": name,
-      "Phone": phone,
-      "To": ""
-    });
+    var data = new Message(message, email, name, phone, to);
+    var req = await sendMessage(data);
+    var content = jsonDecode(req.response);
 
-    var resp = await HttpRequest.requestCrossOrigin(url,
-        method: "POST", sendData: data);
-    var content = jsonDecode(resp);
-
-    if (content['Error'] != "") {
-      _error.text = content['Error'];
-    } else {
+    if (req.status == 200) {
       window.alert(content['Data']);
+    } else {
+      _error.text = content['Error'];
     }
   }
 }
