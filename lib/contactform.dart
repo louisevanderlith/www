@@ -13,16 +13,18 @@ class ContactForm extends FormState {
   String _tomail;
 
   ContactForm(String idElem, String nameElem, String emailElem,
-      String phoneElem, String messageElem, String tomail, String submitBtn)
+      String phoneElem, String messageElem, String submitBtn)
       : super(idElem, submitBtn) {
     _name = querySelector(nameElem);
     _email = querySelector(emailElem);
     _phone = querySelector(phoneElem);
     _message = querySelector(messageElem);
-    _tomail = tomail;
     _error = querySelector("${idElem}Err");
 
-    querySelector(submitBtn).onClick.listen(onSend);
+    var submit = querySelector(submitBtn);
+    _tomail = submit.dataset['to'];
+
+    submit.onClick.listen(onSend);
   }
 
   String get name {
