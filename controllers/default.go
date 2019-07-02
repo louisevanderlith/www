@@ -32,7 +32,7 @@ func (c *DefaultController) GetDefault() {
 	}
 
 	c.Setup("default", "Home", true)
-	c.CreateTopMenu(getHomeMenu())
+	c.CreateTopMenu(c.Ctx, getHomeMenu())
 
 	c.Serve(result, nil)
 }
@@ -56,7 +56,7 @@ func (c *DefaultController) GetSite() {
 	}
 
 	c.Setup("default", pageTitle, true)
-	c.CreateTopMenu(getHomeMenu())
+	c.CreateTopMenu(c.Ctx, getHomeMenu())
 	c.Serve(result, nil)
 }
 

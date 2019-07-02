@@ -23,7 +23,7 @@ func NewBlogCtrl(ctrlMap *control.ControllerMap, settings mango.ThemeSetting) *B
 
 func (c *BlogController) Get() {
 	c.Setup("blog", "Blog", false)
-	c.CreateSideMenu(getBlogMenu())
+	c.CreateSideMenu(c.Ctx, getBlogMenu())
 
 	result := []interface{}{}
 	pagesize := c.Ctx.Input.Param(":pagesize")
@@ -41,7 +41,7 @@ func (c *BlogController) Get() {
 
 func (c *BlogController) GetByCategory() {
 	c.Setup("blog", "Blog", false)
-	c.CreateSideMenu(getBlogMenu())
+	c.CreateSideMenu(c.Ctx, getBlogMenu())
 
 	result := []interface{}{}
 	category := c.Ctx.Input.Param(":category")
@@ -60,7 +60,7 @@ func (c *BlogController) GetByCategory() {
 
 func (c *BlogController) GetArticle() {
 	c.Setup("article", "Article", false)
-	c.CreateSideMenu(getBlogMenu())
+	c.CreateSideMenu(c.Ctx, getBlogMenu())
 	key, err := husk.ParseKey(c.Ctx.Input.Param(":key"))
 
 	if err != nil {
