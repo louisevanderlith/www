@@ -8,7 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/enums"
-	"github.com/louisevanderlith/www/routers"
+	"github.com/louisevanderlith/soon/routers"
 )
 
 func main() {

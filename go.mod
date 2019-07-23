@@ -1,4 +1,4 @@
-module github.com/louisevanderlith/www
+module github.com/louisevanderlith/soon
 
 require (
 	github.com/astaxie/beego v1.11.1

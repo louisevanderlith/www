@@ -4,7 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/louisevanderlith/mango"
 	"github.com/louisevanderlith/mango/control"
-	"github.com/louisevanderlith/www/controllers"
+	"github.com/louisevanderlith/soon/controllers"
 )
 
 func Setup(s *mango.Service) {
