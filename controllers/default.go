@@ -1,50 +1,41 @@
 package controllers
 
 import (
-	"github.com/louisevanderlith/mango"
-	"github.com/louisevanderlith/mango/control"
+	"net/http"
+
+	"github.com/louisevanderlith/droxolite"
+	"github.com/louisevanderlith/droxolite/bodies"
+	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
 type DefaultController struct {
-	control.UIController
-	SiteName string
-}
-
-func NewDefaultCtrl(ctrlMap *control.ControllerMap, theme mango.ThemeSetting) *DefaultController {
-	result := &DefaultController{
-		SiteName: theme.Name,
-	}
-
-	result.SetTheme(theme)
-	result.SetInstanceMap(ctrlMap)
-
-	return result
+	xontrols.UICtrl
 }
 
 //GetDefault returns the 'defaultsite'
 func (c *DefaultController) GetDefault() {
 	result := make(map[string]interface{})
-	_, err := mango.DoGET("", &result, c.GetInstanceID(), "Folio.API", "profile", c.SiteName)
+	code, err := droxolite.DoGET("", &result, c.Settings.InstanceID, "Folio.API", "profile", c.Settings.Name)
 
 	if err != nil {
-		c.Serve(nil, err)
+		c.Serve(code, err, nil)
 		return
 	}
 
 	c.Setup("default", "Home", true)
-	c.CreateTopMenu(c.Ctx, getHomeMenu())
+	c.CreateTopMenu(getHomeMenu())
 
-	c.Serve(result, nil)
+	c.Serve(http.StatusOK, nil, result)
 }
 
 func (c *DefaultController) GetSite() {
-	siteName := c.Ctx.Input.Param(":siteName")
+	siteName := c.FindParam("siteName")
 
 	result := make(map[string]interface{})
-	_, err := mango.DoGET("", &result, c.GetInstanceID(), "Folio.API", "profile", siteName)
+	code, err := droxolite.DoGET("", &result, c.Settings.InstanceID, "Folio.API", "profile", siteName)
 
 	if err != nil {
-		c.Serve(nil, err)
+		c.Serve(code, err, nil)
 		return
 	}
 
@@ -56,12 +47,12 @@ func (c *DefaultController) GetSite() {
 	}
 
 	c.Setup("default", pageTitle, true)
-	c.CreateTopMenu(c.Ctx, getHomeMenu())
-	c.Serve(result, nil)
+	c.CreateTopMenu(getHomeMenu())
+	c.Serve(http.StatusOK, nil, result)
 }
 
-func getHomeMenu() *control.Menu {
-	result := control.NewMenu("/home")
+func getHomeMenu() *bodies.Menu {
+	result := bodies.NewMenu("/home")
 
 	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
 	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
