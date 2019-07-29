@@ -88,15 +88,15 @@ func (c *BlogController) GetArticle() {
 }
 
 func getBlogMenu() *bodies.Menu {
-	result := bodies.NewMenu("/home")
+	result := bodies.NewMenu()
 
-	result.AddItem("#", "Categories", "fa fa-cirlce", categoryChlidren("/categorie"))
+	result.AddItem("#", "Categories", "fa fa-cirlce", categoryChlidren())
 
 	return result
 }
 
-func categoryChlidren(path string) *bodies.Menu {
-	children := bodies.NewMenu(path)
+func categoryChlidren() *bodies.Menu {
+	children := bodies.NewMenu()
 	children.AddItem("/blogs/motoring/A10", "Motoring", "fa fa-car", nil)
 	children.AddItem("/blogs/technology/A10", "Technology", "fa fa-microchip", nil)
 

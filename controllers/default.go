@@ -52,7 +52,7 @@ func (c *DefaultController) GetSite() {
 }
 
 func getHomeMenu() *bodies.Menu {
-	result := bodies.NewMenu("/home")
+	result := bodies.NewMenu()
 
 	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
 	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
