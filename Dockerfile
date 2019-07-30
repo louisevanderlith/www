@@ -30,7 +30,7 @@ RUN webdev build
 
 FROM alpine:latest
 
-COPY --from=builder /box/soon .
+COPY --from=builder /box/www .
 COPY --from=pyltjie /arrow/build/*.dart.js dist/js/
 COPY conf conf
 COPY views views
@@ -39,4 +39,4 @@ RUN mkdir -p /views/_shared
 
 EXPOSE 8105
 
-ENTRYPOINT [ "./soon" ]
+ENTRYPOINT [ "./www" ]

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
@@ -25,7 +26,11 @@ func (c *DefaultController) GetDefault() {
 	c.Setup("default", "Home", true)
 	c.CreateTopMenu(getHomeMenu())
 
-	c.Serve(http.StatusOK, nil, result)
+	err = c.Serve(http.StatusOK, nil, result)
+
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 func (c *DefaultController) GetSite() {

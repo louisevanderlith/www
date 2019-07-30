@@ -14,7 +14,7 @@
 <!-- main content -->
 
 <div class="content">
-    {{.Data.Article.Content | str2html}}
+    {{.Data.Article.Content | html}}
 </div>
 
 {{template "_shared/comment.html" .Comments}}

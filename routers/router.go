@@ -20,7 +20,7 @@ func Setup(e *droxolite.Epoxy) {
 	blogGroup.AddRoute("/{pagesize:[A-Z][0-9]+}", "GET", roletype.Unknown, blogCtrl.Get)
 	blogGroup.AddRoute("/{category:[a-zA-Z]+}/{pagesize:[A-Z][0-9]+}", "GET", roletype.Unknown, blogCtrl.GetByCategory)
 	blogGroup.AddRoute("/article/{key:[0-9]+\x60[0-9]+}", "GET", roletype.Unknown, blogCtrl.GetArticle)
-
+	e.AddGroup(blogGroup)
 	/*ctrlmap := control.CreateControlMap(s)
 
 	siteName := beego.AppConfig.String("defaultsite")
