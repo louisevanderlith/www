@@ -54,7 +54,7 @@ func (c *BlogController) GetByCategory() {
 func (c *BlogController) GetArticle() {
 	c.Setup("article", "Article", false)
 	c.CreateSideMenu(getBlogMenu())
-	key, err := husk.ParseKey(c.FindParam(":key"))
+	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
 		c.Serve(http.StatusBadRequest, err, nil)
@@ -64,20 +64,21 @@ func (c *BlogController) GetArticle() {
 	result := make(map[string]interface{})
 
 	article := make(map[string]interface{})
-	_, err = droxolite.DoGET(c.GetMyToken(), &article, c.Settings.InstanceID, "Blog.API", "article", key.String())
+	code, err := droxolite.DoGET(c.GetMyToken(), &article, c.Settings.InstanceID, "Blog.API", "article", key.String())
 
 	if err != nil {
 		log.Println(err)
-		c.Serve(http.StatusInternalServerError, err, nil)
+		c.Serve(code, err, nil)
 		return
 	}
 
 	result["Article"] = article
 
 	comments := []interface{}{}
-	code, err := droxolite.DoGET(c.GetMyToken(), &comments, c.Settings.InstanceID, "Comment.API", "message", "Article", key.String())
+	code, err = droxolite.DoGET(c.GetMyToken(), &comments, c.Settings.InstanceID, "Comment.API", "message", "Article", key.String())
 
 	if err != nil && code != 404 {
+		log.Println(err)
 		c.Serve(code, err, nil)
 		return
 	}
