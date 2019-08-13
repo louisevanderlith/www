@@ -9,12 +9,12 @@ import (
 	"github.com/louisevanderlith/droxolite/xontrols"
 )
 
-type DefaultController struct {
+type Home struct {
 	xontrols.UICtrl
 }
 
 //GetDefault returns the 'defaultsite'
-func (c *DefaultController) GetDefault() {
+func (c *Home) Default() {
 	result := make(map[string]interface{})
 	code, err := droxolite.DoGET("", &result, c.Settings.InstanceID, "Folio.API", "profile", c.Settings.Name)
 
@@ -33,7 +33,7 @@ func (c *DefaultController) GetDefault() {
 	}
 }
 
-func (c *DefaultController) GetSite() {
+func (c *Home) GetSite() {
 	siteName := c.FindParam("siteName")
 
 	result := make(map[string]interface{})
@@ -56,13 +56,13 @@ func (c *DefaultController) GetSite() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func getHomeMenu() *bodies.Menu {
+func getHomeMenu() bodies.Menu {
 	result := bodies.NewMenu()
 
-	result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
-	result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
-	result.AddItem("#contact", "Contact", "home fa fa-phone", nil)
-	result.AddItem("/blogs/A10", "Blog", "home fa fa-phone", nil)
+	//result.AddItem("#portfolio", "Portfolio", "home fa fa-star", nil)
+	//result.AddItem("#aboutus", "About Us", "home fa fa-info", nil)
+	//result.AddItem("#contact", "Contact", "home fa fa-phone", nil)
+	//result.AddItem("/blogs/A10", "Blog", "home fa fa-phone", nil)
 
-	return result
+	return *result
 }

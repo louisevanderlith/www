@@ -5,18 +5,33 @@ import (
 	"net/http"
 
 	"github.com/louisevanderlith/droxolite"
-	"github.com/louisevanderlith/droxolite/bodies"
 	"github.com/louisevanderlith/droxolite/xontrols"
 	"github.com/louisevanderlith/husk"
 )
 
-type BlogController struct {
+type Blog struct {
 	xontrols.UICtrl
 }
 
-func (c *BlogController) Get() {
+func (c *Blog) Default() {
 	c.Setup("blog", "Blog", false)
-	c.CreateSideMenu(getBlogMenu())
+
+	result := []interface{}{}
+	pagesize := "A10"
+
+	_, err := droxolite.DoGET(c.GetMyToken(), &result, c.Settings.InstanceID, "Blog.API", "article", "all", pagesize)
+
+	if err != nil {
+		log.Println(err)
+		c.Serve(http.StatusBadRequest, err, nil)
+		return
+	}
+
+	c.Serve(http.StatusOK, nil, result)
+}
+
+func (c *Blog) Search() {
+	c.Setup("blog", "Blog", false)
 
 	result := []interface{}{}
 	pagesize := c.FindParam("pagesize")
@@ -32,9 +47,8 @@ func (c *BlogController) Get() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *BlogController) GetByCategory() {
+func (c *Blog) SearchByCategory() {
 	c.Setup("blog", "Blog", false)
-	c.CreateSideMenu(getBlogMenu())
 
 	result := []interface{}{}
 	category := c.FindParam("category")
@@ -51,9 +65,9 @@ func (c *BlogController) GetByCategory() {
 	c.Serve(http.StatusOK, nil, result)
 }
 
-func (c *BlogController) GetArticle() {
+func (c *Blog) View() {
 	c.Setup("article", "Article", false)
-	c.CreateSideMenu(getBlogMenu())
+
 	key, err := husk.ParseKey(c.FindParam("key"))
 
 	if err != nil {
@@ -86,20 +100,4 @@ func (c *BlogController) GetArticle() {
 	result["Comments"] = comments
 
 	c.Serve(http.StatusOK, nil, result)
-}
-
-func getBlogMenu() *bodies.Menu {
-	result := bodies.NewMenu()
-
-	result.AddItem("#", "Categories", "fa fa-cirlce", categoryChlidren())
-
-	return result
-}
-
-func categoryChlidren() *bodies.Menu {
-	children := bodies.NewMenu()
-	children.AddItem("/blogs/motoring/A10", "Motoring", "fa fa-car", nil)
-	children.AddItem("/blogs/technology/A10", "Technology", "fa fa-microchip", nil)
-
-	return children
 }
