@@ -7,6 +7,7 @@ import (
 	"github.com/louisevanderlith/droxolite/roletype"
 	"github.com/louisevanderlith/droxolite/routing"
 	"github.com/louisevanderlith/www/controllers"
+	"github.com/louisevanderlith/www/controllers/blog"
 )
 
 func Setup(e *droxolite.Epoxy) {
@@ -14,12 +15,10 @@ func Setup(e *droxolite.Epoxy) {
 	homeCtrl := &controllers.Home{}
 	homeGroup := routing.NewInterfaceBundle("", roletype.Unknown, homeCtrl)
 	homeGroup.AddRoute("Profile", "/{siteName:[a-zA-Z]+}", http.MethodGet, roletype.Unknown, homeCtrl.GetSite)
-	e.AddNamedGroup("Home", homeGroup)
+	e.AddGroup(homeGroup)
 
 	//Blog
-	blogCtrl := &controllers.Blog{}
-	blogGroup := routing.NewInterfaceBundle("Blog", roletype.Unknown, blogCtrl)
-	blogGroup.AddRoute("Articles by Category", "/articles/{category:[a-zA-Z]+}/{pagesize:[A-Z][0-9]+}", http.MethodGet, roletype.Unknown, blogCtrl.SearchByCategory)
-
+	//blogGroup.AddRoute("Articles by Category", "/articles/{category:[a-zA-Z]+}/{pagesize:[A-Z][0-9]+}", http.MethodGet, roletype.Unknown, blogCtrl.SearchByCategory)
+	blogGroup := routing.NewInterfaceBundle("Blog", roletype.Unknown, &blog.Articles{}, &blog.Categories{})
 	e.AddNamedGroup("Blog", blogGroup)
 }
