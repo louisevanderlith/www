@@ -1,0 +1,25 @@
+{{if .Data.Headers}}
+{{$host := .Host}}
+<div class="column" id="syncarousel">
+    {{range $key, $val := .Data.Headers}}
+    <div id="card{{$key}}" class="card {{if ne $key 0}}hidden{{end}}">
+        <div class="card-image">
+            <figure class="image is-2by1">
+                <img src="https://artifact{{$host}}upload/file/{{$val.ImageKey}}" alt="header image">
+            </figure>
+        </div>
+        <div class="card-content">
+            <div class="media">
+                <div class="media-content">
+                    <p class="title is-4">{{$val.Heading}}</p>
+                </div>
+            </div>
+
+            <div class="content">
+                {{$val.Text}}
+            </div>
+        </div>
+    </div>
+    {{end}}
+</div>
+{{end}}
