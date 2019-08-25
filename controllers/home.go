@@ -6,54 +6,50 @@ import (
 
 	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/bodies"
-	"github.com/louisevanderlith/droxolite/xontrols"
+	"github.com/louisevanderlith/droxolite/context"
 )
 
 type Home struct {
-	xontrols.UICtrl
+	DefaultProfile string
 }
 
 //GetDefault returns the 'defaultsite'
-func (c *Home) Default() {
+func (c *Home) Default(ctx context.Contexer) (int, interface{}) {
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET("", &result, c.Settings.InstanceID, "Folio.API", "profile", c.Settings.Name)
+	log.Println(c.DefaultProfile)
+	code, err := droxolite.DoGET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", c.DefaultProfile)
 
 	if err != nil {
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	c.Setup("default", "Home", true)
-	c.CreateTopMenu(getHomeMenu())
+	log.Println(result)
+	//c.Setup("default", "Home", true)
+	//c.CreateTopMenu(getHomeMenu())
 
-	err = c.Serve(http.StatusOK, nil, result)
-
-	if err != nil {
-		log.Println(err)
-	}
+	return http.StatusOK, result
 }
 
-func (c *Home) GetSite() {
-	siteName := c.FindParam("siteName")
+func (c *Home) GetSite(ctx context.Contexer) (int, interface{}) {
+	siteName := ctx.FindParam("siteName")
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET("", &result, c.Settings.InstanceID, "Folio.API", "profile", siteName)
+	code, err := droxolite.DoGET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", siteName)
 
 	if err != nil {
-		c.Serve(code, err, nil)
-		return
+		return code, err
 	}
 
-	pageTitle := "Home"
-	dataObj, ok := result["Data"].(map[string]interface{})
+	//pageTitle := "Home"
+	//dataObj, ok := result["Data"].(map[string]interface{})
 
-	if ok {
+	/*if ok {
 		pageTitle = dataObj["Title"].(string)
-	}
+	}*/
 
-	c.Setup("default", pageTitle, true)
-	c.CreateTopMenu(getHomeMenu())
-	c.Serve(http.StatusOK, nil, result)
+	//c.Setup("default", pageTitle, true)
+	//c.CreateTopMenu(getHomeMenu())
+	return http.StatusOK, result
 }
 
 func getHomeMenu() bodies.Menu {
