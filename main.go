@@ -6,8 +6,11 @@ import (
 
 	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/bodies"
+	"github.com/louisevanderlith/droxolite/do"
+	"github.com/louisevanderlith/droxolite/element"
 	"github.com/louisevanderlith/droxolite/resins"
 	"github.com/louisevanderlith/droxolite/servicetype"
+	"github.com/louisevanderlith/www/controllers"
 	"github.com/louisevanderlith/www/routers"
 )
 
@@ -27,7 +30,7 @@ func main() {
 	// Register with router
 	srv := bodies.NewService(conf.Appname, pubPath, conf.HTTPPort, servicetype.APP)
 
-	routr, err := droxolite.GetServiceURL("", "Router.API", false)
+	routr, err := do.GetServiceURL("", "Router.API", false)
 
 	if err != nil {
 		panic(err)
@@ -45,19 +48,19 @@ func main() {
 		panic(err)
 	}
 
-	theme, err := droxolite.GetDefaultTheme(host, srv.ID, profile)
+	theme, err := element.GetDefaultTheme(host, srv.ID, profile)
 
 	if err != nil {
 		panic(err)
 	}
 
-	//secur, err := droxolite.GetServiceURL(srv.ID, "Auth.APP", true)
+	err = theme.LoadTemplate("./views", "master.html")
 
-	//if err != nil {
-	//	panic(err)
-	//}
-
-	poxy := resins.NewColourEpoxy(srv, theme, "master.html", "")
+	if err != nil {
+		panic(err)
+	}
+	homeCtrl := &controllers.Home{DefaultProfile: profile}
+	poxy := resins.NewColourEpoxy(srv, theme, "", homeCtrl.Get)
 	routers.Setup(poxy, profile)
 
 	err = droxolite.Boot(poxy)

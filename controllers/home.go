@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite"
 	"github.com/louisevanderlith/droxolite/bodies"
 	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/do"
 )
 
 type Home struct {
@@ -14,10 +14,10 @@ type Home struct {
 }
 
 //GetDefault returns the 'defaultsite'
-func (c *Home) Default(ctx context.Contexer) (int, interface{}) {
+func (c *Home) Get(ctx context.Requester) (int, interface{}) {
 	result := make(map[string]interface{})
 	log.Println(c.DefaultProfile)
-	code, err := droxolite.DoGET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", c.DefaultProfile)
+	code, err := do.GET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", c.DefaultProfile)
 
 	if err != nil {
 		return code, err
@@ -30,11 +30,11 @@ func (c *Home) Default(ctx context.Contexer) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (c *Home) GetSite(ctx context.Contexer) (int, interface{}) {
+func (c *Home) GetSite(ctx context.Requester) (int, interface{}) {
 	siteName := ctx.FindParam("siteName")
 
 	result := make(map[string]interface{})
-	code, err := droxolite.DoGET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", siteName)
+	code, err := do.GET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", siteName)
 
 	if err != nil {
 		return code, err
