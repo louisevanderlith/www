@@ -1,5 +1,5 @@
 {{if .Data.Headers}}
-{{$host := .Host}}
+{{$host := .Identity.Host}}
 <div class="column" id="syncarousel">
     {{range $key, $val := .Data.Headers}}
     <div id="card{{$key}}" class="card {{if ne $key 0}}hidden{{end}}">

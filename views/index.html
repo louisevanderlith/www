@@ -20,7 +20,7 @@
         <h2 class="title">Services</h2>
 
         <div class="tile is-ancestor">
-            {{$host := .Host}}
+            {{$host := .Identity.Host}}
             {{range $key, $val := .Data.PortfolioItems}}
             <div class="tile is-parent">
                 <article class="tile is-child box">

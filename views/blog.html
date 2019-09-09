@@ -1,6 +1,6 @@
 <div class="box">
     <div class="row columns is-multiline">
-        {{$host := .Host}}
+        {{$host := .Identity.Host}}
         {{.Data}}
         {{range $key, $val := .Data}}
         <div class="column is-one-quarter">
