@@ -1,68 +1,70 @@
-<div class="container has-text-centered">
-    <h2 class="title">Contact</h2>
+<section class="hero">
+    <div class="hero-body has-text-centered is-paddingless is-marginless">
+        <h2 class="title">Contact</h2>
 
-    <form id="frmContact" role="form" data-toggle="validator">
-        <div class="field is-horizontal">
-            <div class="field-body">
-                <div class="field">
-                    <div class="control has-icons-left">
-                        <input class="input" type="text" id="txtName" required placeholder="Name">
-                        <p class="help is-danger"></p>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-user"></i>
-                        </span>
+        <form id="frmContact" role="form" data-toggle="validator">
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" id="txtName" required placeholder="Name">
+                            <p class="help is-danger"></p>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-user"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="field is-horizontal">
-            <div class="field-body">
-                <div class="field">
-                    <div class="control has-icons-left">
-                        <input class="input" type="tel" minlength="10" maxlength="10" id="txtContact" required
-                            placeholder="Contact">
-                        <p class="help is-danger"></p>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-phone"></i>
-                        </span>
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control has-icons-left">
+                            <input class="input" type="tel" minlength="10" maxlength="10" id="txtContact" required
+                                placeholder="Contact">
+                            <p class="help is-danger"></p>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-phone"></i>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <div class="control has-icons-left has-icons-right">
-                        <input class="input" type="email" id="txtEmail" required placeholder="Email">
-                        <p class="help is-danger"></p>
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                        </span>
+                    <div class="field">
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="email" id="txtEmail" required placeholder="Email">
+                            <p class="help is-danger"></p>
+                            <span class="icon is-small is-left">
+                                <i class="fas fa-envelope"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="field is-horizontal">
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <textarea class="textarea" rows="5" required id="txtMessage"
-                            placeholder="Message us"></textarea>
-                        <p class="help is-danger"></p>
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" rows="5" required id="txtMessage"
+                                placeholder="Message us"></textarea>
+                            <p class="help is-danger"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="field is-horizontal">
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-primary" data-to="{{.Data.ContactEmail}}" id="btnSend">
-                            Send
-                        </button>
-                        <p id="frmContactErr" class="help is-danger"></p>
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-primary" data-to="{{.Data.ContactEmail}}" id="btnSend">
+                                Send
+                            </button>
+                            <p id="frmContactErr" class="help is-danger"></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
+</section>

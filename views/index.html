@@ -1,22 +1,11 @@
-<section class="hero is-dark">
-    <div class="hero-body">
-        <div class="container has-text-centered">
-            <h1 class="title">{{.Data.Title}}</h1>
-            <p class="subtitle">{{.Data.Description}}</p>
-        </div>
+<section class="hero is-marginless is-paddingless">
+    <div id="syncarousel">
+        {{template "carousel.html" .}}
     </div>
 </section>
-
-<section class="section">
-    <div class="container has-text-centered">
-        <div class="columns is-centered" style="padding: 2rem">
-            {{template "carousel.html" .}}
-        </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="container has-text-centered">
+<div style="padding-top: 2em"></div>
+<section class="hero">
+    <div class="hero-body has-text-centered is-paddingless is-marginless">
         <h2 class="title">Services</h2>
 
         <div class="tile is-ancestor">
@@ -36,21 +25,10 @@
         </div>
     </div>
 </section>
+<div style="padding-top: 2em"></div>
 
-<section class="section" id="contact">
-    {{ template "contact.html" .}}
-</section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="content has-text-centered">
-            <p>
-                {{range $key, $val := .Data.SocialLinks}}
-                <a href="{{$val.URL}}" target="_blank">
-                    <i class="fab {{$val.Icon}} fa-2x"></i>
-                </a>
-                {{end}}
-            </p>
-        </div>
+    <div id="contact">
+        {{ template "contact.html" .}}
     </div>
-</footer>
+ 
