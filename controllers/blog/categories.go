@@ -15,12 +15,30 @@ type Categories struct {
 func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
 	//Show categories...
 	//req.Setup("categories", "Blog Categories", false)
-	return http.StatusOK, nil
+	var categories []string
+	categories = append(categories, "Motoring", "Technology")
+
+	return http.StatusOK, categories
+}
+
+func (req *Categories) SearchCategory(ctx context.Requester) (int, interface{}) {
+	category := ctx.FindParam("category")
+
+	result := []interface{}{}
+	pagesize := ctx.FindParam("pagesize")
+
+	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", category, pagesize)
+
+	if err != nil {
+		log.Println(err)
+		return http.StatusInternalServerError, err
+	}
+
+	return http.StatusOK, result
 }
 
 func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
 	category := ctx.FindParam("category")
-	//req.Setup(category, "Blog", false)
 
 	result := []interface{}{}
 	pagesize := ctx.FindParam("pagesize")
@@ -36,8 +54,6 @@ func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
 }
 
 func (req *Categories) View(ctx context.Requester) (int, interface{}) {
-	//req.Setup("article", "Article", false)
-
 	key, err := husk.ParseKey(ctx.FindParam("key"))
 
 	if err != nil {
@@ -46,7 +62,7 @@ func (req *Categories) View(ctx context.Requester) (int, interface{}) {
 
 	result := make(map[string]interface{})
 
-	article := make(map[string]interface{})
+	var article interface{}
 	code, err := do.GET(ctx.GetMyToken(), &article, ctx.GetInstanceID(), "Blog.API", "public", key.String())
 
 	if err != nil {

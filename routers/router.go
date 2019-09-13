@@ -13,6 +13,8 @@ import (
 
 func Setup(e resins.Epoxi, profile string) {
 	homeCtrl := &controllers.Home{DefaultProfile: profile}
-	e.JoinBundle("/blog", roletype.Unknown, mix.Page, &blog.Articles{}, &blog.Categories{})
+	//catCtrl := &blog.Categories{}
+	e.JoinBundle("/blog", roletype.Unknown, mix.Page, &blog.Articles{})
+	//e.JoinPath("/blog/{category}/{pagesize:[A-Z][0-9]+}", "categoriessearch", "Search by Category", )
 	e.JoinPath(e.Router().(*mux.Router), "/{siteName:[a-zA-Z]+}", "index", http.MethodGet, roletype.Unknown, mix.Page, homeCtrl.GetSite)
 }
