@@ -15,6 +15,9 @@ class ContactForm extends FormState {
   ContactForm(String idElem, String nameElem, String emailElem,
       String phoneElem, String messageElem, String submitBtn)
       : super(idElem, submitBtn) {
+    FormElement _form = querySelector(idElem);
+    _form.onBlur.listen(validateElement);
+    
     _name = querySelector(nameElem);
     _email = querySelector(emailElem);
     _phone = querySelector(phoneElem);
@@ -46,7 +49,7 @@ class ContactForm extends FormState {
   String get to {
     return _tomail;
   }
-  
+
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
