@@ -6,14 +6,14 @@
 <div style="padding-top: 2em"></div>
 <section class="hero has-background-white-ter">
     <div class="hero-body is-marginless is-paddingless">
-            <h1 class="title has-text-centered">{{.Data.Title}}</h1>
+            <h1 class="title is-1 has-text-centered">{{.Data.Title}}</h1>
             <p class="subtitle">{{.Data.Description}}</p>
     </div>
 </section>
-<div style="padding-top: 2em"></div>
+<div style="padding-top: 2em"><hr></div>
 <section class="hero">
     <div class="hero-body has-text-centered is-paddingless is-marginless">
-        <h2 class="title">Services</h2>
+        <h3 class="title is-3">Services</h3>
 
         <div class="tile is-ancestor">
             {{$host := .Identity.Host}}
@@ -23,7 +23,7 @@
                     <figure class="image">
                         <img src="https://artifact{{$host}}download/{{$val.ImageKey}}">
                     </figure>
-                    <p class="title">{{$val.Name}}</p>
+                    <h4 class="title is-4 is-dark">{{$val.Name}}</h4>
                     <!--<p class="subtitle">Portfolio API</p>-->
                     <a class="button" href="{{$val.URL}}">View</a>
                 </article>
@@ -32,10 +32,11 @@
         </div>
     </div>
 </section>
-<div style="padding-top: 2em"></div>
+<div style="padding-top: 2em"><hr></div>
 
 
     <div id="contact">
         {{ template "contact.html" .}}
     </div>
+    <a class="button is-dark" id="toaster">Bottom Center</a>
  
