@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/bodies/message.dart';
 import 'package:mango_ui/services/commsapi.dart';
+import 'package:dart_toast/dart_toast.dart';
 
 class ContactForm extends FormState {
   TextInputElement _name;
@@ -63,9 +64,9 @@ class ContactForm extends FormState {
     var content = jsonDecode(req.response);
 
     if (req.status == 200) {
-      window.alert(content['Data']);
+      new Toast.success(title: "Success!", message: content['Data'],position: ToastPos.bottomLeft);
     } else {
-      _error.text = content['Error'];
+       new Toast.error(title: "Error!", message: content['Error'],position: ToastPos.bottomLeft);
     }
   }
 }
