@@ -6,14 +6,14 @@
 <div style="padding-top: 2em"></div>
 <section class="hero has-background-white-ter">
     <div class="hero-body is-marginless is-paddingless">
-            <h1 class="title is-1 has-text-centered">{{.Data.Title}}</h1>
+            <h2 class="title is-2 has-text-centered">{{.Data.Title}}</h2>
             <p class="subtitle">{{.Data.Description}}</p>
     </div>
 </section>
 <div style="padding-top: 2em"><hr></div>
 <section class="hero">
     <div class="hero-body has-text-centered is-paddingless is-marginless">
-        <h3 class="title is-3">Services</h3>
+        <h3 class="subtitle is-3">Services</h3>
 
         <div class="tile is-ancestor">
             {{$host := .Identity.Host}}
@@ -38,5 +38,4 @@
     <div id="contact">
         {{ template "contact.html" .}}
     </div>
-    <a class="button is-dark" id="toaster">Bottom Center</a>
  
