@@ -25,7 +25,7 @@ func main() {
 	pubPath := path.Join(keyPath, pubName)
 
 	// Register with router
-	srv := bodies.NewService(appName, profile, pubPath, httpport, servicetype.APP)
+	srv := bodies.NewService(appName, profile, pubPath, host, httpport, servicetype.APP)
 
 	routr, err := do.GetServiceURL("", "Router.API", false)
 
