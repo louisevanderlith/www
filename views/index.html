@@ -1,41 +1,45 @@
-<section class="hero is-marginless is-paddingless">
-    <div id="syncarousel">
-        {{template "carousel.html" .}}
-    </div>
-</section>
-<div style="padding-top: 2em"></div>
-<section class="hero has-background-white-ter">
-    <div class="hero-body is-marginless is-paddingless">
+{{define "layout"}}
+    <section class="hero is-marginless is-paddingless">
+        <div id="syncarousel">
+            {{template "carousel.html" .}}
+        </div>
+    </section>
+    <div style="padding-top: 2em"></div>
+    <section class="hero has-background-white-ter">
+        <div class="hero-body is-marginless is-paddingless">
             <h2 class="title is-2 has-text-centered">{{.Data.Title}}</h2>
             <p class="subtitle">{{.Data.Description}}</p>
-    </div>
-</section>
-<div style="padding-top: 2em"><hr></div>
-<section class="hero">
-    <div class="hero-body has-text-centered is-paddingless is-marginless">
-        <h3 class="subtitle is-3">Services</h3>
-
-        <div class="tile is-ancestor">
-            {{$host := .Identity.Host}}
-            {{range $key, $val := .Data.PortfolioItems}}
-            <div class="tile is-parent">
-                <article class="tile is-child box">
-                    <figure class="image">
-                        <img src="https://artifact{{$host}}download/{{$val.ImageKey}}">
-                    </figure>
-                    <h4 class="title is-4 is-dark">{{$val.Name}}</h4>
-                    <!--<p class="subtitle">Portfolio API</p>-->
-                    <a class="button" href="{{$val.URL}}">View</a>
-                </article>
-            </div>
-            {{end}}
         </div>
+    </section>
+    <div style="padding-top: 2em">
+        <hr>
     </div>
-</section>
-<div style="padding-top: 2em"><hr></div>
+    <section class="hero">
+        <div class="hero-body has-text-centered is-paddingless is-marginless">
+            <h3 class="subtitle is-3">Services</h3>
 
+            <div class="tile is-ancestor">
+                {{$host := .Oper.Host}}
+                {{range $key, $val := .Data.PortfolioItems}}
+                    <div class="tile is-parent">
+                        <article class="tile is-child box">
+                            <figure class="image">
+                                <img src="https://artifact{{$host}}download/{{$val.ImageKey}}">
+                            </figure>
+                            <h4 class="title is-4 is-dark">{{$val.Name}}</h4>
+                            <!--<p class="subtitle">Portfolio API</p>-->
+                            <a class="button" href="{{$val.URL}}">View</a>
+                        </article>
+                    </div>
+                {{end}}
+            </div>
+        </div>
+    </section>
+    <div style="padding-top: 2em">
+        <hr>
+    </div>
 
     <div id="contact">
         {{ template "contact.html" .}}
     </div>
- 
+{{end}}

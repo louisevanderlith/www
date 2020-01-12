@@ -11,7 +11,6 @@ FROM build_base as builder
 
 COPY main.go .
 COPY controllers ./controllers
-COPY routers ./routers
 
 RUN CGO_ENABLED="0" go build
 
@@ -36,7 +35,6 @@ COPY --from=pyltjie /arrow/build/*.dart.js dist/js/
 COPY views views
 
 RUN mkdir -p /views/_shared
-
 EXPOSE 8091
 
 ENTRYPOINT [ "./www" ]

@@ -1,41 +1,32 @@
 package controllers
 
 import (
-	"log"
+	"encoding/json"
+	"fmt"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
-	"github.com/louisevanderlith/droxolite/do"
+	"github.com/gin-gonic/gin"
 )
 
-type Home struct {
-	DefaultProfile string
-}
-
-//GetDefault returns the 'defaultsite'
-func (c *Home) Get(ctx context.Requester) (int, interface{}) {
-	result := make(map[string]interface{})
-	log.Println(c.DefaultProfile)
-	code, err := do.GET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", c.DefaultProfile)
+func IndexPage(c *gin.Context) {
+	folioURL := fmt.Sprintf("http://folio:8090/profile/%s", Oper.Profile)
+	resp, err := http.Get(folioURL)
 
 	if err != nil {
-		return code, err
+		c.AbortWithError(http.StatusInternalServerError, err)
 	}
 
-	log.Println(result)
-
-	return http.StatusOK, result
-}
-
-func (c *Home) GetSite(ctx context.Requester) (int, interface{}) {
-	siteName := ctx.FindParam("siteName")
+	defer resp.Body.Close()
 
 	result := make(map[string]interface{})
-	code, err := do.GET("", &result, ctx.GetInstanceID(), "Folio.API", "profile", siteName)
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&result)
 
-	if err != nil {
-		return code, err
-	}
-
-	return http.StatusOK, result
+	c.HTML(http.StatusOK, "index.html", gin.H{
+		"Title":      "Home - " + Oper.Profile,
+		"Data":       result,
+		"Oper":       Oper,
+		"HasScript":  true,
+		"ScriptName": "index.js",
+	})
 }
