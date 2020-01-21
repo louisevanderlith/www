@@ -35,6 +35,7 @@ github.com/leodido/go-urn v1.2.0 h1:hpXL4XnriNwQ/ABnpepYM/1vCLWNDfUNts8dX3xTG6Y=
 github.com/leodido/go-urn v1.2.0/go.mod h1:+8+nEpDfqqsY+g338gtMEUOtuK+4dEMhiQEgxpxOKII=
 github.com/louisevanderlith/droxolite v1.7.3 h1:sQiDCA/M12EYT9CjDSPesmVf9idjso7qSYMexfjDqvo=
 github.com/louisevanderlith/droxolite v1.7.3/go.mod h1:g32ueQT1pjtPpEZ3Q03UP4EvXWGuFCjvQThkmjfvIFY=
+github.com/louisevanderlith/husk v0.0.0-20191215135532-d37a499a2503 h1:RxwOyBr0RLt3EjWmZdkmzvOtgth+AARspByPKrro/NQ=
 github.com/louisevanderlith/husk v0.0.0-20191215135532-d37a499a2503/go.mod h1:pGAPhpNC+raC0SvX2nR2+mDLUrmIJ+iyP6yt7SFQR+M=
 github.com/louisevanderlith/husk v0.6.26 h1:a1xVECvJCXiCwlp8cAiGafKxcl0sF8GFNWbpGmAadiM=
 github.com/louisevanderlith/husk v0.6.26/go.mod h1:pGAPhpNC+raC0SvX2nR2+mDLUrmIJ+iyP6yt7SFQR+M=

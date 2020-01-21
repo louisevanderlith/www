@@ -8,7 +8,7 @@ require (
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/louisevanderlith/droxolite v1.7.3
-	github.com/louisevanderlith/husk v0.6.26
+	github.com/louisevanderlith/husk v0.0.0-20191215135532-d37a499a2503
 	github.com/louisevanderlith/squareroot v0.1.11
 	github.com/mattn/go-isatty v0.0.11 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

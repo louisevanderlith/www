@@ -5,6 +5,8 @@ import (
 	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 	"github.com/louisevanderlith/www/controllers"
+	"github.com/louisevanderlith/www/controllers/blog"
+	"github.com/louisevanderlith/www/droxo"
 	"io"
 	"net/http"
 	"os"
@@ -22,7 +24,8 @@ func main() {
 
 	host := os.Getenv("HOST")
 
-	controllers.AssignOperator(prof, host)
+	droxo.AssignOperator(prof, host)
+	droxo.DefineClient("www", "wwwsecret", host, "http://oauth2." + host)
 	//Download latest Theme
 	err := updateTheme("http://theme:8093")
 
@@ -34,6 +37,10 @@ func main() {
 	r.HTMLRender = loadTemplates("./views")
 	//r.LoadHTMLFiles(findFiles("./views")...)
 	r.GET("/", controllers.IndexPage)
+	r.GET("/blog", blog.Get)
+	r.GET("/blog/:pagesize/*hash", blog.Search)
+	r.GET("/blog/article/:key", blog.View)
+	r.POST("/oauth2", droxo.AuthCallback)
 
 	err = r.Run(":8091")
 

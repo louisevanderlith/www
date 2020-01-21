@@ -1,4 +1,4 @@
-package controllers
+package droxo
 
 import (
 	"context"
@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 	"net/http"
+	"strings"
 )
 
 var (
@@ -34,10 +35,10 @@ func DefineClient(clientId, clientSecret, host, authHost string) {
 	config = oauth2.Config{
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
-		Scopes:       []string{"blog"},
+		Scopes:       []string{"blog", "comms"},
 		RedirectURL:  host + "/oauth2",
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  authHost + "/authorize",
+			AuthURL:  authHost + "/auth",
 			TokenURL: authHost + "/token",
 		},
 	}
@@ -66,4 +67,17 @@ func AuthCallback(c *gin.Context) {
 	e := json.NewEncoder(c.Writer)
 	e.SetIndent("", "  ")
 	e.Encode(token)
+}
+
+func Wrap(name string, result interface{}) gin.H {
+	lname := strings.ToLower(name)
+	jstmpl := lname + ".js"
+
+	return gin.H{
+		"Title": fmt.Sprintf("%s - %s", name, Oper.Profile),
+		"Data": result,
+		"Oper": Oper,
+		"HasScript": true,
+		"ScriptName": jstmpl,
+	}
 }

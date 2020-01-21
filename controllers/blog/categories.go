@@ -12,7 +12,7 @@ import (
 type Categories struct {
 }
 
-func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
+func (req *Categories) Get(c *gin.Context) {
 	//Show categories...
 	//req.Setup("categories", "Blog Categories", false)
 	var categories []string
@@ -22,10 +22,10 @@ func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
 }
 
 func (req *Categories) SearchCategory(ctx context.Requester) (int, interface{}) {
-	category := ctx.FindParam("category")
+	category := c.Param("category")
 
 	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", category, pagesize)
 
@@ -37,11 +37,11 @@ func (req *Categories) SearchCategory(ctx context.Requester) (int, interface{}) 
 	return http.StatusOK, result
 }
 
-func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
-	category := ctx.FindParam("category")
+func (req *Categories) Search(c *gin.Context) {
+	category := c.Param("category")
 
 	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := c.Param("pagesize")
 
 	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", category, pagesize)
 
@@ -53,8 +53,8 @@ func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
 	return http.StatusOK, result
 }
 
-func (req *Categories) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func (req *Categories) View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err

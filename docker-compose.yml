@@ -1,0 +1,146 @@
+version: "3.4"
+
+services:
+  proxy:
+    image: traefik:v2.0.7
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.network=swarm_overlay"
+      - "--entryPoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.challenger.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.challenger.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.challenger.acme.email=avosasoftware@gmail.com"
+      - "--certificatesresolvers.challenger.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesResolvers.challenger.acme.tlsChallenge"
+      - "--log.level=DEBUG"
+    networks:
+      - overlay
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      - "traefik.http.routers.api.rule=Host(`traefik.avosa.co.za`)"
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.services.api.loadbalancer.server.port=888"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+      - "traefik.http.routers.http-catchall.middlewares=redirect-to-https@docker"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+  www:
+    image: avosa/www:dev
+    build: .
+    labels:
+      - "traefik.http.routers.www.rule=Host(`avosa.co.za`) || Host(`www.avosa.co.za`)"
+      - "traefik.http.routers.www.entrypoints=websecure"
+      - "traefik.http.routers.www.tls.certresolver=challenger"
+      - "traefik.http.services.www.loadbalancer.server.port=8091"
+    environment:
+      - PROFILE=${PROFILE}
+      - HOST=${HOST}
+    #ports:
+    #  - "8091:8091"
+    networks:
+      - overlay
+  folio:
+    image: avosa/folio:dev
+    build: ../folio/
+    labels:
+      - "traefik.http.routers.folio.rule=Host(`folio.avosa.co.za`)"
+      - "traefik.http.services.folio.loadbalancer.server.port=8090"
+      - "traefik.http.routers.folio.entrypoints=websecure"
+      - "traefik.http.routers.folio.tls.certresolver=challenger"
+    #ports:
+    #  - "8090:8090"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+  blog:
+    image: avosa/blog:dev
+    build: ../blog/
+    labels:
+      - "traefik.http.routers.blog.rule=Host(`blog.avosa.co.za`)"
+      - "traefik.http.services.blog.loadbalancer.server.port=8102"
+      - "traefik.http.routers.blog.entrypoints=websecure"
+      - "traefik.http.routers.blog.tls.certresolver=challenger"
+    #ports:
+    #  - "8102:8102"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+  comment:
+    image: avosa/comment:dev
+    build: ../comment/
+    labels:
+      - "traefik.http.routers.comment.rule=Host(`comment.avosa.co.za`)"
+      - "traefik.http.services.comment.loadbalancer.server.port=8084"
+      - "traefik.http.routers.comment.entrypoints=websecure"
+      - "traefik.http.routers.comment.tls.certresolver=challenger"
+    #ports:
+    #  - "8084:8084"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+  comms:
+    image: avosa/comms:dev
+    build: ../comms/
+    labels:
+      - "traefik.http.routers.comms.rule=Host(`comms.avosa.co.za`)"
+      - "traefik.http.services.comms.loadbalancer.server.port=8085"
+      - "traefik.http.routers.comms.entrypoints=websecure"
+      - "traefik.http.routers.comms.tls.certresolver=challenger"
+    #ports:
+    #  - "8085:8085"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+  theme:
+    image: avosa/theme:dev
+    build: ../theme/
+    labels:
+      - "traefik.http.routers.theme.rule=Host(`theme.avosa.co.za`)"
+      - "traefik.http.routers.theme.entrypoints=websecure"
+      - "traefik.http.routers.theme.tls.certresolver=challenger"
+      - "traefik.http.services.theme.loadbalancer.server.port=8093"
+    #ports:
+    #  - "8093:8093"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+  oauth2:
+    image: avosa/oauth2:dev
+    build: ../oauth2/
+    labels:
+      - "traefik.http.routers.oauth2.rule=Host(`oauth2.avosa.co.za`)"
+      - "traefik.http.services.oauth2.loadbalancer.server.port=8086"
+      - "traefik.http.routers.oauth2.entrypoints=websecure"
+      - "traefik.http.routers.oauth2.tls.certresolver=challenger"
+    #ports:
+    #  - "8086:8086"
+    networks:
+      - overlay
+    volumes:
+      - dbstore:/db
+
+volumes:
+  dbstore:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /var/db
+  letsencrypt:
+
+networks:
+  overlay:

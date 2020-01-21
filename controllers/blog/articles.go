@@ -1,73 +1,123 @@
 package blog
 
 import (
-	"log"
+	"encoding/json"
+	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/louisevanderlith/www/droxo"
 	"net/http"
 
-	"github.com/louisevanderlith/droxolite/context"
-	"github.com/louisevanderlith/droxolite/do"
 	"github.com/louisevanderlith/husk"
 )
 
-type Articles struct {
-}
-
-func (c *Articles) Get(ctx context.Requester) (int, interface{}) {
-	result := []interface{}{}
+func Get(c *gin.Context) {
 	pagesize := "A10"
 
-	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", pagesize)
+	blogURL := fmt.Sprintf("http://blog:8102/articles/%s/", pagesize)
+	resp, err := http.Get(blogURL)
 
 	if err != nil {
-		log.Println(err)
-		return http.StatusBadRequest, err
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 
-	return http.StatusOK, result
-}
+	defer resp.Body.Close()
 
-func (c *Articles) Search(ctx context.Requester) (int, interface{}) {
-	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
-
-	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", pagesize)
+	result := make(map[string]interface{})
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&result)
 
 	if err != nil {
-		log.Println(err)
-		return http.StatusBadRequest, err
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 
-	return http.StatusOK, result
+	c.HTML(http.StatusOK, "articles.html", droxo.Wrap("Articles", result))
 }
 
-func (c *Articles) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+func Search(c *gin.Context) {
+	pagesize := c.Param("pagesize")
+	hsh := c.Param("hash")
+
+	blogURL := fmt.Sprintf("http://blog:8102/articles/%s/%s", pagesize, hsh)
+	resp, err := http.Get(blogURL)
 
 	if err != nil {
-		return http.StatusBadRequest, err
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+
+	defer resp.Body.Close()
+
+	result := make(map[string]interface{})
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&result)
+
+	c.HTML(http.StatusOK, "articles.html", droxo.Wrap("Articles", result))
+}
+
+func View(c *gin.Context) {
+	key, err := husk.ParseKey(c.Param("key"))
+
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
+
+	article, err := getArticle(key)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+	}
+	comments, err := getComments(key)
+
+	if err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 	}
 
 	result := make(map[string]interface{})
-
-	var article interface{}
-	code, err := do.GET(ctx.GetMyToken(), &article, ctx.GetInstanceID(), "Blog.API", "public", key.String())
-
-	if err != nil {
-		log.Println(err)
-		return code, err
-	}
-
 	result["Article"] = article
-
-	comments := []interface{}{}
-	code, err = do.GET(ctx.GetMyToken(), &comments, ctx.GetInstanceID(), "Comment.API", "message", "Article", key.String())
-
-	if err != nil && code != 404 {
-		log.Println(err)
-		return code, err
-	}
-
 	result["Comments"] = comments
 
-	return http.StatusOK, result
+	c.HTML(http.StatusOK, "articlesview.html", droxo.Wrap("ArticlesView", result))
+}
+
+func getArticle(key husk.Key) (map[string]interface{}, error){
+	blogURL := fmt.Sprintf("http://blog:8102/article/%s", key)
+	resp, err := http.Get(blogURL)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	article := make(map[string]interface{})
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&article)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return article, nil
+}
+
+func getComments(key husk.Key) (map[string]interface{}, error) {
+	commntURL := fmt.Sprintf("http://comment:8084/message/Article/%s", key)
+	resp, err := http.Get(commntURL)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer resp.Body.Close()
+
+	comments := make(map[string]interface{})
+	dec := json.NewDecoder(resp.Body)
+	err = dec.Decode(&comments)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return comments, nil
 }
