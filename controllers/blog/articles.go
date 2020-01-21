@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/louisevanderlith/www/droxo"
+	"github.com/louisevanderlith/droxo"
 	"net/http"
 
 	"github.com/louisevanderlith/husk"
@@ -13,7 +13,7 @@ import (
 func Get(c *gin.Context) {
 	pagesize := "A10"
 
-	blogURL := fmt.Sprintf("http://blog:8102/articles/%s/", pagesize)
+	blogURL := fmt.Sprintf("%sarticles/%s/", droxo.UriBlog, pagesize)
 	resp, err := http.Get(blogURL)
 
 	if err != nil {
@@ -39,7 +39,7 @@ func Search(c *gin.Context) {
 	pagesize := c.Param("pagesize")
 	hsh := c.Param("hash")
 
-	blogURL := fmt.Sprintf("http://blog:8102/articles/%s/%s", pagesize, hsh)
+	blogURL := fmt.Sprintf("%sarticles/%s/%s", droxo.UriBlog, pagesize, hsh)
 	resp, err := http.Get(blogURL)
 
 	if err != nil {
@@ -60,17 +60,20 @@ func View(c *gin.Context) {
 
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
+		return
 	}
 
 	article, err := getArticle(key)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 	comments, err := getComments(key)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 
 	result := make(map[string]interface{})
@@ -102,7 +105,7 @@ func getArticle(key husk.Key) (map[string]interface{}, error){
 }
 
 func getComments(key husk.Key) (map[string]interface{}, error) {
-	commntURL := fmt.Sprintf("http://comment:8084/message/Article/%s", key)
+	commntURL := fmt.Sprintf("%smessage/Article/%s", droxo.UriComment, key)
 	resp, err := http.Get(commntURL)
 
 	if err != nil {

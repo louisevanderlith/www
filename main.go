@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/louisevanderlith/www/controllers"
 	"github.com/louisevanderlith/www/controllers/blog"
-	"github.com/louisevanderlith/www/droxo"
+	"github.com/louisevanderlith/droxo"
 	"io"
 	"net/http"
 	"os"
@@ -35,11 +35,11 @@ func main() {
 
 	r := gin.Default()
 	r.HTMLRender = loadTemplates("./views")
-	//r.LoadHTMLFiles(findFiles("./views")...)
+
 	r.GET("/", controllers.IndexPage)
 	r.GET("/blog", blog.Get)
 	r.GET("/blog/:pagesize/*hash", blog.Search)
-	r.GET("/blog/article/:key", blog.View)
+	r.GET("/article/:key", blog.View)
 	r.POST("/oauth2", droxo.AuthCallback)
 
 	err = r.Run(":8091")

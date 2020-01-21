@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/louisevanderlith/www/droxo"
+	"github.com/louisevanderlith/droxo"
 
 	"github.com/gin-gonic/gin"
 )
 
 func IndexPage(c *gin.Context) {
-	folioURL := fmt.Sprintf("http://folio:8090/profile/%s", droxo.Oper.Profile)
+	folioURL := fmt.Sprintf("%sprofile/%s", droxo.UriFolio, droxo.Oper.Profile)
 	resp, err := http.Get(folioURL)
 
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
+		return
 	}
 
 	defer resp.Body.Close()

@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:html';
-import 'package:mango_ui/formstate.dart';
+
+import 'package:dart_toast/dart_toast.dart';
 import 'package:mango_ui/bodies/message.dart';
+import 'package:mango_ui/formstate.dart';
 import 'package:mango_ui/services/commsapi.dart';
-import 'package:dart_toast/dart_toast.dart'; 
 
 class ContactForm extends FormState {
   TextInputElement _name;
