@@ -5,6 +5,7 @@ services:
     image: traefik:v2.0.7
     command:
       - "--api.dashboard=true"
+      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.network=swarm_overlay"
       - "--entryPoints.web.address=:80"

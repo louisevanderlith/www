@@ -13,10 +13,9 @@ require (
 	github.com/google/go-cmp v0.4.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/kr/pty v1.1.8 // indirect
-	github.com/louisevanderlith/droxo v1.2.0
+	github.com/louisevanderlith/droxo v1.3.1
 	github.com/louisevanderlith/droxolite v1.7.3
 	github.com/louisevanderlith/husk v1.0.0
-	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/rogpeppe/go-internal v1.5.2 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
@@ -26,7 +25,6 @@ require (
 	golang.org/x/mobile v0.0.0-20200121160505-1d4ecbb920e2 // indirect
 	golang.org/x/mod v0.2.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
-	golang.org/x/sys v0.0.0-20200121082415-34d275377bf9 // indirect
 	golang.org/x/time v0.0.0-20191024005414-555d28b269f0 // indirect
 	golang.org/x/tools v0.0.0-20200121145236-13c74800b9d2 // indirect
 	google.golang.org/genproto v0.0.0-20200117163144-32f20d992d24 // indirect
