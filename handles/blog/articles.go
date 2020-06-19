@@ -1,17 +1,9 @@
 package blog
 
-import (
-	"log"
-	"net/http"
-
-	"github.com/louisevanderlith/droxolite/context"
-	"github.com/louisevanderlith/droxolite/do"
-	"github.com/louisevanderlith/husk"
-)
-
 type Articles struct {
 }
 
+/*
 func (c *Articles) Get(ctx context.Requester) (int, interface{}) {
 	result := []interface{}{}
 	pagesize := "A10"
@@ -60,7 +52,7 @@ func (c *Articles) View(ctx context.Requester) (int, interface{}) {
 	result["Article"] = article
 
 	comments := []interface{}{}
-	code, err = do.GET(ctx.GetMyToken(), &comments, ctx.GetInstanceID(), "Comment.API", "message", "Article", key.String())
+	code, err = do.GET(ctx.GetMyToken(), &comments, ctx.GetInstanceID(), "Comment.API", "Article", key.String())
 
 	if err != nil && code != 404 {
 		log.Println(err)
@@ -71,3 +63,4 @@ func (c *Articles) View(ctx context.Requester) (int, interface{}) {
 
 	return http.StatusOK, result
 }
+*/

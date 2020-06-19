@@ -1,17 +1,9 @@
 package blog
 
-import (
-	"log"
-	"net/http"
-
-	"github.com/louisevanderlith/droxolite/context"
-	"github.com/louisevanderlith/droxolite/do"
-	"github.com/louisevanderlith/husk"
-)
-
 type Categories struct {
 }
 
+/*
 func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
 	//Show categories...
 	//req.Setup("categories", "Blog Categories", false)
@@ -85,3 +77,4 @@ func (req *Categories) View(ctx context.Requester) (int, interface{}) {
 
 	return http.StatusOK, result
 }
+*/

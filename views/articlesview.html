@@ -1,6 +1,6 @@
 <section class="hero is-medium has-background">
     {{.Data}}
-    <img alt="YumYum" class="hero-background" src="https://artifact{{.Identity.Host}}download/{{.Data.Article.ImageKey}}" />
+    <img alt="YumYum" class="hero-background" src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.Article.ImageKey}}" />
     <div class="hero-body">
         <div class="container">
             <h4 class="title is-4 has-text-white">{{.Data.Article.Title}}</h4>
@@ -18,4 +18,4 @@
     {{.Data.Article.Content | html}}
 </div>
 
-{{template "comment.html" .Comments}}
+{{template "comment.html" .}}
