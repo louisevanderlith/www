@@ -13,7 +13,7 @@ import (
 func main() {
 	clientId := flag.String("client", "mango.www", "Client ID which will be used to verify this instance")
 	clientSecrt := flag.String("secret", "secret", "Client Secret which will be used to authenticate this instance")
-	authrty := flag.String("authority", "http://localhost:8086", "Authority Provider's URL")
+	security := flag.String("security", "http://localhost:8086", "Security Provider's URL")
 
 	flag.Parse()
 
@@ -27,13 +27,13 @@ func main() {
 		"artifact.download",
 	}
 
-	tkn, err := kong.FetchToken(http.DefaultClient, *authrty, *clientId, *clientSecrt, scps...)
+	tkn, err := kong.FetchToken(http.DefaultClient, *security, *clientId, *clientSecrt, scps...)
 
 	if err != nil {
 		panic(err)
 	}
 
-	clms, err := kong.Exchange(http.DefaultClient, tkn, *clientId, *clientSecrt, *authrty+"/info")
+	clms, err := kong.Exchange(http.DefaultClient, tkn, *clientId, *clientSecrt, *security+"/info")
 
 	if err != nil {
 		panic(err)
@@ -49,7 +49,7 @@ func main() {
 		ReadTimeout:  time.Second * 15,
 		WriteTimeout: time.Second * 15,
 		Addr:         ":8091",
-		Handler:      handles.SetupRoutes(*clientId, *clientSecrt, *authrty),
+		Handler:      handles.SetupRoutes(*clientId, *clientSecrt, *security),
 	}
 
 	err = srvr.ListenAndServe()

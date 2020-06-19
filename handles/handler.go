@@ -16,7 +16,11 @@ func SetupRoutes(clnt, scrt, secureUrl string) http.Handler {
 
 	r := mux.NewRouter()
 
-	r.HandleFunc("/",kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, "", Index(mstr, tmpl))).Methods(http.MethodGet)
+	distPath := http.FileSystem(http.Dir("dist/"))
+	fs := http.FileServer(distPath)
+	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
+
+	r.HandleFunc("/", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, "", Index(mstr, tmpl))).Methods(http.MethodGet)
 
 	return r
 }

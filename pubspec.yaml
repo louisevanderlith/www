@@ -11,3 +11,6 @@ dev_dependencies:
 dependencies:
   mango_ui: '^1.0.3'
   dart_toast: '^0.3.0'
+  mango_comms: '^1.0.0'
+  mango_comment: '^1.0.0'
+  mango_blog: '^1.0.0'

@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:dart_toast/dart_toast.dart';
-import 'package:mango_ui/bodies/key.dart';
+import 'package:mango_ui/keys.dart';
 import 'package:mango_ui/formstate.dart';
-import 'package:mango_ui/services/commentapi.dart';
-import 'package:mango_ui/bodies/comment.dart';
+import 'package:mango_comment/commentapi.dart';
+import 'package:mango_comment/bodies/comment.dart';
 
 class Comments extends FormState {
   Key _objKey;
