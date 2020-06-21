@@ -1,9 +1,8 @@
 <!-- Begin Scroll Up Button -->
-<form action="#home">
-    <button id="toTop" title="Go to top">
-        <i class="fas fa-angle-up"></i>
-    </button>
-</form>
+<button id="toTop" title="Go to top">
+    <i class="fas fa-angle-up"></i>
+</button>
+{{.}}
 <!-- End Scroll Up Button -->
 <!-- Begin Header -->
 <div class="header-wrapper" id="home">
@@ -23,18 +22,23 @@
             <div id="mobile-nav" class="navbar-menu">
                 <div class="navbar-end">
                     <div class="navbar-item">
-                        <a class="navbar-item" href="#home">
+                        <a class="navbar-item" href="/">
                             Home
                         </a>
                     </div>
                     <div class="navbar-item">
                         <a class="navbar-item" href="#about-us">
-                            About Us
+                            {{.Data.CMS.SectionA.Heading}}
                         </a>
                     </div>
                     <div class="navbar-item">
                         <a class="navbar-item" href="#services">
-                            Services
+                            {{.Data.CMS.SectionB.Heading}}
+                        </a>
+                    </div>
+                    <div class="navbar-item">
+                        <a class="navbar-item" href="#services">
+                            {{.Data.CMS.Info.Heading}}
                         </a>
                     </div>
                     <div class="navbar-item">
@@ -48,8 +52,7 @@
         <!-- End Mobile Nav -->
         <!-- Begin Hero Content-->
         <div class="hero-body has-text-centered">
-            <h2 class="subtitle is-3">#avosasoftware</h2>
-            <h1 class="title is-1">Custom Software • Web Design • Web Apps • API's • Data Solutions</h1>
+            <h1 class="title is-1">{{.Data.CMS.Banner.Text}}</h1>
         </div>
         <!-- End Hero Content-->
         <!-- Begin Hero Menu -->
@@ -59,13 +62,16 @@
                     <div class="column is-12 hero-menu-desktop has-text-centered">
                         <ul>
                             <li class="is-active">
-                                <a href="#home">Home</a>
+                                <a href="/">Home</a>
                             </li>
                             <li>
-                                <a href="#about-us">About Us</a>
+                                <a href="#about-us">{{.Data.CMS.SectionA.Heading}}</a>
                             </li>
                             <li>
-                                <a href="#services">Services</a>
+                                <a href="#services">{{.Data.CMS.SectionB.Heading}}</a>
+                            </li>
+                            <li>
+                                <a href="#services">{{.Data.CMS.Info.Heading}}</a>
                             </li>
                             <li>
                                 <a href="#contact">Contact Us</a>
@@ -90,22 +96,14 @@
             </div>
             <div class="columns is-multiline">
                 <div class="column is-6 has-vertically-aligned-content" data-aos="fade-right">
-
-
-                    <h1 class="title is-1 colourA">Our Mission</h1>
-                    <p class="is-size-5">We aim to <b>Develop</b> and commercialize custom <b>software</b> for companies
-                        and
-                        individuals
-                        who wish to modernize processes and digitize financial strategies.
-                        We offer intelligent and state of the art solutions for domestic markets based on the users’
-                        expectations
-                        and experience.</p>
-                    </br>
-                    <br/>
+                    <h1 class="title is-1 colourA">{{.Data.CMS.SectionA.Heading}}</h1>
+                    <p class="is-size-5">
+                        {{.Data.CMS.SectionA.Text}}
+                    </p>
                     <div class="is-divider"></div>
                 </div>
                 <div class="column is-6 right-image " data-aos="fade-left">
-                    <img class="is-rounded" src="img/abt.jpg" alt="avosa software"/>
+                    <img class="is-rounded" src="{{ .Identity.GetResourceURL "artifact" }}/download/{{.Data.CMS.SectionA.ImageKey}}" alt="avosa software"/>
                 </div>
             </div>
         </div>
@@ -116,17 +114,14 @@
             <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                 <div class="column is-12 about-me">
                     <h1 class="title is-1 has-text-centered colourA">
-                        Our Vision
+                        {{.Data.CMS.SectionB.Heading}}
                     </h1>
                 </div>
                 <div class="column is-10 is-offset-1">
                     <h2 class="subtitle is-4 has-text-white">
-                        <b>Our vision is to be a yardstick on the domestic ICT market.
-                            We use best in class manner to create a better every-day life in the South African
-                            market that requires constant innovation and upgrades.
-                            We aim to sort out those real life everyday problems,
-                            we take drastic measures to ensure our clients stay at the top of their game
-                            without breaking the bank.</b>
+                        <b>
+                            {{.Data.CMS.SectionB.Text}}
+                        </b>
                     </h2>
                 </div>
             </div>
@@ -138,43 +133,23 @@
             <div class="columns is-multiline">
                 <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
                     <h1 class="title has-text-centered is-1">
-                        Services</h1>
+                        {{.Data.CMS.Info.Heading}}</h1>
 
                     <h2 class="subtitle">
-                        Looking to get custom <b>software</b> or a <b>Website</b> for your business or simply want to
-                        upgrade your
-                        current
-                        software? <a href="#contact">contact us</a> today.
+                        {{.Data.CMS.Info.Text}}
                     </h2>
                     <br/>
                 </div>
                 <div class="columns is-12">
+                    {{range $_, $v := .Data.CMS.Info.Blocks}}
                     <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                        <i class="fas fa-laptop-code fa-3x colourA"></i>
+                        <i class="fas {{$v.Icon}} fa-3x colourA"></i>
                         <hr/>
                         <h2>
-                            We can assist in giving your current <b>software</b> that much needed makeover or adding
-                            that
-                            funcionality you've wanted for years
+                            {{$v.Text}}
                         </h2>
                     </div>
-                    <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                        <i class="fas fa-code fa-3x colourA"></i>
-                        <hr/>
-                        <h2>
-                            We can create your <b>software</b> exactly the way you want it, you tell us what you need
-                            and
-                            we'll make sure you get exactly what your hart desires.
-                        </h2>
-                    </div>
-                    <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                        <i class="fas fa-globe fa-3x colourA"></i>
-                        <hr/>
-                        <h2>
-                            We can assist with all types of <b>websites</b> from Info pages to Fully operational Web
-                            Apps.
-                        </h2>
-                    </div>
+                    {{end}}
                 </div>
             </div>
         </div>

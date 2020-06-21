@@ -20,7 +20,7 @@ func SetupRoutes(clnt, scrt, secureUrl string) http.Handler {
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	r.HandleFunc("/", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, "", Index(mstr, tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, secureUrl, "", Index(mstr, tmpl), "cms.content.view")).Methods(http.MethodGet)
 
 	return r
 }

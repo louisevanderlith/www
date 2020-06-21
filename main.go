@@ -18,13 +18,8 @@ func main() {
 	flag.Parse()
 
 	scps := []string{
-		"comms.messages.create",
-		"blog.articles.view",
-		"blog.articles.search",
-		"comment.messages.view",
 		"theme.assets.download",
 		"theme.assets.view",
-		"artifact.download",
 	}
 
 	tkn, err := kong.FetchToken(http.DefaultClient, *security, *clientId, *clientSecrt, scps...)
