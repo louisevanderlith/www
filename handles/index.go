@@ -11,12 +11,14 @@ import (
 
 //GetDefault returns the 'defaultsite'
 func Index(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Index", mstr, tmpl)
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
 
-		tkn := r.Context().Value("token")
+		tkn := ctx.GetToken()
 
-		if tkn == nil {
+		if len(tkn) == 0 {
 			http.Error(w, "no token", http.StatusUnauthorized)
 			return
 		}
@@ -30,15 +32,24 @@ func Index(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		result := struct {
-			Token string
-			CMS   map[string]interface{}
-		}{
-			CMS:   content,
-			Token: tkn.(string),
-		}
+		services, err := src.FetchServices("A6")
 
-		err = ctx.Serve(http.StatusOK, mix.Page("index", result, ctx.GetTokenInfo(), mstr, tmpl))
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "", http.StatusBadRequest)
+			return
+		}
+		log.Println("services:", services)
+		content["Services"] = services
+		sectA := content["SectionA"].(map[string]interface{})
+		sectB := content["SectionB"].(map[string]interface{})
+		info := content["Info"].(map[string]interface{})
+
+		tknInfo := ctx.GetTokenInfo()
+		pge.ChangeTitle(tknInfo.GetProfile())
+		pge.AddMenu(FullMenu(sectA["Heading"].(string), sectB["Heading"].(string), info["Heading"].(string)))
+
+		err = ctx.Serve(http.StatusOK, pge.Page(content, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
 			log.Println(err)

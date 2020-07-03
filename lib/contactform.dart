@@ -11,17 +11,14 @@ class ContactForm extends FormState {
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextAreaElement _message;
-  String _tomail;
 
-  ContactForm(String idElem, String submitBtn)
-      : super(idElem, submitBtn) {
+  ContactForm(String idElem, String submitBtn) : super(idElem, submitBtn) {
     _name = querySelector("#txtContactName");
-    _email = querySelector("#txtContactContactNo");
-    _phone = querySelector("#txtContactEmail");
+    _email = querySelector("#txtContactEmail");
+    _phone = querySelector("#txtContactContactNo");
     _message = querySelector("#txtContactBody");
 
     var submit = querySelector(submitBtn);
-    _tomail = submit.dataset['to'];
 
     submit.onClick.listen(onSend);
   }
@@ -42,10 +39,6 @@ class ContactForm extends FormState {
     return _message.value;
   }
 
-  String get to {
-    return _tomail;
-  }
-
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
@@ -54,11 +47,11 @@ class ContactForm extends FormState {
   }
 
   submitSend() async {
-    var data = new Message(message, email, name, phone, to);
+    var data = new Message(message, email, name, phone);
     var req = await sendMessage(data);
-    var content = jsonDecode(req.response);
 
     if (req.status == 200) {
+      var content = jsonDecode(req.response);
       new Toast.success(
           title: "Success!",
           message: content['Data'],
@@ -66,7 +59,7 @@ class ContactForm extends FormState {
     } else {
       new Toast.error(
           title: "Error!",
-          message: content['Error'],
+          message: req.response,
           position: ToastPos.bottomLeft);
     }
   }

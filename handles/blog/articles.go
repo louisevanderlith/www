@@ -1,66 +1,90 @@
 package blog
 
-type Articles struct {
+import (
+	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/mix"
+	"github.com/louisevanderlith/husk"
+	"github.com/louisevanderlith/www/resources"
+	"html/template"
+	"log"
+	"net/http"
+)
+
+func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Articles", mstr, tmpl)
+
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.New(w, r)
+		src := resources.APIResource(http.DefaultClient, ctx)
+
+		result, err := src.FetchArticles("A10")
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "", http.StatusUnauthorized)
+			return
+		}
+
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+
+		if err != nil {
+			log.Println(err)
+		}
+	}
 }
 
-/*
-func (c *Articles) Get(ctx context.Requester) (int, interface{}) {
-	result := []interface{}{}
-	pagesize := "A10"
+func SearchArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Index", mstr, tmpl)
 
-	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", pagesize)
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.New(w, r)
+		src := resources.APIResource(http.DefaultClient, ctx)
 
-	if err != nil {
-		log.Println(err)
-		return http.StatusBadRequest, err
+		result, err := src.FetchArticles(ctx.FindParam("pagesize"))
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "", http.StatusUnauthorized)
+			return
+		}
+
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
-
-	return http.StatusOK, result
 }
 
-func (c *Articles) Search(ctx context.Requester) (int, interface{}) {
-	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
+func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage("Index", mstr, tmpl)
 
-	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", pagesize)
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.New(w, r)
+		key, err := husk.ParseKey(ctx.FindParam("key"))
 
-	if err != nil {
-		log.Println(err)
-		return http.StatusBadRequest, err
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "", http.StatusBadRequest)
+			return
+		}
+
+		src := resources.APIResource(http.DefaultClient, ctx)
+
+		result, err := src.FetchArticle(key.String())
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "", http.StatusUnauthorized)
+			return
+		}
+
+		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+
+		if err != nil {
+			log.Println(err)
+		}
+
+		//TODO: comments
 	}
-
-	return http.StatusOK, result
 }
-
-func (c *Articles) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
-
-	if err != nil {
-		return http.StatusBadRequest, err
-	}
-
-	result := make(map[string]interface{})
-
-	var article interface{}
-	code, err := do.GET(ctx.GetMyToken(), &article, ctx.GetInstanceID(), "Blog.API", "public", key.String())
-
-	if err != nil {
-		log.Println(err)
-		return code, err
-	}
-
-	result["Article"] = article
-
-	comments := []interface{}{}
-	code, err = do.GET(ctx.GetMyToken(), &comments, ctx.GetInstanceID(), "Comment.API", "Article", key.String())
-
-	if err != nil && code != 404 {
-		log.Println(err)
-		return code, err
-	}
-
-	result["Comments"] = comments
-
-	return http.StatusOK, result
-}
-*/
