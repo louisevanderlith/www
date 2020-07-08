@@ -10,8 +10,8 @@ import (
 )
 
 //GetDefault returns the 'defaultsite'
-func Index(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Index", mstr, tmpl)
+func Index(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Index", "./views/index.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)

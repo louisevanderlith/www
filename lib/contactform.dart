@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:html';
 
 import 'package:dart_toast/dart_toast.dart';
@@ -49,12 +48,11 @@ class ContactForm extends FormState {
   submitSend() async {
     var data = new Message(message, email, name, phone);
     var req = await sendMessage(data);
-
+    print("Send Status: ${req.status}, ${req.response}");
     if (req.status == 200) {
-      var content = jsonDecode(req.response);
       new Toast.success(
           title: "Success!",
-          message: content['Data'],
+          message: req.response,
           position: ToastPos.bottomLeft);
     } else {
       new Toast.error(

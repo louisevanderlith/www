@@ -11,5 +11,5 @@ func (src *Source) FetchArticles(pagesize string) (map[string]interface{}, error
 }
 
 func (src *Source) FetchArticle(key string) (interface{}, error) {
-	return src.get("blog", "article", key)
+	return src.get("blog", "articles", key)
 }

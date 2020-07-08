@@ -1,8 +1,5 @@
 package blog
 
-type Categories struct {
-}
-
 /*
 func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
 	//Show categories...

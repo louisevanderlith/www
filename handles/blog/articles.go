@@ -10,8 +10,8 @@ import (
 	"net/http"
 )
 
-func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Articles", mstr, tmpl)
+func GetArticles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles", "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
@@ -20,21 +20,21 @@ func GetArticles(mstr *template.Template, tmpl *template.Template) http.HandlerF
 		result, err := src.FetchArticles("A10")
 
 		if err != nil {
-			log.Println(err)
-			http.Error(w, "", http.StatusUnauthorized)
+			log.Println("Fetch Articles Error", err)
+			http.Error(w, "", http.StatusInternalServerError)
 			return
 		}
 
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
-func SearchArticles(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Index", mstr, tmpl)
+func SearchArticles(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles", "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
@@ -43,21 +43,21 @@ func SearchArticles(mstr *template.Template, tmpl *template.Template) http.Handl
 		result, err := src.FetchArticles(ctx.FindParam("pagesize"))
 
 		if err != nil {
-			log.Println(err)
-			http.Error(w, "", http.StatusUnauthorized)
+			log.Println("Fetch Articles Error", err)
+			http.Error(w, "", http.StatusInternalServerError)
 			return
 		}
 
 		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
 }
 
-func ViewArticle(mstr *template.Template, tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Index", mstr, tmpl)
+func ViewArticle(tmpl *template.Template) http.HandlerFunc {
+	pge := mix.PreparePage(tmpl, "Articles View", "./views/articlesView.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.New(w, r)
