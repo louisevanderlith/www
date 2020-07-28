@@ -54,6 +54,7 @@ class ContactForm extends FormState {
           title: "Success!",
           message: req.response,
           position: ToastPos.bottomLeft);
+      super.form.reset();
     } else {
       new Toast.error(
           title: "Error!",
