@@ -36,8 +36,8 @@
                 <h1 class="title has-text-centered section-title colourA">{{.Data.SectionA.Heading}}</h1>
             </div>
             <div class="columns is-multiline">
-                <div class="column is-6 has-vertically-aligned-content" data-aos="fade-right">
-                    <h5>{{.Data.SectionA.Text | html}}</h5>
+                <div class="column is-6" data-aos="fade-right">
+                    <h5 class="subtitle">{{.Data.SectionA.Text | html}}</h5>
                 </div>
                 <div class="column is-6 right-image " data-aos="fade-left">
                     {{if .Data.SectionA.ImageUrl}}
