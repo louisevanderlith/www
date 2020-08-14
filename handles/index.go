@@ -1,7 +1,7 @@
 package handles
 
 import (
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/www/resources"
 	"html/template"
@@ -11,19 +11,17 @@ import (
 
 //GetDefault returns the 'defaultsite'
 func Index(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Index", "./views/index.html")
+	pge := mix.PreparePage("Index", tmpl, "./views/index.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-
-		tkn := ctx.GetToken()
+		tkn := drx.GetToken(r)
 
 		if len(tkn) == 0 {
 			http.Error(w, "no token", http.StatusUnauthorized)
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 		content, err := src.FetchProfileDisplay()
 
 		if err != nil {
@@ -45,11 +43,11 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 		sectB := content["SectionB"].(map[string]interface{})
 		info := content["Info"].(map[string]interface{})
 
-		tknInfo := ctx.GetTokenInfo()
+		tknInfo := drx.GetIdentity(r)
 		pge.ChangeTitle(tknInfo.GetProfile())
 		pge.AddMenu(FullMenu(sectA["Heading"].(string), sectB["Heading"].(string), info["Heading"].(string)))
 
-		err = ctx.Serve(http.StatusOK, pge.Page(content, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, content))
 
 		if err != nil {
 			log.Println(err)

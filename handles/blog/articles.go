@@ -1,7 +1,7 @@
 package blog
 
 import (
-	"github.com/louisevanderlith/droxolite/context"
+	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk"
 	"github.com/louisevanderlith/www/resources"
@@ -11,11 +11,10 @@ import (
 )
 
 func GetArticles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Articles", "./views/articles.html")
+	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
 		result, err := src.FetchArticles("A10")
 
@@ -25,7 +24,7 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -34,13 +33,12 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func SearchArticles(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Articles", "./views/articles.html")
+	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
-		result, err := src.FetchArticles(ctx.FindParam("pagesize"))
+		result, err := src.FetchArticles(drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -48,7 +46,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -57,11 +55,10 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewArticle(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage(tmpl, "Articles View", "./views/articlesView.html")
+	pge := mix.PreparePage("Articles View", tmpl, "./views/articlesView.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.New(w, r)
-		key, err := husk.ParseKey(ctx.FindParam("key"))
+		key, err := husk.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println(err)
@@ -69,7 +66,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, ctx)
+		src := resources.APIResource(http.DefaultClient, r)
 
 		result, err := src.FetchArticle(key.String())
 
@@ -79,7 +76,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		err = ctx.Serve(http.StatusOK, pge.Page(result, ctx.GetTokenInfo(), ctx.GetToken()))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
 			log.Println(err)

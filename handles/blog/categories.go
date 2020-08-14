@@ -11,10 +11,10 @@ func (req *Categories) Get(ctx context.Requester) (int, interface{}) {
 }
 
 func (req *Categories) SearchCategory(ctx context.Requester) (int, interface{}) {
-	category := ctx.FindParam("category")
+	category := drx.FindParam(r,"category")
 
 	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := drx.FindParam(r,"pagesize")
 
 	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", category, pagesize)
 
@@ -27,10 +27,10 @@ func (req *Categories) SearchCategory(ctx context.Requester) (int, interface{}) 
 }
 
 func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
-	category := ctx.FindParam("category")
+	category := drx.FindParam(r,"category")
 
 	result := []interface{}{}
-	pagesize := ctx.FindParam("pagesize")
+	pagesize := drx.FindParam(r,"pagesize")
 
 	_, err := do.GET(ctx.GetMyToken(), &result, ctx.GetInstanceID(), "Blog.API", "public", category, pagesize)
 
@@ -43,7 +43,7 @@ func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
 }
 
 func (req *Categories) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(ctx.FindParam("key"))
+	key, err := husk.ParseKey(drx.FindParam(r,"key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err
