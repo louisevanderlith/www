@@ -16,8 +16,8 @@ func FullMenu(sectionAHead, sectionBHead, infoHead string) *menu.Menu {
 	m.AddItem(menu.NewItem("b", "#sectionA", sectionAHead, nil))
 	m.AddItem(menu.NewItem("c", "#sectionB", sectionBHead, nil))
 	m.AddItem(menu.NewItem("d", "#info", infoHead, nil))
-	//m.AddItem(menu.NewItem("e", "#services", "What we Offer", nil))
-	//m.AddItem(menu.NewItem("e", "/blog", "Blog", nil))
+	m.AddItem(menu.NewItem("e", "#services", "Services we Offer", nil))
+	m.AddItem(menu.NewItem("e", "/blog", "Blog", nil))
 	m.AddItem(menu.NewItem("f", "#contact", "Contact Us", nil))
 
 	return m
