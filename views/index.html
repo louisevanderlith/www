@@ -103,11 +103,20 @@
                         {{$artUrl := .Identity.GetResourceURL "artifact"}}
                         {{range .Data.Services.Records}}
                             <div class="column is-3">
-                                <a href="{{.Url}}" target="_blank">
-                                    <figure class="image">
-                                        <img src="{{$artUrl}}/download/{{.ImageKey}}" alt="{{.ShortName}}">
-                                    </figure>
-                                </a>
+                                <div class="card">
+                                    <div class="card-image">
+                                        <a href="{{.Url}}" target="_blank">
+                                            <figure class="image is-4by3">
+                                                <img src="{{$artUrl}}/download/{{.ImageKey}}" alt="{{.ShortName}}">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a href="{{.Url}}" target="_blank">{{.ShortName}}</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         {{end}}
                     </div>
