@@ -105,15 +105,18 @@
                             <div class="column is-3">
                                 <div class="card">
                                     <div class="card-image">
-                                        <a href="{{.Url}}" target="_blank">
+                                        <a href="{{.V.Url}}" target="_blank">
                                             <figure class="image is-4by3">
-                                                <img src="{{$artUrl}}/download/{{.ImageKey}}" alt="{{.ShortName}}">
+                                                <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
                                             </figure>
                                         </a>
                                     </div>
                                     <div class="card-content">
                                         <div class="content">
-                                            <a href="{{.Url}}" target="_blank">{{.ShortName}}</a>
+                                            <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
+                                            {{range .V.Tags}}
+                                                <span class="tag">{{.}}</span>
+                                            {{end}}
                                         </div>
                                     </div>
                                 </div>

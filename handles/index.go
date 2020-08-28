@@ -31,6 +31,7 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 		}
 
 		content["Services"] = services
+
 		sectA := content["SectionA"].(map[string]interface{})
 		sectB := content["SectionB"].(map[string]interface{})
 		info := content["Info"].(map[string]interface{})
