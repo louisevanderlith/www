@@ -3,7 +3,7 @@ package blog
 import (
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
-	"github.com/louisevanderlith/husk"
+	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/www/resources"
 	"html/template"
 	"log"
@@ -58,7 +58,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles View", tmpl, "./views/articlesView.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		key, err := husk.ParseKey(drx.FindParam(r, "key"))
+		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
 		if err != nil {
 			log.Println(err)

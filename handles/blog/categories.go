@@ -43,7 +43,7 @@ func (req *Categories) Search(ctx context.Requester) (int, interface{}) {
 }
 
 func (req *Categories) View(ctx context.Requester) (int, interface{}) {
-	key, err := husk.ParseKey(drx.FindParam(r,"key"))
+	key, err := keys.ParseKey(drx.FindParam(r,"key"))
 
 	if err != nil {
 		return http.StatusBadRequest, err
