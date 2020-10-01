@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/menu"
-	"github.com/louisevanderlith/kong"
+	"github.com/louisevanderlith/kong/middle"
 	"github.com/louisevanderlith/www/handles/blog"
 	"net/http"
 )
@@ -36,12 +36,13 @@ func SetupRoutes(clnt, scrt, securityUrl, authorityUrl string) http.Handler {
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	r.HandleFunc("/", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, Index(tmpl), map[string]bool{"cms.content.view": true, "stock.services.search": true})).Methods(http.MethodGet)
+	clntIns := middle.NewClientInspector(clnt, scrt, http.DefaultClient, securityUrl, authorityUrl)
+	r.HandleFunc("/", clntIns.Middleware(Index(tmpl), map[string]bool{"cms.content.view": true, "stock.services.search": true})).Methods(http.MethodGet)
 
-	r.HandleFunc("/blog", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, blog.GetArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{key:[0-9]+\\x60[0-9]+}", kong.ClientMiddleware(http.DefaultClient, clnt, scrt, securityUrl, authorityUrl, blog.ViewArticle(tmpl), map[string]bool{"blog.articles.view": true})).Methods(http.MethodGet)
+	r.HandleFunc("/blog", clntIns.Middleware(blog.GetArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}", clntIns.Middleware(blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", clntIns.Middleware(blog.SearchArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{key:[0-9]+\\x60[0-9]+}", clntIns.Middleware(blog.ViewArticle(tmpl), map[string]bool{"blog.articles.view": true})).Methods(http.MethodGet)
 
 	return r
 }
