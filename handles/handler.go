@@ -23,7 +23,7 @@ func FullMenu(sectionAHead, sectionBHead, infoHead string) *menu.Menu {
 	return m
 }
 
-func SetupRoutes(clnt, scrt, securityUrl, authorityUrl string) http.Handler {
+func SetupRoutes(clnt, scrt, securityUrl, managerUrl, authorityUrl string) http.Handler {
 	tmpl, err := drx.LoadTemplate("./views")
 
 	if err != nil {
@@ -36,7 +36,7 @@ func SetupRoutes(clnt, scrt, securityUrl, authorityUrl string) http.Handler {
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	clntIns := middle.NewClientInspector(clnt, scrt, http.DefaultClient, securityUrl, authorityUrl)
+	clntIns := middle.NewClientInspector(clnt, scrt, http.DefaultClient, securityUrl, managerUrl, authorityUrl)
 	r.HandleFunc("/", clntIns.Middleware(Index(tmpl), map[string]bool{"cms.content.view": true, "stock.services.search": true})).Methods(http.MethodGet)
 
 	r.HandleFunc("/blog", clntIns.Middleware(blog.GetArticles(tmpl), map[string]bool{"blog.articles.search": true})).Methods(http.MethodGet)
