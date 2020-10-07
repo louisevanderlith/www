@@ -30,7 +30,6 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		log.Println("Services;", services)
 		content["Services"] = services
 
 		sectA := content["SectionA"].(map[string]interface{})
