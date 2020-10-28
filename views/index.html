@@ -20,14 +20,10 @@
                         <b>{{.Data.Content.Banner.Subtitle}}</b></h1>
                 </div>
             </div>
-        </div>
-        {{template "menu.html" .}}
-        <!-- End Hero Content-->
-    </section>
-
-    <!-- End Hero -->
-</div>
-<!-- End Header -->
+        </section>
+    </div>
+    {{template "menu.html" .}}
+    <!-- End Header -->
 
     <!-- Begin Main Content -->
     <div class="main-content colourPrimary">
@@ -70,23 +66,11 @@
                         </h2>
                     </div>
                 </div>
-                <div class="column is-10 has-text-centered is-offset-1">
-                    <h2 class="subtitle colourSecondary">
-                        {{.Data.SectionB.Text | html}}
-                    </h2>
-                </div>
             </div>
         </div>
-    </div>
-    <!-- Begin Info Content -->
-    <div class="section-color services" id="info">
-        <div class="container">
-            <div class="columns is-multiline">
-                <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
-                    <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Info.Heading}}</h1>
-                    <h2 class="subtitle colourSecondary">{{.Data.Info.Text}}</h2>
-                    <br />
-                </div>
+        <!-- Begin Info Content -->
+        <div class="section-color services" id="info">
+            <div class="container">
                 <div class="columns is-multiline">
                     <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
                         <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Content.Info.Heading}}</h1>
@@ -105,26 +89,14 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Info Content -->
-    <!-- Begin Services Content -->
-    {{if .Data.Services.Records}}
-    <div class="section-dark my-work" id="services">
-        <div class="container">
-            <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
-                <div class="column is-12">
-                    <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
-                </div>
-                {{$artUrl := .Identity.GetResourceURL "artifact"}}
-                {{range .Data.Services.Records}}
-                <div class="column is-3">
-                    <div class="card">
-                        <div class="card-image">
-                            <a href="{{.V.Url}}" target="_blank">
-                                <figure class="image is-4by3">
-                                    <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
-                                </figure>
-                            </a>
+        <!-- End Info Content -->
+        <!-- Begin Services Content -->
+        {{if .Data.Services.Records}}
+            <div class="section-dark my-work" id="services">
+                <div class="container">
+                    <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+                        <div class="column is-12">
+                            <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
                         </div>
                         {{$artUrl := index .Endpoints "artifact"}}
                         {{range .Data.Services.Records}}
@@ -137,27 +109,37 @@
                                             </figure>
                                         </a>
                                     </div>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
-                                            {{range .V.Tags}}
-                                                <span class="tag">{{.}}</span>
-                                            {{end}}
+                                    {{$artUrl := index .Endpoints "artifact"}}
+                                    {{range .Data.Services.Records}}
+                                        <div class="column is-3">
+                                            <div class="card">
+                                                <div class="card-image">
+                                                    <a href="{{.V.Url}}" target="_blank">
+                                                        <figure class="image is-4by3">
+                                                            <img src="{{$artUrl}}/download/{{.V.ImageKey}}"
+                                                                 alt="{{.V.ShortName}}">
+                                                        </figure>
+                                                    </a>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="content">
+                                                        <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
+                                                        {{range .V.Tags}}
+                                                            <span class="tag">{{.}}</span>
+                                                        {{end}}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {{end}}
                                 </div>
                             </div>
-                        </div>
+                        {{end}}
+                        <!-- End Services Content -->
                     </div>
                 </div>
-                {{end}}
             </div>
-        </div>
-    </div>
-    {{end}}
-    <!-- End Services Content -->
-
-        <!-- Begin Contact Content -->
+        {{end}}
         <div class="section-light contact" id="contact">
             <div class="container">
                 <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
@@ -166,20 +148,17 @@
             </div>
         </div>
     </div>
-    <!-- End Contact Content -->
-</div>
-<!-- End Main Content -->
 {{end}}
 
 {{define "scripts"}}
-<!-- Scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
-<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
-<script>
-    AOS.init({
-        easing: "ease-out",
-        duration: 800,
-    });
-</script>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            easing: "ease-out",
+            duration: 800,
+        });
+    </script>
 {{end}}

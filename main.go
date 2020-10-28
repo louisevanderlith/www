@@ -9,7 +9,7 @@ import (
 
 func main() {
 	host := flag.String("host", "http://127.0.0.1:8091", "This application's URL")
-	clientId := flag.String("client", "mango.www", "Client ID which will be used to verify this instance")
+	clientId := flag.String("client", "www", "Client ID which will be used to verify this instance")
 	clientSecret := flag.String("secret", "secret", "Client Secret which will be used to authenticate this instance")
 	issuer := flag.String("issuer", "http://127.0.0.1:8080/auth/realms/mango", "OIDC Provider's URL")
 	theme := flag.String("theme", "http://127.0.0.1:8093", "Theme URL")
