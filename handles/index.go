@@ -2,7 +2,10 @@ package handles
 
 import (
 	"github.com/louisevanderlith/droxolite/mix"
-	"github.com/louisevanderlith/www/resources"
+	folio "github.com/louisevanderlith/folio/api"
+	"github.com/louisevanderlith/folio/core"
+	"github.com/louisevanderlith/husk/records"
+	stock "github.com/louisevanderlith/stock/api"
 	"html/template"
 	"log"
 	"net/http"
@@ -11,10 +14,16 @@ import (
 //GetDefault returns the 'defaultsite'
 func Index(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Index", tmpl, "./views/index.html")
-
+	pge.AddModifier(EndpointMod)
+	pge.AddModifier(IdentityMod)
 	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
-		content, err := src.FetchProfileDisplay()
+		clnt := CredConfig.Client(r.Context())
+
+		result := struct {
+			Content  core.Content
+			Services records.Page
+		}{}
+		content, err := folio.FetchDisplay(clnt, Endpoints["folio"])
 
 		if err != nil {
 			log.Println("Fetch Profile Error", err)
@@ -22,7 +31,9 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		services, err := src.FetchServices("A6")
+		result.Content = content
+
+		services, err := stock.FetchAllServices(clnt, Endpoints["stock"], "A6")
 
 		if err != nil {
 			log.Println("Fetch Services Error", err)
@@ -30,18 +41,29 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		content["Services"] = services
+		result.Services = services
 
-		sectA := content["SectionA"].(map[string]interface{})
-		sectB := content["SectionB"].(map[string]interface{})
-		info := content["Info"].(map[string]interface{})
+		sectA := content.SectionA
+		sectB := content.SectionB
+		info := content.Info
 
-		pge.AddMenu(FullMenu(sectA["Heading"].(string), sectB["Heading"].(string), info["Heading"].(string)))
+		pge.AddMenu(FullMenu(sectA.Heading, sectB.Heading, info.Heading))
 
-		err = mix.Write(w, pge.Create(r, content))
+		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 	}
+}
+
+func EndpointMod(f mix.MixerFactory, r *http.Request) {
+	f.SetValue("Endpoints", Endpoints)
+}
+
+func IdentityMod(f mix.MixerFactory, r *http.Request) {
+	tkn := r.Context().Value("Token")
+
+	f.SetValue("ClientID", CredConfig.ClientID)
+	f.SetValue("Token", tkn)
 }

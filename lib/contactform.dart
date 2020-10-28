@@ -10,12 +10,14 @@ class ContactForm extends FormState {
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextAreaElement _message;
+  HiddenInputElement _to;
 
   ContactForm(String idElem, String submitBtn) : super(idElem, submitBtn) {
     _name = querySelector("#txtContactName");
     _email = querySelector("#txtContactEmail");
     _phone = querySelector("#txtContactContactNo");
     _message = querySelector("#txtContactBody");
+    _to = querySelector("#hdnTo");
 
     var submit = querySelector(submitBtn);
 
@@ -38,6 +40,10 @@ class ContactForm extends FormState {
     return _message.value;
   }
 
+  String get to {
+    return _to.value;
+  }
+
   void onSend(Event e) {
     if (isFormValid()) {
       disableSubmit(true);
@@ -46,7 +52,7 @@ class ContactForm extends FormState {
   }
 
   submitSend() async {
-    var data = new Message(message, email, name, phone);
+    var data = new Message(message, email, name, phone, to);
     var req = await sendMessage(data);
     print("Send Status: ${req.status}, ${req.response}");
     if (req.status == 200) {

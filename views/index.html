@@ -1,23 +1,24 @@
 {{template "master.html" .}}
 {{define "layoutcontent"}}
-<!-- Begin Scroll Up Button -->
-<form action="#home">
-    <button id="toTop" title="Go to top">
-        <i class="fas fa-angle-up"></i>
-    </button>
-</form>
-<!-- End Scroll Up Button -->
-<!-- Begin Header -->
-<div class="header-wrapper" id="home">
-    <!-- Begin Hero -->
-    <section class="hero is-medium colourPrimary is-bold">
-        {{template "mobilenav.html" .}}
-        <!-- Begin Hero Content-->
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <h2 class="title has-text-white is-1">{{.Data.Banner.Heading}}</h2>
-                <h1 class="subtitle colourSecondary profession has-text-white is-3"><b>{{.Data.Banner.Subtitle}}</b>
-                </h1>
+    <!-- Begin Scroll Up Button -->
+    <form action="#home">
+        <button id="toTop" title="Go to top">
+            <i class="fas fa-angle-up"></i>
+        </button>
+    </form>
+    <!-- End Scroll Up Button -->
+    <!-- Begin Header -->
+    <div class="header-wrapper" id="home">
+        <!-- Begin Hero -->
+        <section class="hero is-medium herocolour">
+            {{template "mobilenav.html" .}}
+            <!-- Begin Hero Content-->
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <h2 class="title has-text-white is-1">{{.Data.Content.Banner.Heading}}</h2>
+                    <h1 class="subtitle colourSecondary profession has-text-white is-3">
+                        <b>{{.Data.Content.Banner.Subtitle}}</b></h1>
+                </div>
             </div>
         </div>
         {{template "menu.html" .}}
@@ -28,39 +29,46 @@
 </div>
 <!-- End Header -->
 
-<!-- Begin Main Content -->
-<div class="main-content colourPrimary">
-    <!-- Begin SectionA Section -->
-    <div class="section-light about-us" id="sectionA">
-        <div class="container">
-            <div class="column is-12 about-us">
-                <h1 class="title has-text-centered section-title colourTertiary colourPrimary">
-                    {{.Data.SectionA.Heading}}</h1>
-            </div>
-            <div class="columns is-multiline">
-                <div class="column is-6" data-aos="fade-right">
-                    <h5 class="subtitle colourSecondary">{{.Data.SectionA.Text | html}}</h5>
+    <!-- Begin Main Content -->
+    <div class="main-content colourPrimary">
+        <!-- Begin SectionA Section -->
+        <div class="section-light about-us" id="sectionA">
+            <div class="container">
+                <div class="column is-12 about-us">
+                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">{{.Data.Content.SectionA.Heading}}</h1>
                 </div>
-                <div class="column is-6 right-image " data-aos="fade-left">
-                    {{if .Data.SectionA.ImageUrl}}
-                    <img class="is-rounded" src="{{.Data.SectionA.ImageUrl}}" alt="" />
-                    {{else}}
-                    <img class="is-rounded"
-                        src="{{.Identity.GetResourceURL "artifact"}}/download/{{.Data.SectionA.ImageKey}}" alt="" />
-                    {{end}}
+                <div class="columns is-multiline">
+                    <div class="column is-6" data-aos="fade-right">
+                        <h5 class="subtitle colourSecondary">{{.Data.Content.SectionA.Text | html}}</h5>
+                    </div>
+                    <div class="column is-6 right-image " data-aos="fade-left">
+                        {{if .Data.Content.SectionA.ImageUrl}}
+                            <img class="is-rounded"
+                                 src="{{.Data.Content.SectionA.ImageUrl}}" alt=""/>
+                        {{else}}
+                            <img class="is-rounded"
+                                 src="{{ .Identity.GetResourceURL "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
+                                 alt=""/>
+                        {{end}}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End SectionA Content -->
-    <!-- Begin SectionB Section -->
-    <div class="section-dark resume" id="sectionB">
-        <div class="container">
-            <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
-                <div class="column is-12 about-me">
-                    <h1 class="title has-text-centered section-title colourTertiary">
-                        {{.Data.SectionB.Heading}}
-                    </h1>
+        <!-- End SectionA Content -->
+        <!-- Begin SectionB Section -->
+        <div class="section-dark resume" id="sectionB">
+            <div class="container">
+                <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+                    <div class="column is-12 about-me">
+                        <h1 class="title has-text-centered section-title colourTertiary">
+                            {{.Data.Content.SectionB.Heading}}
+                        </h1>
+                    </div>
+                    <div class="column is-10 has-text-centered is-offset-1">
+                        <h2 class="subtitle colourSecondary">
+                            {{.Data.Content.SectionB.Text | html}}
+                        </h2>
+                    </div>
                 </div>
                 <div class="column is-10 has-text-centered is-offset-1">
                     <h2 class="subtitle colourSecondary">
@@ -80,13 +88,20 @@
                     <br />
                 </div>
                 <div class="columns is-multiline">
-                    {{range .Data.Info.Blocks}}
-                    <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                        <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
-                        <hr />
-                        <h2>{{.Text}}</h2>
+                    <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
+                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Content.Info.Heading}}</h1>
+                        <h2 class="subtitle colourSecondary">{{.Data.Content.Info.Text}}</h2>
+                        <br/>
                     </div>
-                    {{end}}
+                    <div class="columns is-multiline">
+                        {{range .Data.Content.Info.Blocks}}
+                            <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
+                                <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
+                                <hr/>
+                                <h2>{{.Text}}</h2>
+                            </div>
+                        {{end}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -111,12 +126,26 @@
                                 </figure>
                             </a>
                         </div>
-                        <div class="card-content">
-                            <div class="content">
-                                <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
-                                {{range .V.Tags}}
-                                <span class="tag">{{.}}</span>
-                                {{end}}
+                        {{$artUrl := index .Endpoints "artifact"}}
+                        {{range .Data.Services.Records}}
+                            <div class="column is-3">
+                                <div class="card">
+                                    <div class="card-image">
+                                        <a href="{{.V.Url}}" target="_blank">
+                                            <figure class="image is-4by3">
+                                                <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
+                                            </figure>
+                                        </a>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
+                                            {{range .V.Tags}}
+                                                <span class="tag">{{.}}</span>
+                                            {{end}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,11 +157,12 @@
     {{end}}
     <!-- End Services Content -->
 
-    <!-- Begin Contact Content -->
-    <div class="section-light contact" id="contact">
-        <div class="container">
-            <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
-                {{template "contactus.html" .}}
+        <!-- Begin Contact Content -->
+        <div class="section-light contact" id="contact">
+            <div class="container">
+                <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
+                    {{template "contactus.html" .Data.Content}}
+                </div>
             </div>
         </div>
     </div>
