@@ -1,10 +1,10 @@
-package blog
+package handles
 
 import (
+	"github.com/louisevanderlith/blog/api"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
-	"github.com/louisevanderlith/www/resources"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,9 +14,7 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
-
-		result, err := src.FetchArticles("A10")
+		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -36,9 +34,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		src := resources.APIResource(http.DefaultClient, r)
-
-		result, err := src.FetchArticles(drx.FindParam(r, "pagesize"))
+		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], drx.FindParam(r, "pagesize"))
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -66,9 +62,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		src := resources.APIResource(http.DefaultClient, r)
-
-		result, err := src.FetchArticle(key.String())
+		result, err := api.FetchArticle(CredConfig.Client(r.Context()), Endpoints["blog"], key)
 
 		if err != nil {
 			log.Println(err)

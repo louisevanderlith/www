@@ -15,8 +15,9 @@
             <!-- Begin Hero Content-->
             <div class="hero-body">
                 <div class="container has-text-centered">
-                    <h2 class="title has-text-white is-1">{{.Data.Banner.Heading}}</h2>
-                    <h1 class="subtitle colourSecondary profession has-text-white is-3"><b>{{.Data.Banner.Subtitle}}</b></h1>
+                    <h2 class="title has-text-white is-1">{{.Data.Content.Banner.Heading}}</h2>
+                    <h1 class="subtitle colourSecondary profession has-text-white is-3">
+                        <b>{{.Data.Content.Banner.Subtitle}}</b></h1>
                 </div>
             </div>
             {{template "menu.html" .}}
@@ -33,19 +34,19 @@
         <div class="section-light about-us" id="sectionA">
             <div class="container">
                 <div class="column is-12 about-us">
-                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">{{.Data.SectionA.Heading}}</h1>
+                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">{{.Data.Content.SectionA.Heading}}</h1>
                 </div>
                 <div class="columns is-multiline">
                     <div class="column is-6" data-aos="fade-right">
-                        <h5 class="subtitle colourSecondary">{{.Data.SectionA.Text | html}}</h5>
+                        <h5 class="subtitle colourSecondary">{{.Data.Content.SectionA.Text | html}}</h5>
                     </div>
                     <div class="column is-6 right-image " data-aos="fade-left">
-                        {{if .Data.SectionA.ImageUrl}}
+                        {{if .Data.Content.SectionA.ImageUrl}}
                             <img class="is-rounded"
-                                 src="{{.Data.SectionA.ImageUrl}}" alt=""/>
+                                 src="{{.Data.Content.SectionA.ImageUrl}}" alt=""/>
                         {{else}}
                             <img class="is-rounded"
-                                 src="{{.Identity.GetResourceURL "artifact"}}/download/{{.Data.SectionA.ImageKey}}"
+                                 src="{{ .Identity.GetResourceURL "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
                                  alt=""/>
                         {{end}}
                     </div>
@@ -59,12 +60,12 @@
                 <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                     <div class="column is-12 about-me">
                         <h1 class="title has-text-centered section-title colourTertiary">
-                            {{.Data.SectionB.Heading}}
+                            {{.Data.Content.SectionB.Heading}}
                         </h1>
                     </div>
                     <div class="column is-10 has-text-centered is-offset-1">
                         <h2 class="subtitle colourSecondary">
-                            {{.Data.SectionB.Text | html}}
+                            {{.Data.Content.SectionB.Text | html}}
                         </h2>
                     </div>
                 </div>
@@ -75,12 +76,12 @@
             <div class="container">
                 <div class="columns is-multiline">
                     <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
-                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Info.Heading}}</h1>
-                        <h2 class="subtitle colourSecondary">{{.Data.Info.Text}}</h2>
+                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Content.Info.Heading}}</h1>
+                        <h2 class="subtitle colourSecondary">{{.Data.Content.Info.Text}}</h2>
                         <br/>
                     </div>
                     <div class="columns is-multiline">
-                        {{range .Data.Info.Blocks}}
+                        {{range .Data.Content.Info.Blocks}}
                             <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
                                 <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
                                 <hr/>
@@ -100,7 +101,7 @@
                         <div class="column is-12">
                             <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
                         </div>
-                        {{$artUrl := .Identity.GetResourceURL "artifact"}}
+                        {{$artUrl := index .Endpoints "artifact"}}
                         {{range .Data.Services.Records}}
                             <div class="column is-3">
                                 <div class="card">
@@ -132,7 +133,7 @@
         <div class="section-light contact" id="contact">
             <div class="container">
                 <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
-                    {{template "contactus.html" .}}
+                    {{template "contactus.html" .Data.Content}}
                 </div>
             </div>
         </div>
