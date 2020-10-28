@@ -1,155 +1,155 @@
 {{template "master.html" .}}
 {{define "layoutcontent"}}
-    <!-- Begin Scroll Up Button -->
-    <form action="#home">
-        <button id="toTop" title="Go to top">
-            <i class="fas fa-angle-up"></i>
-        </button>
-    </form>
-    <!-- End Scroll Up Button -->
-    <!-- Begin Header -->
-    <div class="header-wrapper" id="home">
-        <!-- Begin Hero -->
-        <section class="hero is-medium herocolour">
-            {{template "mobilenav.html" .}}
-            <!-- Begin Hero Content-->
-            <div class="hero-body">
-                <div class="container has-text-centered">
-                    <h2 class="title has-text-white is-1">{{.Data.Banner.Heading}}</h2>
-                    <h1 class="subtitle colourSecondary profession has-text-white is-3"><b>{{.Data.Banner.Subtitle}}</b></h1>
+<!-- Begin Scroll Up Button -->
+<form action="#home">
+    <button id="toTop" title="Go to top">
+        <i class="fas fa-angle-up"></i>
+    </button>
+</form>
+<!-- End Scroll Up Button -->
+<!-- Begin Header -->
+<div class="header-wrapper" id="home">
+    <!-- Begin Hero -->
+    <section class="hero is-medium colourPrimary is-bold">
+        {{template "mobilenav.html" .}}
+        <!-- Begin Hero Content-->
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h2 class="title has-text-white is-1">{{.Data.Banner.Heading}}</h2>
+                <h1 class="subtitle colourSecondary profession has-text-white is-3"><b>{{.Data.Banner.Subtitle}}</b>
+                </h1>
+            </div>
+        </div>
+        {{template "menu.html" .}}
+        <!-- End Hero Content-->
+    </section>
+
+    <!-- End Hero -->
+</div>
+<!-- End Header -->
+
+<!-- Begin Main Content -->
+<div class="main-content colourPrimary">
+    <!-- Begin SectionA Section -->
+    <div class="section-light about-us" id="sectionA">
+        <div class="container">
+            <div class="column is-12 about-us">
+                <h1 class="title has-text-centered section-title colourTertiary colourPrimary">
+                    {{.Data.SectionA.Heading}}</h1>
+            </div>
+            <div class="columns is-multiline">
+                <div class="column is-6" data-aos="fade-right">
+                    <h5 class="subtitle colourSecondary">{{.Data.SectionA.Text | html}}</h5>
+                </div>
+                <div class="column is-6 right-image " data-aos="fade-left">
+                    {{if .Data.SectionA.ImageUrl}}
+                    <img class="is-rounded" src="{{.Data.SectionA.ImageUrl}}" alt="" />
+                    {{else}}
+                    <img class="is-rounded"
+                        src="{{.Identity.GetResourceURL "artifact"}}/download/{{.Data.SectionA.ImageKey}}" alt="" />
+                    {{end}}
                 </div>
             </div>
-            {{template "menu.html" .}}
-            <!-- End Hero Content-->
-        </section>
-
-        <!-- End Hero -->
+        </div>
     </div>
-    <!-- End Header -->
-
-    <!-- Begin Main Content -->
-    <div class="main-content colourPrimary">
-        <!-- Begin SectionA Section -->
-        <div class="section-light about-us" id="sectionA">
-            <div class="container">
-                <div class="column is-12 about-us">
-                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">{{.Data.SectionA.Heading}}</h1>
+    <!-- End SectionA Content -->
+    <!-- Begin SectionB Section -->
+    <div class="section-dark resume" id="sectionB">
+        <div class="container">
+            <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+                <div class="column is-12 about-me">
+                    <h1 class="title has-text-centered section-title colourTertiary">
+                        {{.Data.SectionB.Heading}}
+                    </h1>
+                </div>
+                <div class="column is-10 has-text-centered is-offset-1">
+                    <h2 class="subtitle colourSecondary">
+                        {{.Data.SectionB.Text | html}}
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Begin Info Content -->
+    <div class="section-color services" id="info">
+        <div class="container">
+            <div class="columns is-multiline">
+                <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
+                    <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Info.Heading}}</h1>
+                    <h2 class="subtitle colourSecondary">{{.Data.Info.Text}}</h2>
+                    <br />
                 </div>
                 <div class="columns is-multiline">
-                    <div class="column is-6" data-aos="fade-right">
-                        <h5 class="subtitle colourSecondary">{{.Data.SectionA.Text | html}}</h5>
+                    {{range .Data.Info.Blocks}}
+                    <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
+                        <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
+                        <hr />
+                        <h2>{{.Text}}</h2>
                     </div>
-                    <div class="column is-6 right-image " data-aos="fade-left">
-                        {{if .Data.SectionA.ImageUrl}}
-                            <img class="is-rounded"
-                                 src="{{.Data.SectionA.ImageUrl}}" alt=""/>
-                        {{else}}
-                            <img class="is-rounded"
-                                 src="{{.Identity.GetResourceURL "artifact"}}/download/{{.Data.SectionA.ImageKey}}"
-                                 alt=""/>
-                        {{end}}
-                    </div>
+                    {{end}}
                 </div>
             </div>
         </div>
-        <!-- End SectionA Content -->
-        <!-- Begin SectionB Section -->
-        <div class="section-dark resume" id="sectionB">
-            <div class="container">
-                <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
-                    <div class="column is-12 about-me">
-                        <h1 class="title has-text-centered section-title colourTertiary">
-                            {{.Data.SectionB.Heading}}
-                        </h1>
-                    </div>
-                    <div class="column is-10 has-text-centered is-offset-1">
-                        <h2 class="subtitle colourSecondary">
-                            {{.Data.SectionB.Text | html}}
-                        </h2>
-                    </div>
+    </div>
+    <!-- End Info Content -->
+    <!-- Begin Services Content -->
+    {{if .Data.Services.Records}}
+    <div class="section-dark my-work" id="services">
+        <div class="container">
+            <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+                <div class="column is-12">
+                    <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
                 </div>
-            </div>
-        </div>
-        <!-- Begin Info Content -->
-        <div class="section-color services" id="info">
-            <div class="container">
-                <div class="columns is-multiline">
-                    <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
-                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Info.Heading}}</h1>
-                        <h2 class="subtitle colourSecondary">{{.Data.Info.Text}}</h2>
-                        <br/>
-                    </div>
-                    <div class="columns is-multiline">
-                        {{range .Data.Info.Blocks}}
-                            <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                                <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
-                                <hr/>
-                                <h2>{{.Text}}</h2>
-                            </div>
-                        {{end}}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Info Content -->
-        <!-- Begin Services Content -->
-        {{if .Data.Services.Records}}
-            <div class="section-dark my-work" id="services">
-                <div class="container">
-                    <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
-                        <div class="column is-12">
-                            <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
+                {{$artUrl := .Identity.GetResourceURL "artifact"}}
+                {{range .Data.Services.Records}}
+                <div class="column is-3">
+                    <div class="card">
+                        <div class="card-image">
+                            <a href="{{.V.Url}}" target="_blank">
+                                <figure class="image is-4by3">
+                                    <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
+                                </figure>
+                            </a>
                         </div>
-                        {{$artUrl := .Identity.GetResourceURL "artifact"}}
-                        {{range .Data.Services.Records}}
-                            <div class="column is-3">
-                                <div class="card">
-                                    <div class="card-image">
-                                        <a href="{{.V.Url}}" target="_blank">
-                                            <figure class="image is-4by3">
-                                                <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
-                                            </figure>
-                                        </a>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="content">
-                                            <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
-                                            {{range .V.Tags}}
-                                                <span class="tag">{{.}}</span>
-                                            {{end}}
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="card-content">
+                            <div class="content">
+                                <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
+                                {{range .V.Tags}}
+                                <span class="tag">{{.}}</span>
+                                {{end}}
                             </div>
-                        {{end}}
+                        </div>
                     </div>
                 </div>
-            </div>
-        {{end}}
-        <!-- End Services Content -->
-
-        <!-- Begin Contact Content -->
-        <div class="section-light contact" id="contact">
-            <div class="container">
-                <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
-                    {{template "contactus.html" .}}
-                </div>
+                {{end}}
             </div>
         </div>
-        <!-- End Contact Content -->
     </div>
-    <!-- End Main Content -->
+    {{end}}
+    <!-- End Services Content -->
+
+    <!-- Begin Contact Content -->
+    <div class="section-light contact" id="contact">
+        <div class="container">
+            <div class="columns is-12" data-aos="fade-in-up" data-aos-easing="linear">
+                {{template "contactus.html" .}}
+            </div>
+        </div>
+    </div>
+    <!-- End Contact Content -->
+</div>
+<!-- End Main Content -->
 {{end}}
 
 {{define "scripts"}}
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            easing: "ease-out",
-            duration: 800,
-        });
-    </script>
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        easing: "ease-out",
+        duration: 800,
+    });
+</script>
 {{end}}
