@@ -127,14 +127,12 @@ github.com/louisevanderlith/blog v1.0.1 h1:AqVjD006AiVkGx+gaB6es0e9gJrjIwRybKJ7t
 github.com/louisevanderlith/blog v1.0.1/go.mod h1:UTECbYdLPMJli15Vuy9BzQvFwzeqWqSk0uPXb2bqFVo=
 github.com/louisevanderlith/droxolite v1.16.1 h1:VY1Dm1QNmbsX9ZaqpeOB6ZcQpieDx8sIB302/Va81kQ=
 github.com/louisevanderlith/droxolite v1.16.1/go.mod h1:2ylmRYlHsT9J3/YFcP3zHq703l8x4Nv68dquian/Whg=
-github.com/louisevanderlith/droxolite v1.16.2 h1:/brx2mno7ZdJu4k8FH4Cx68onNTTmKVYO99tQp04QTk=
-github.com/louisevanderlith/droxolite v1.16.2/go.mod h1:MMSJBpV2/1W4IXkR4kX9MPVD7cnzHelwnRILM7Vmjb8=
 github.com/louisevanderlith/droxolite v1.16.5 h1:yjlAZLVfr32AhnRdxOL26dOrv79baUIDoZxjkmfJd08=
 github.com/louisevanderlith/droxolite v1.16.5/go.mod h1:MMSJBpV2/1W4IXkR4kX9MPVD7cnzHelwnRILM7Vmjb8=
 github.com/louisevanderlith/droxolite v1.16.6 h1:EldFgXcnT+CdsEknbP3ZBMAtAcYYQoc0sH01vMRbQ3c=
 github.com/louisevanderlith/droxolite v1.16.6/go.mod h1:MMSJBpV2/1W4IXkR4kX9MPVD7cnzHelwnRILM7Vmjb8=
-github.com/louisevanderlith/folio v1.0.5 h1:HdPpl3ZJxZw+Nsi3muXT/5hKt4+NFr22X66brA3Itx8=
-github.com/louisevanderlith/folio v1.0.5/go.mod h1:r38ocs9/hHvww1cEaapq1bilzPYyyoJq2zmhVqvrO/0=
+github.com/louisevanderlith/folio v1.0.8 h1:BXPkWEve6neSI9mDhUttr8OAEK/hipOdJ+AmCphCo2U=
+github.com/louisevanderlith/folio v1.0.8/go.mod h1:eFXPYTaXnlkz7hXDey1Onq9EtI3e6dQLaQEpGgynR2U=
 github.com/louisevanderlith/husk v1.7.4 h1:DlY2WmdK2LSb9OVgc5LTfFGedbeVralfiDoWBUr7HHc=
 github.com/louisevanderlith/husk v1.7.4/go.mod h1:iEFeOL3LmBuXlHl3lhiq8yDfob2CNbv+p23ZjP5DORU=
 github.com/louisevanderlith/husk v1.7.5 h1:03oBzu2Bv8ZqU2/vcAn+0IPaRxxF7pOWxn407utgXGs=

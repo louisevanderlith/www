@@ -5,7 +5,7 @@ require (
 	github.com/gorilla/mux v1.7.4
 	github.com/louisevanderlith/blog v1.0.1
 	github.com/louisevanderlith/droxolite v1.16.6
-	github.com/louisevanderlith/folio v1.0.5
+	github.com/louisevanderlith/folio v1.0.8
 	github.com/louisevanderlith/husk v1.7.5
 	github.com/louisevanderlith/stock v1.0.0
 	github.com/louisevanderlith/theme v1.0.2

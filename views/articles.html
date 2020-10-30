@@ -4,7 +4,7 @@
         <div class="row columns is-multiline">
             {{$artUrl := index .Endpoints "artifact"}}
             {{if .Data.Records}}
-                {{range $key, $val := .Data.Records}}
+                {{range $key, $val := .Data.GetRecords.ToSlice}}
                     <div class="column is-one-quarter">
                         <div class="card">
                             <div class="card-image">
