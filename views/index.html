@@ -31,21 +31,28 @@
         <div class="section-light about-us" id="sectionA">
             <div class="container">
                 <div class="column is-12 about-us">
-                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">{{.Data.Content.SectionA.Heading}}</h1>
+                    <h1 class="title has-text-centered section-title colourTertiary colourPrimary">
+                        {{.Data.Content.SectionA.Heading}}</h1>
                 </div>
                 <div class="columns is-multiline">
+
                     <div class="column is-6" data-aos="fade-right">
                         <h5 class="subtitle colourSecondary">{{.Data.Content.SectionA.Text | html}}</h5>
                     </div>
-                    <div class="column is-6 right-image " data-aos="fade-left">
-                        {{if .Data.Content.SectionA.ImageUrl}}
-                            <img class="is-rounded"
-                                 src="{{.Data.Content.SectionA.ImageUrl}}" alt=""/>
-                        {{else}}
-                            <img class="is-rounded"
-                                 src="{{ index .Endpoints "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
-                                 alt=""/>
-                        {{end}}
+                    <div class="columns is-multiline">
+                        <div class="column is-6" data-aos="fade-right">
+                            <h5 class="subtitle colourSecondary">{{.Data.Content.SectionA.Text | html}}</h5>
+                        </div>
+                        <div class="column is-6 right-image " data-aos="fade-left">
+                            {{if .Data.Content.SectionA.ImageUrl}}
+                                <img class="is-rounded"
+                                     src="{{.Data.Content.SectionA.ImageUrl}}" alt=""/>
+                            {{else}}
+                                <img class="is-rounded"
+                                     src="{{ index .Endpoints "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
+                                     alt=""/>
+                            {{end}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -73,7 +80,8 @@
             <div class="container">
                 <div class="columns is-multiline">
                     <div class="column is-12 about-me" data-aos="fade-in" data-aos-easing="linear">
-                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Content.Info.Heading}}</h1>
+                        <h1 class="title has-text-centered section-title colourTertiary">{{.Data.Content.Info.Heading}}
+                        </h1>
                         <h2 class="subtitle colourSecondary">{{.Data.Content.Info.Text}}</h2>
                         <br/>
                     </div>
