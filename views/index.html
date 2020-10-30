@@ -9,8 +9,9 @@
     <!-- End Scroll Up Button -->
     <!-- Begin Header -->
     <div class="header-wrapper" id="home">
+
         <!-- Begin Hero -->
-        <section class="hero is-medium herocolour">
+        <section class="hero is-medium">
             {{template "mobilenav.html" .}}
             <!-- Begin Hero Content-->
             <div class="hero-body">
@@ -18,6 +19,12 @@
                     <h2 class="title has-text-white is-1">{{.Data.Content.Banner.Heading}}</h2>
                     <h1 class="subtitle colourSecondary profession has-text-white is-3">
                         <b>{{.Data.Content.Banner.Subtitle}}</b></h1>
+                    <div id="card0" class="is-paddingless is-marginless">
+                        <div class="image is-3by1">
+                            <img src="{{index .Endpoints "artifact"}}/download/{{.Data.Content.Banner.Background}}"
+                                 alt="header image">
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
