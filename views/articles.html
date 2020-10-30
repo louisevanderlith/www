@@ -2,7 +2,7 @@
 {{define "layoutcontent"}}
     <div class="box">
         <div class="row columns is-multiline">
-            {{$artUrl := .Identity.GetResourceURL "artifact"}}
+            {{$artUrl := index .Endpoints "artifact"}}
             {{if .Data.Records}}
                 {{range $key, $val := .Data.Records}}
                     <div class="column is-one-quarter">

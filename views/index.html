@@ -43,7 +43,7 @@
                                  src="{{.Data.Content.SectionA.ImageUrl}}" alt=""/>
                         {{else}}
                             <img class="is-rounded"
-                                 src="{{ .Identity.GetResourceURL "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
+                                 src="{{ index .Endpoints "artifact"}}/download/{{.Data.Content.SectionA.ImageKey}}"
                                  alt=""/>
                         {{end}}
                     </div>

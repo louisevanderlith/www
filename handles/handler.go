@@ -16,9 +16,6 @@ import (
 var (
 	CredConfig *clientcredentials.Config
 	Endpoints  map[string]string
-	//FolioURL   string
-	//BlogURL    string
-	//StockURL   string
 )
 
 func FullMenu(sectionAHead, sectionBHead, infoHead string) *menu.Menu {
@@ -82,25 +79,13 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
 	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
 
-	r.HandleFunc("/", GhostMiddleware(Index(tmpl))).Methods(http.MethodGet)
+gmw := open.NewGhostware(CredConfig)
+	r.HandleFunc("/", gmw.GhostMiddleware(Index(tmpl))).Methods(http.MethodGet)
 
-	r.HandleFunc("/blog", GhostMiddleware(GetArticles(tmpl))).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}", GhostMiddleware(SearchArticles(tmpl))).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", GhostMiddleware(SearchArticles(tmpl))).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{key:[0-9]+\\x60[0-9]+}", GhostMiddleware(ViewArticle(tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/blog", gmw.GhostMiddleware(GetArticles(tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}", gmw.GhostMiddleware(SearchArticles(tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", gmw.GhostMiddleware(SearchArticles(tmpl))).Methods(http.MethodGet)
+	r.HandleFunc("/blog/{key:[0-9]+\\x60[0-9]+}", gmw.GhostMiddleware(ViewArticle(tmpl))).Methods(http.MethodGet)
 
 	return r
-}
-
-func GhostMiddleware(next http.HandlerFunc) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		tkn, err := CredConfig.Token(r.Context())
-
-		if err != nil {
-			panic(err)
-		}
-
-		acc := context.WithValue(r.Context(), "Token", tkn.AccessToken)
-		next.ServeHTTP(w, r.WithContext(acc))
-	}
 }

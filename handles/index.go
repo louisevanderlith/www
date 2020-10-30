@@ -14,8 +14,8 @@ import (
 //GetDefault returns the 'defaultsite'
 func Index(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Index", tmpl, "./views/index.html")
-	pge.AddModifier(EndpointMod)
-	pge.AddModifier(IdentityMod)
+	pge.AddModifier(mix.EndpointMod(Endpoints))
+	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
 	return func(w http.ResponseWriter, r *http.Request) {
 		clnt := CredConfig.Client(r.Context())
 
@@ -55,15 +55,4 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 			log.Println("Serve Error", err)
 		}
 	}
-}
-
-func EndpointMod(f mix.MixerFactory, r *http.Request) {
-	f.SetValue("Endpoints", Endpoints)
-}
-
-func IdentityMod(f mix.MixerFactory, r *http.Request) {
-	tkn := r.Context().Value("Token")
-
-	f.SetValue("ClientID", CredConfig.ClientID)
-	f.SetValue("Token", tkn)
 }

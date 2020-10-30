@@ -1,5 +1,5 @@
 {{if .Data.Headers}}
-    {{$artUrl := .Identity.GetResourceURL "artifact"}}
+    {{$artUrl := index .Endpoints "artifact"}}
 <div class="hero-body has-text-centered is-paddingless is-marginless">
     <div class="columns is-centered is-marginless">
         {{range $key, $val := .Data.Headers}}
