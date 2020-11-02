@@ -1,0 +1,25 @@
+{{template "master.html" .}}
+{{define "layoutcontent"}}
+    <section class="hero is-medium has-background">
+        {{.Data}}
+        <img alt="YumYum" class="hero-background"
+             src="{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}"/>
+        <div class="hero-body">
+            <div class="container">
+                <h4 class="title is-4 has-text-white">{{.Data.Article.Title}}</h4>
+                <h5 class="subtitle colourSecondary is-5 has-text-white">Author: {{.Data.Article.WrittenBy}}</h5>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            </div>
+        </div>
+        <div class="media-right">
+            <h1 class="sharethis-inline-share-buttons is-5 has-text-left"></h1>
+        </div>
+    </section>
+    <!-- main content -->
+
+    <div class="content">
+        {{.Data.Article.Content | html}}
+    </div>
+
+    {{template "comment.html" .}}
+{{end}}

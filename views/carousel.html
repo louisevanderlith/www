@@ -1,14 +1,9 @@
-{{if .Data.Headers}}
-{{$host := .Identity.Host}}
 <div class="hero-body has-text-centered is-paddingless is-marginless">
     <div class="columns is-centered is-marginless">
-        {{range $key, $val := .Data.Headers}}
-        <div id="card{{$key}}" class="column {{if ne $key 0}}hidden{{end}} is-paddingless is-marginless">
+        <div id="card0" class="column is-paddingless is-marginless">
             <div class="image is-3by1">
-                <img src="https://artifact{{$host}}download/{{$val.ImageKey}}" alt="header image">
+                <img src="{{index .Endpoints "artifact"}}/download/{{.Data.Content.LogoKey}}" alt="header image">
             </div>
         </div>
-        {{end}}
     </div>
 </div>
-{{end}}

@@ -7,6 +7,9 @@ environment:
   sdk: '>=2.0.0 < 3.0.0'
 dev_dependencies:
   build_runner: '>=1.0.0 <2.0.0'
-  build_web_compilers: '>=1.0.0 <2.0.0'
+  build_web_compilers:
 dependencies:
-  mango_ui: '^0.3.6'
+  mango_ui: '^1.0.3'
+  dart_toast: '^0.3.0'
+  mango_comms: '^1.0.3'
+  mango_comment: '^1.0.0'

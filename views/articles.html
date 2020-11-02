@@ -1,43 +1,66 @@
-<div class="box">
-    <div class="row columns is-multiline">
-        {{$host := .Identity.Host}}
-        {{range $key, $val := .Data}}
-        <div class="column is-one-quarter">
-            <div class="card">
-                <div class="card-image">
-                    <figure class="image">
-                        <img src="https://artifact{{$host}}download/{{$val.V.ImageKey}}" alt="article image" />
-                    </figure>
-                </div>
-                <div class="card-content">
-                    <div class="media">
-                        <div class="media-content">
-                            <p class="title no-padding"> <a href="/blog/articles/{{$val.K}}">{{$val.V.Title}}</a></p>
-                            <p class="subtitle">Author:{{$val.V.WrittenBy}}</p>
-                            <nav class="level is-mobile">
-                                <div class="level-left">
-                                    <a class="level-item">
-                                        <span class="icon is-small"><i class="fas fa-reply"></i></span>
-                                    </a>
-                                    <a class="level-item">
-                                        <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-                                    </a>
-                                    <a class="level-item">
-                                        <span class="icon is-small"><i class="fas fa-heart"></i></span>
-                                    </a>
+{{template "master.html" .}}
+{{define "layoutcontent"}}
+    {{template "menu.html" .}}
+    <div class="main-content">
+        <div class="box">
+            <div class="row columns is-multiline">
+                {{$artUrl := index .Endpoints "artifact"}}
+                {{if .Data.Records}}
+                    {{range $key, $val := .Data.GetRecords.ToSlice}}
+                        <div class="column is-one-quarter">
+                            <div class="card">
+                                <div class="card-image">
+                                    <figure class="image">
+                                        <img src="{{$artUrl}}/download/{{$val.V.ImageKey}}" alt="article image"/>
+                                    </figure>
                                 </div>
-                            </nav>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content">
+                                            <p class="title no-padding"><a
+                                                        href="/blog/articles/{{$val.K}}">{{$val.V.Title}}</a>
+                                            </p>
+                                            <p class="subtitle colourSecondary">Author:{{$val.V.WrittenBy}}</p>
+                                            <nav class="level is-mobile">
+                                                <div class="level-left">
+                                                    <a class="level-item">
+                                                        <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                                                    </a>
+                                                    <a class="level-item">
+                                                        <span class="icon is-small"><i
+                                                                    class="fas fa-retweet"></i></span>
+                                                    </a>
+                                                    <a class="level-item">
+                                                        <span class="icon is-small"><i class="fas fa-heart"></i></span>
+                                                    </a>
+                                                </div>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        {{$val.V.Intro}}
+                                        <br>
+                                        <time datetime="{{$val.K.Timestamp}}">{{$val.K.Timestamp}}</time>
+                                        <a href="/blog/articles/{{$val.K}}">Read Article</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    {{end}}
+                    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                        {{if .Data.Previous}}
+                            <a href="{{.Data.Previous}}" class="pagination-previous">Previous</a>
+                        {{end}}
+                        {{if .Data.Next}}
+                            <a href="{{.Data.Next}}" class="pagination-next">Next</a>
+                        {{end}}
+                    </nav>
+                {{else}}
+                    <div class="notification">
+                        <strong>No Articles Found</strong>, yet.
                     </div>
-                    <div class="content">
-                        {{$val.V.Intro}}
-                        <br>
-                        <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-                        <a href="/blog/articles/{{$val.K}}">Read Article</a>
-                    </div>
-                </div>
+                {{end}}
             </div>
         </div>
-        {{end}}
     </div>
-</div>
+{{end}}

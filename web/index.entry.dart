@@ -1,10 +1,17 @@
-import 'package:WWW.APP/carousel.dart';
+import 'dart:html';
+
 import 'package:WWW.APP/contactform.dart';
 
 void main() {
-  print("Running Default.Entry");
-  new ContactForm("#frmContact", "#txtName", "#txtEmail", "#txtContact",
-      "#txtMessage", "#btnSend");
+  new ContactForm("#frmContact", "#btnContactSubmit");
 
-  new Carousel("#syncarousel", new Duration(seconds:3));
+  window.onScroll.listen(scrollFunction);
+}
+
+void scrollFunction(event) {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    document.getElementById("toTop").style.display = "block";
+  } else {
+    document.getElementById("toTop").style.display = "none";
+  }
 }

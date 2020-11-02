@@ -1,31 +1,25 @@
-import 'dart:convert';
 import 'dart:html';
+
+import 'package:dart_toast/dart_toast.dart';
+import 'package:mango_comms/bodies/message.dart';
+import 'package:mango_comms/commsapi.dart';
 import 'package:mango_ui/formstate.dart';
-import 'package:mango_ui/bodies/message.dart';
-import 'package:mango_ui/services/commsapi.dart';
 
 class ContactForm extends FormState {
   TextInputElement _name;
   EmailInputElement _email;
   TelephoneInputElement _phone;
   TextAreaElement _message;
-  ParagraphElement _error;
-  String _tomail;
+  HiddenInputElement _to;
 
-  ContactForm(String idElem, String nameElem, String emailElem,
-      String phoneElem, String messageElem, String submitBtn)
-      : super(idElem, submitBtn) {
-    FormElement _form = querySelector(idElem);
-    _form.onBlur.listen(validateElement);
-    
-    _name = querySelector(nameElem);
-    _email = querySelector(emailElem);
-    _phone = querySelector(phoneElem);
-    _message = querySelector(messageElem);
-    _error = querySelector("${idElem}Err");
+  ContactForm(String idElem, String submitBtn) : super(idElem, submitBtn) {
+    _name = querySelector("#txtContactName");
+    _email = querySelector("#txtContactEmail");
+    _phone = querySelector("#txtContactContactNo");
+    _message = querySelector("#txtContactBody");
+    _to = querySelector("#hdnTo");
 
     var submit = querySelector(submitBtn);
-    _tomail = submit.dataset['to'];
 
     submit.onClick.listen(onSend);
   }
@@ -47,7 +41,7 @@ class ContactForm extends FormState {
   }
 
   String get to {
-    return _tomail;
+    return _to.value;
   }
 
   void onSend(Event e) {
@@ -60,12 +54,18 @@ class ContactForm extends FormState {
   submitSend() async {
     var data = new Message(message, email, name, phone, to);
     var req = await sendMessage(data);
-    var content = jsonDecode(req.response);
-
+    print("Send Status: ${req.status}, ${req.response}");
     if (req.status == 200) {
-      window.alert(content['Data']);
+      new Toast.success(
+          title: "Success!",
+          message: req.response,
+          position: ToastPos.bottomLeft);
+      super.form.reset();
     } else {
-      _error.text = content['Error'];
+      new Toast.error(
+          title: "Error!",
+          message: req.response,
+          position: ToastPos.bottomLeft);
     }
   }
 }

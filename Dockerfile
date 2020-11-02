@@ -1,4 +1,4 @@
-FROM golang:1.12 as build_base
+FROM golang:1.13 as build_base
 
 WORKDIR /box
 
@@ -10,8 +10,7 @@ RUN go mod download
 FROM build_base as builder
 
 COPY main.go .
-COPY controllers ./controllers
-COPY routers ./routers
+COPY handles ./handles
 
 RUN CGO_ENABLED="0" go build
 
@@ -29,11 +28,10 @@ COPY web ./web
 COPY lib ./lib
 RUN webdev build
 
-FROM alpine:latest
+FROM alpine:3.12.0
 
 COPY --from=builder /box/www .
 COPY --from=pyltjie /arrow/build/*.dart.js dist/js/
-COPY conf conf
 COPY views views
 
 RUN mkdir -p /views/_shared
