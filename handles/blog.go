@@ -14,6 +14,7 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], "A10")
 
@@ -35,6 +36,8 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
+
 	return func(w http.ResponseWriter, r *http.Request) {
 		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], drx.FindParam(r, "pagesize"))
 
@@ -56,6 +59,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles View", tmpl, "./views/articlesView.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
 
@@ -68,7 +72,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 		result, err := api.FetchArticle(CredConfig.Client(r.Context()), Endpoints["blog"], key)
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Fetch Article Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
@@ -76,7 +80,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
-			log.Println(err)
+			log.Println("Serve Error", err)
 		}
 
 		//TODO: comments

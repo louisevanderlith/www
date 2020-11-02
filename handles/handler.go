@@ -5,11 +5,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/menu"
+	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/droxolite/open"
+	folio "github.com/louisevanderlith/folio/api"
 	"github.com/louisevanderlith/theme/api"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
+	"log"
 	"net/http"
 )
 
@@ -54,7 +57,7 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		TokenURL:     provider.Endpoint().TokenURL,
-		Scopes:       []string{oidc.ScopeOpenID, "artifact", "theme"},
+		Scopes:       []string{oidc.ScopeOpenID, "artifact", "theme", "blog"},
 	}
 
 	err = api.UpdateTemplate(CredConfig.Client(ctx), endpoints["theme"])
@@ -79,7 +82,7 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
 	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
 
-gmw := open.NewGhostware(CredConfig)
+	gmw := open.NewGhostware(CredConfig)
 	r.HandleFunc("/", gmw.GhostMiddleware(Index(tmpl))).Methods(http.MethodGet)
 
 	r.HandleFunc("/blog", gmw.GhostMiddleware(GetArticles(tmpl))).Methods(http.MethodGet)
@@ -88,4 +91,21 @@ gmw := open.NewGhostware(CredConfig)
 	r.HandleFunc("/blog/{key:[0-9]+\\x60[0-9]+}", gmw.GhostMiddleware(ViewArticle(tmpl))).Methods(http.MethodGet)
 
 	return r
+}
+
+func ThemeContentMod() mix.ModFunc {
+	return func(f mix.MixerFactory, r *http.Request) {
+		clnt := CredConfig.Client(r.Context())
+
+		content, err := folio.FetchDisplay(clnt, Endpoints["folio"])
+
+		if err != nil {
+			log.Println("Fetch Profile Error", err)
+			panic(err)
+			return
+		}
+
+		f.SetValue("Folio", content)
+		f.AddMenu(FullMenu(content.SectionA.Heading, content.SectionB.Heading, content.Info.Heading))
+	}
 }
