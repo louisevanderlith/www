@@ -24,7 +24,6 @@ var (
 func FullMenu(sectionAHead, sectionBHead, infoHead string) *menu.Menu {
 	m := menu.NewMenu()
 
-	m.AddItem(menu.NewItem("a", "#home", "Home", nil))
 	m.AddItem(menu.NewItem("b", "#sectionA", sectionAHead, nil))
 	m.AddItem(menu.NewItem("c", "#sectionB", sectionBHead, nil))
 	m.AddItem(menu.NewItem("d", "#info", infoHead, nil))
