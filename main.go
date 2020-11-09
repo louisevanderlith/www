@@ -18,6 +18,7 @@ func main() {
 	stock := flag.String("stock", "http://127.0.0.1:8101", "Stock URL")
 	comms := flag.String("comms", "http://127.0.0.1:8085", "Communications URL")
 	artifact := flag.String("artifact", "http://127.0.0.1:8082", "Artifact URL")
+	shop := flag.String("shop", "http://127.0.0.1:8083", "Shop URL")
 	flag.Parse()
 
 	ends := map[string]string{
@@ -28,6 +29,7 @@ func main() {
 		"stock":    *stock,
 		"comms":    *comms,
 		"artifact": *artifact,
+		"shop":     *shop,
 	}
 
 	srvr := &http.Server{

@@ -24,12 +24,12 @@ var (
 func FullMenu(sectionAHead, sectionBHead, infoHead string) *menu.Menu {
 	m := menu.NewMenu()
 
-	m.AddItem(menu.NewItem("b", "#sectionA", sectionAHead, nil))
-	m.AddItem(menu.NewItem("c", "#sectionB", sectionBHead, nil))
-	m.AddItem(menu.NewItem("d", "#info", infoHead, nil))
-	m.AddItem(menu.NewItem("e", "#services", "Services we Offer", nil))
+	m.AddItem(menu.NewItem("b", "/#sectionA", sectionAHead, nil))
+	m.AddItem(menu.NewItem("c", "/#sectionB", sectionBHead, nil))
+	m.AddItem(menu.NewItem("d", "/#info", infoHead, nil))
+	m.AddItem(menu.NewItem("e", "/#services", "Products we Offer", nil))
 	m.AddItem(menu.NewItem("e", "/blog", "Blog", nil))
-	m.AddItem(menu.NewItem("f", "#contact", "Contact Us", nil))
+	m.AddItem(menu.NewItem("f", "/#contact", "Contact Us", nil))
 
 	return m
 }
@@ -56,7 +56,7 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		TokenURL:     provider.Endpoint().TokenURL,
-		Scopes:       []string{oidc.ScopeOpenID, "artifact", "theme", "blog"},
+		Scopes:       []string{oidc.ScopeOpenID, "artifact", "theme", "blog-view", "stock-view"},
 	}
 
 	err = api.UpdateTemplate(CredConfig.Client(ctx), endpoints["theme"])

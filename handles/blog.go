@@ -2,12 +2,14 @@ package handles
 
 import (
 	"github.com/louisevanderlith/blog/api"
+	"github.com/louisevanderlith/blog/core"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
 	"github.com/louisevanderlith/husk/keys"
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 func GetArticles(tmpl *template.Template) http.HandlerFunc {
@@ -24,6 +26,7 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
+		pge.ChangeTitle("Blog")
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
@@ -39,7 +42,8 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 	pge.AddModifier(ThemeContentMod())
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], drx.FindParam(r, "pagesize"))
+		pgSize := drx.FindParam(r, "pagesize")
+		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], pgSize)
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -47,6 +51,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
+		pge.ChangeTitle("Blog")
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {
@@ -56,7 +61,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 }
 
 func ViewArticle(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Articles View", tmpl, "./views/articlesView.html")
+	pge := mix.PreparePage("Articles View", tmpl, "./views/articleview.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
 	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
@@ -69,7 +74,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		result, err := api.FetchArticle(CredConfig.Client(r.Context()), Endpoints["blog"], key)
+		article, err := api.FetchArticle(CredConfig.Client(r.Context()), Endpoints["blog"], key)
 
 		if err != nil {
 			log.Println("Fetch Article Error", err)
@@ -77,6 +82,16 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
+		result := struct {
+			CreateDate time.Time
+			Article    core.Article
+			Comments   []interface{}
+		}{
+			CreateDate: key.GetTimestamp(),
+			Article:    article,
+		}
+
+		pge.ChangeTitle(article.Title)
 		err = mix.Write(w, pge.Create(r, result))
 
 		if err != nil {

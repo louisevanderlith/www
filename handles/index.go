@@ -16,14 +16,15 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		clnt := CredConfig.Client(r.Context())
-		services, err := stock.FetchAllServices(clnt, Endpoints["stock"], "A6")
+		services, err := stock.FetchAllCategories(clnt, Endpoints["stock"], "A6")
 
 		if err != nil {
-			log.Println("Fetch Services Error", err)
+			log.Println("Fetch Categories Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
 
+		pge.ChangeTitle("Home")
 		err = mix.Write(w, pge.Create(r, services))
 
 		if err != nil {
