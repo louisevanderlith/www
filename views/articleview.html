@@ -1,27 +1,42 @@
 {{template "master.html" .}}
 {{define "layoutcontent"}}
-    <div class="main-content">
-        {{template "menu.html" .}}
-        <div class="box">
-            <section class="hero is-medium has-background">
-                <img alt="image" class="hero-background"
-                     src="{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}"/>
-                <div class="hero-body">
+<div class="main-content">
+    {{template "menu.html" .}}
+    <div class="box">
+        <div class="header-wrapper" id="home">
+            <!-- Begin Hero -->
+            <section class="hero is-medium herocolour">
+                {{template "mobilenav.html" .}}
+                <!-- Begin Hero Content-->
+                <div class="hero-body"
+                    style="background-image: url('{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}'); background:linear-gradient(rgba(0, 0, 1, 0.6), rgba(0, 0, 2, 0.6)), rgba(0, 0, 0, 0.6) url('{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}') no-repeat; background-size:contain; background-position: center;">
                     <div class="container">
-                        <h4 class="title is-4">{{.Data.Article.Title}}</h4>
-                        <h5 class="subtitle colourSecondary is-5">
-                            Author: {{.Data.Article.WrittenBy}}</h5>
-                        <time datetime="2016-1-1">{{.Data.CreateDate}}</time>
+                        <h2 class="title is-2 colourSecondary">{{.Data.Article.Title}}</h2>
+                        <nav class="level">
+                            <!-- Left side -->
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <h5 class="subtitle colourSecondary is-5">
+                                       <b> Author: {{.Data.Article.WrittenBy}}</b></h5>
+                                </div>
+                                <div class="level-item">
+                                    <time class="colourPrimary" datetime="2016-1-1"><b>{{.Data.CreateDate}}</b></time>
+                                </div>
+                            </div>
+                            <!-- Right side -->
+                            <div class="level-right">
+                                <p class="level-item colourPrimary"><strong>Dalk Share buttons</strong></p>
+                            </div>
+                        </nav>
                     </div>
                 </div>
-                <div class="media-right">
-                    <h1 class="sharethis-inline-share-buttons is-5 has-text-left"></h1>
-                </div>
             </section>
-            <!-- main content -->
+        </div>
+        <!-- main content -->
+        <div class="container">
             <div class="content">{{.Data.Article.Content | html}}</div>
-
             {{template "comment.html" .}}
         </div>
     </div>
+</div>
 {{end}}

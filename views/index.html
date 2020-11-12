@@ -13,7 +13,7 @@
         <section class="hero is-medium herocolour">
             {{template "mobilenav.html" .}}
             <!-- Begin Hero Content-->
-            <div class="hero-body">
+            <div class="hero-body" style="background-image: url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}'); background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}') no-repeat;"  >
                 <div class="container has-text-centered">
                     <h2 class="title colourTertiary is-1">{{.Folio.Banner.Heading}}</h2>
                     <h1 class="subtitle colourPrimary profession is-3">
@@ -60,6 +60,7 @@
                     <div class="column is-12 about-us">
                         <h1 class="title has-text-centered section-title colourTertiary">
                             {{.Folio.SectionB.Heading}}</h1>
+                            <hr class="content-divider colourPrimary">
                     </div>
                     <div class="column is-6 left-image " data-aos="fade-right">
                         {{if .Folio.SectionB.ImageUrl}}
