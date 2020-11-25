@@ -12,10 +12,10 @@ import (
 func Index(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Index", tmpl, "./views/index.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		clnt := CredConfig.Client(r.Context())
+		clnt := credConfig.Client(r.Context())
 		services, err := stock.FetchAllCategories(clnt, Endpoints["stock"], "A6")
 
 		if err != nil {

@@ -54,7 +54,7 @@ class ContactForm extends FormState {
   submitSend() async {
     var data = new Message(message, email, name, phone, to);
     var req = await sendMessage(data);
-    print("Send Status: ${req.status}, ${req.response}");
+
     if (req.status == 200) {
       new Toast.success(
           title: "Success!",

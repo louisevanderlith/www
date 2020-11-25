@@ -14,11 +14,12 @@ import (
 
 func GetArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
+	//pge.AddMenu(FullMenu())
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
-		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], "A10")
+		result, err := api.FetchLatestArticles(credConfig.Client(r.Context()), Endpoints["blog"], "A10")
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -37,13 +38,14 @@ func GetArticles(tmpl *template.Template) http.HandlerFunc {
 
 func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles", tmpl, "./views/articles.html")
+
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		pgSize := drx.FindParam(r, "pagesize")
-		result, err := api.FetchLatestArticles(CredConfig.Client(r.Context()), Endpoints["blog"], pgSize)
+		result, err := api.FetchLatestArticles(credConfig.Client(r.Context()), Endpoints["blog"], pgSize)
 
 		if err != nil {
 			log.Println("Fetch Articles Error", err)
@@ -63,7 +65,7 @@ func SearchArticles(tmpl *template.Template) http.HandlerFunc {
 func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 	pge := mix.PreparePage("Articles View", tmpl, "./views/articleview.html")
 	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
+	pge.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -74,7 +76,7 @@ func ViewArticle(tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		article, err := api.FetchArticle(CredConfig.Client(r.Context()), Endpoints["blog"], key)
+		article, err := api.FetchArticle(credConfig.Client(r.Context()), Endpoints["blog"], key)
 
 		if err != nil {
 			log.Println("Fetch Article Error", err)
