@@ -66,7 +66,6 @@
                     <div class="column is-12 about-us">
                         <h1 class="title has-text-centered section-title colourTertiary">
                             {{.Folio.SectionB.Heading}}</h1>
-                        <hr class="content-divider colourPrimary">
                     </div>
                     <div class="column is-6 left-image " data-aos="fade-right">
                         {{if .Folio.SectionB.ImageUrl}}
@@ -89,7 +88,7 @@
             </div>
         </div>
         <!-- Begin Info Content -->
-        <div class="section-color services" id="info">
+        <div class="section-dark services" id="info">
             <div class="container">
                 <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                     <div class="column is-12 about-me">
@@ -98,15 +97,13 @@
                         <h2 class="subtitle colourSecondary">{{.Folio.Info.Text}}</h2>
                         <br />
                     </div>
-                    <div class="columns is-multiline">
-                        {{range .Folio.Info.Blocks}}
-                        <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                            <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
-                            <hr />
-                            <h2>{{.Text}}</h2>
-                        </div>
-                        {{end}}
+                    {{range .Folio.Info.Blocks}}
+                    <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
+                        <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
+                        <hr />
+                        <h2>{{.Text}}</h2>
                     </div>
+                    {{end}}
                 </div>
             </div>
         </div>
