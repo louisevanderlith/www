@@ -17,7 +17,7 @@
                             <div class="level-left">
                                 <div class="level-item">
                                     <h5 class="subtitle colourSecondary is-5">
-                                       <b> Author: {{.Data.Article.WrittenBy}}</b></h5>
+                                        <b> Author: {{.Data.Article.WrittenBy}}</b></h5>
                                 </div>
                                 <div class="level-item">
                                     <time class="colourPrimary" datetime="2016-1-1"><b>{{.Data.CreateDate}}</b></time>
@@ -33,9 +33,15 @@
             </section>
         </div>
         <!-- main content -->
-        <div class="container">
-            <div class="content">{{.Data.Article.Content | html}}</div>
-            {{template "comment.html" .}}
+        <div class="columns">
+            <div class="column is-3"></div>
+            <div class="column is-6">
+                <div class="container">
+                    <div class="content">{{.Data.Article.Content}}</div>
+                    {{template "comment.html" .}}
+                </div>
+            </div>
+            <div class="column is-3"></div>
         </div>
     </div>
 </div>

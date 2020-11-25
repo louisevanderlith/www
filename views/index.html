@@ -1,34 +1,36 @@
 {{template "master.html" .}}
 {{define "layoutcontent"}}
-    <!-- Begin Scroll Up Button -->
-    <form action="#home">
-        <button id="toTop" title="Go to top">
-            <i class="fas fa-angle-up"></i>
-        </button>
-    </form>
-    <!-- End Scroll Up Button -->
-    <!-- Begin Header -->
-    <div class="header-wrapper" id="home">
-        <!-- Begin Hero -->
-        <section class="hero is-medium herocolour">
-            {{template "mobilenav.html" .}}
-            <!-- Begin Hero Content-->
-            <div class="hero-body" style="background-image: url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}'); background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}') no-repeat;"  >
-                <div class="container has-text-centered">
-                    <h2 class="title colourTertiary is-1">{{.Folio.Banner.Heading}}</h2>
-                    <h1 class="subtitle colourPrimary profession is-3">
-                        <b>{{.Folio.Banner.Subtitle}}</b></h1>
-                </div>
+<!-- Begin Scroll Up Button -->
+<form action="#home">
+    <button id="toTop" title="Go to top">
+        <i class="fas fa-angle-up"></i>
+    </button>
+</form>
+<!-- End Scroll Up Button -->
+<!-- Begin Header -->
+<div class="header-wrapper" id="home">
+    <!-- Begin Hero -->
+    <section class="hero is-medium herocolour">
+        {{template "mobilenav.html" .}}
+        <!-- Begin Hero Content-->
+        <div class="hero-body"
+            style="background-image: url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}'); background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}') no-repeat;">
+            <div class="container has-text-centered">
+                <h2 class="title colourTertiary is-1">{{.Folio.Banner.Heading}}</h2>
+                <h1 class="subtitle colourPrimary profession is-3">
+                    <b>{{.Folio.Banner.Subtitle}}</b></h1>
             </div>
-        </section>
-        {{template "menu.html" .}}
-    </div>
-    
-    <!-- End Header -->
+        </div>
+    </section>
+    {{template "menu.html" .}}
+</div>
 
-    <!-- Begin Main Content -->
-    <div class="main-content colourPrimary">
-        <!-- Begin SectionA Section -->
+<!-- End Header -->
+
+<!-- Begin Main Content -->
+<div class="main-content is-white-ter colourPrimary">
+    <!-- Begin SectionA Section -->
+    <div class="container is-fluid">
         <div class="section-light about-us" id="sectionA">
             <div class="container">
                 <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
@@ -41,18 +43,21 @@
                     </div>
                     <div class="column is-6 right-image " data-aos="fade-left">
                         {{if .Folio.SectionA.ImageUrl}}
-                            <img class="is-rounded"
-                                 src="{{.Folio.SectionA.ImageUrl}}" alt=""/>
+                        <img class="is-rounded" src="{{.Folio.SectionA.ImageUrl}}" alt="" />
                         {{else}}
-                            <img class="is-rounded"
-                                 src="{{ index .Endpoints "artifact"}}/download/{{.Folio.SectionA.ImageKey}}"
-                                 alt=""/>
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-3by2">
+                                    <img src="{{ index .Endpoints "artifact"}}/download/{{.Folio.SectionA.ImageKey}}"
+                                        alt="" />
+                                </figure>
+                            </div>
+                        </div>
                         {{end}}
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- End SectionA Content -->
         <!-- Begin SectionB Section -->
         <div class="section-dark resume" id="sectionB">
@@ -61,16 +66,20 @@
                     <div class="column is-12 about-us">
                         <h1 class="title has-text-centered section-title colourTertiary">
                             {{.Folio.SectionB.Heading}}</h1>
-                            <hr class="content-divider colourPrimary">
+                        <hr class="content-divider colourPrimary">
                     </div>
                     <div class="column is-6 left-image " data-aos="fade-right">
                         {{if .Folio.SectionB.ImageUrl}}
-                            <img class="is-rounded"
-                                 src="{{.Folio.SectionB.ImageUrl}}" alt=""/>
+                        <img src="{{.Folio.SectionB.ImageUrl}}" alt="" />
                         {{else}}
-                            <img class="is-rounded"
-                                 src="{{ index .Endpoints "artifact"}}/download/{{.Folio.SectionB.ImageKey}}"
-                                 alt=""/>
+                        <div class="card">
+                            <div class="card-image">
+                                <figure class="image is-3by2">
+                                    <img src="{{ index .Endpoints "artifact"}}/download/{{.Folio.SectionB.ImageKey}}"
+                                        alt="" />
+                                </figure>
+                            </div>
+                        </div>
                         {{end}}
                     </div>
                     <div class="column is-6" data-aos="fade-left">
@@ -87,15 +96,15 @@
                         <h1 class="title has-text-centered section-title colourTertiary">{{.Folio.Info.Heading}}
                         </h1>
                         <h2 class="subtitle colourSecondary">{{.Folio.Info.Text}}</h2>
-                        <br/>
+                        <br />
                     </div>
                     <div class="columns is-multiline">
                         {{range .Folio.Info.Blocks}}
-                            <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
-                                <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
-                                <hr/>
-                                <h2>{{.Text}}</h2>
-                            </div>
+                        <div class="column is-4 has-text-centered" data-aos="fade-in" data-aos-easing="linear">
+                            <i class="fas {{.Icon}} fa-3x colourPrimary"></i>
+                            <hr />
+                            <h2>{{.Text}}</h2>
+                        </div>
                         {{end}}
                     </div>
                 </div>
@@ -104,37 +113,37 @@
         <!-- End Info Content -->
         <!-- Begin Services Content -->
         {{if .Data.Records}}
-            <div class="section-dark my-work" id="services">
-                <div class="container">
-                    <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
-                        <div class="column is-12">
-                            <h1 class="title has-text-centered section-title colourTertiary">Products we Offer</h1>
-                        </div>
-                        {{$artUrl := index .Endpoints "artifact"}}
-                        {{$shopUrl := index .Endpoints "shop"}}
-                        {{range .Data.GetRecords.ToSlice}}
-                            {{$v := .GetValue}}
-                            <div class="column is-3">
-                                <div class="card">
-                                    <div class="card-content">
-                                        <div class="media">
-                                            <figure class="image is-4by3">
-                                                <img src="{{$artUrl}}/download/{{$v.ImageKey}}" alt="{{$v.Name}}">
-                                            </figure>
-                                            <div class="media-content">
-                                                <p class="title is-4">{{$v.Name}}</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="content"><a href="{{$shopUrl}}/{{$v.Name}}">See more</a>
-                                        </div>
+        <div class="section-dark my-work" id="services">
+            <div class="container">
+                <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
+                    <div class="column is-12">
+                        <h1 class="title has-text-centered section-title colourTertiary">Products we Offer</h1>
+                    </div>
+                    {{$artUrl := index .Endpoints "artifact"}}
+                    {{$shopUrl := index .Endpoints "shop"}}
+                    {{range .Data.GetRecords.ToSlice}}
+                    {{$v := .GetValue}}
+                    <div class="column is-3">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="media">
+                                    <figure class="image is-4by3">
+                                        <img src="{{$artUrl}}/download/{{$v.ImageKey}}" alt="{{$v.Name}}">
+                                    </figure>
+                                    <div class="media-content">
+                                        <p class="title is-4">{{$v.Name}}</p>
                                     </div>
                                 </div>
+
+                                <div class="content"><a href="{{$shopUrl}}/{{$v.Name}}">See more</a>
+                                </div>
                             </div>
-                        {{end}}
+                        </div>
                     </div>
+                    {{end}}
                 </div>
             </div>
+        </div>
         {{end}}
         <!-- End Services Content -->
         <div class="section-light contact" id="contact">
@@ -145,17 +154,18 @@
             </div>
         </div>
     </div>
+</div>
 {{end}}
 
 {{define "scripts"}}
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            easing: "ease-out",
-            duration: 800,
-        });
-    </script>
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        easing: "ease-out",
+        duration: 800,
+    });
+</script>
 {{end}}
