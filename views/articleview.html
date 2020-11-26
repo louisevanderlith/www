@@ -1,48 +1,34 @@
 {{template "master.html" .}}
-{{define "layoutcontent"}}
-<div class="main-content">
-    {{template "menu.html" .}}
-    <div class="box">
-        <div class="header-wrapper" id="home">
-            <!-- Begin Hero -->
-            <section class="hero is-medium herocolour">
-                {{template "mobilenav.html" .}}
-                <!-- Begin Hero Content-->
-                <div class="hero-body"
-                    style="background-image: url('{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}'); background:linear-gradient(rgba(0, 0, 1, 0.6), rgba(0, 0, 2, 0.6)), rgba(0, 0, 0, 0.6) url('{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}') no-repeat; background-size:contain; background-position: center;">
-                    <div class="container">
-                        <h2 class="title is-2 colourSecondary">{{.Data.Article.Title}}</h2>
-                        <nav class="level">
-                            <!-- Left side -->
-                            <div class="level-left">
-                                <div class="level-item">
-                                    <h5 class="subtitle colourSecondary is-5">
-                                        <b> Author: {{.Data.Article.WrittenBy}}</b></h5>
-                                </div>
-                                <div class="level-item">
-                                    <time class="colourPrimary" datetime="2016-1-1"><b>{{.Data.CreateDate}}</b></time>
-                                </div>
+{{define "mainlayout"}}
+    <section class="hero is-medium herocolour">
+        <!-- Begin Hero Content-->
+        <div class="hero-body"
+             style="background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Data.Article.ImageKey}}') no-repeat;">
+            <div class="container has-text-centered">
+                <h2 class="title colourTertiary is-1">{{.Data.Article.Title}}</h2>
+                <h1 class="subtitle colourPrimary profession is-3">
+                    <b>{{.Data.Article.Intro}}</b></h1>
+            </div>
+        </div>
+    </section>
+    <div class="main-content is-white-ter colourPrimary">
+        <div class="box">
+            <div class="container">
+                <div class="content">{{.Data.Article.Content}}</div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{.Data.Article.WrittenBy}}</p>
+                                <p class="subtitle is-6">
+                                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                </p>
                             </div>
-                            <!-- Right side -->
-                            <div class="level-right">
-                                <p class="level-item colourPrimary"><strong>Dalk Share buttons</strong></p>
-                            </div>
-                        </nav>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </div>
-        <!-- main content -->
-        <div class="columns">
-            <div class="column is-3"></div>
-            <div class="column is-6">
-                <div class="container">
-                    <div class="content">{{.Data.Article.Content}}</div>
-                    {{template "comment.html" .}}
-                </div>
+                {{template "comment.html" .}}
             </div>
-            <div class="column is-3"></div>
         </div>
     </div>
-</div>
 {{end}}

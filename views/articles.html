@@ -1,8 +1,6 @@
-{{template "master.html" .}}
-{{define "layoutcontent"}}
-    {{template "searchmenu.html" .}}
-    {{template "cleanmenu.html" .}}
-    <div class="main-content">
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <div class="main-content is-white-ter colourPrimary">
         <div class="box">
             <div class="row columns is-multiline">
                 {{$artUrl := index .Endpoints "artifact"}}
