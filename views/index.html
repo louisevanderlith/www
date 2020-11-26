@@ -13,9 +13,9 @@
         </div>
     </section>
     <!-- Begin Main Content -->
-    <div class="main-content is-white-ter colourPrimary">
+    <div class="main-content colourPrimary">
         <!-- Begin SectionA Section -->
-        <div class="container is-fluid">
+        <div class="container is-fluid is-white-ter">
             <div class="section-light about-us" id="sectionA">
                 <div class="container">
                     <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
@@ -45,7 +45,7 @@
             </div>
             <!-- End SectionA Content -->
             <!-- Begin SectionB Section -->
-            <div class="section-dark resume" id="sectionB">
+            <div class="section-light about-us" id="sectionB">
                 <div class="container">
                     <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                         <div class="column is-12 about-us">
@@ -73,7 +73,7 @@
                 </div>
             </div>
             <!-- Begin Info Content -->
-            <div class="section-dark services" id="info">
+            <div class="section-light about-us" id="info">
                 <div class="container">
                     <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                         <div class="column is-12 about-me">
@@ -95,7 +95,7 @@
             <!-- End Info Content -->
             <!-- Begin Services Content -->
             {{if .Data.Records}}
-                <div class="section-dark my-work" id="services">
+                <div class="section-light about-us" id="services">
                     <div class="container">
                         <div class="columns is-multiline" data-aos="fade-in" data-aos-easing="linear">
                             <div class="column is-12">
@@ -128,7 +128,7 @@
                 </div>
             {{end}}
             <!-- End Services Content -->
-            <div class="section-light contact" id="contact">
+            <div class="section-light about-us" id="contact">
                 <div class="container">
                     <div class="columns is-multiline" data-aos="fade-in-up" data-aos-easing="linear">
                         {{template "contactus.html" .Folio}}
