@@ -102,26 +102,25 @@
                                 <h1 class="title has-text-centered section-title colourTertiary">Products we Offer</h1>
                             </div>
                             {{$artUrl := index .Endpoints "artifact"}}
-                            {{$shopUrl := index .Endpoints "shop"}}
-                            {{range .Data.GetRecords.ToSlice}}
-                                {{$v := .GetValue}}
-                                <div class="column is-3">
-                                    <div class="card">
-                                        <div class="card-content">
-                                            <div class="media">
+                            {{if .Data.Records}}
+                                {{range .Data.GetRecords.ToSlice}}
+                                    {{$v := .GetValue}}
+                                    <div class="column is-3">
+                                        <div class="card">
+                                            <div class="card-image">
                                                 <figure class="image is-4by3">
-                                                    <img src="{{$artUrl}}/download/{{$v.ImageKey}}" alt="{{$v.Name}}">
+                                                    <img src="{{$artUrl}}/download/{{$v.ImageKey}}"
+                                                         alt="{{$v.Name}}">
                                                 </figure>
-                                                <div class="media-content">
-                                                    <p class="title is-4">{{$v.Name}}</p>
-                                                </div>
                                             </div>
-
-                                            <div class="content"><a href="{{$shopUrl}}/{{$v.Name}}">See more</a>
+                                            <div class="card-content">
+                                                <div class="content">
+                                                    <a href="{{$v.PageURL}}">{{$v.Name}}</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                {{end}}
                             {{end}}
                         </div>
                     </div>

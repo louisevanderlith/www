@@ -16,7 +16,7 @@ func Index(tmpl *template.Template) http.HandlerFunc {
 	pge.AddModifier(ThemeContentMod())
 	return func(w http.ResponseWriter, r *http.Request) {
 		clnt := credConfig.Client(r.Context())
-		services, err := stock.FetchAllCategories(clnt, Endpoints["stock"], "A6")
+		services, err := stock.FetchClientCategories(clnt, Endpoints["stock"], "A6")
 
 		if err != nil {
 			log.Println("Fetch Categories Error", err)

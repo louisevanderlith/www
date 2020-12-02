@@ -36,7 +36,7 @@ class ContactForm extends FormState {
     return _phone.value;
   }
 
-  String get message {
+  String get body {
     return _message.value;
   }
 
@@ -52,7 +52,7 @@ class ContactForm extends FormState {
   }
 
   submitSend() async {
-    var data = new Message(message, email, name, phone, to);
+    var data = new Message(name, "Website Contact Us", email, phone, body , to);
     var req = await sendMessage(data);
 
     if (req.status == 200) {
