@@ -4,7 +4,8 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/louisevanderlith/blog v1.0.2
-	github.com/louisevanderlith/droxolite v1.19.3
+	github.com/louisevanderlith/comment v1.1.1
+	github.com/louisevanderlith/droxolite v1.19.8
 	github.com/louisevanderlith/folio v1.0.9
 	github.com/louisevanderlith/husk v1.7.6
 	github.com/louisevanderlith/stock v1.0.8

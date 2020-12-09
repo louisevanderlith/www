@@ -9,11 +9,11 @@ import 'package:mango_ui/keys.dart';
 
 class Comments extends FormState {
   Key _objKey;
-  String _objType;
+  num _objType;
   TextInputElement _text;
   HiddenInputElement _userImg;
 
-  Comments(String idElem, Key objKey, String objType)
+  Comments(String idElem, Key objKey, num objType)
       : super(idElem, "#btnComment") {
     _objKey = objKey;
     _objType = objType;
@@ -38,17 +38,15 @@ class Comments extends FormState {
 
       final data = new Comment(_objKey, text, _objType, userImage);
       var req = await createComment(data);
-      final content = jsonDecode(req.response);
 
       if (req.status == 200) {
+        final content = jsonDecode(req.response);
         new Toast.success(
-            title: "Success!",
-            message: content['Data'],
-            position: ToastPos.bottomLeft);
+            title: "Success!", message: content, position: ToastPos.bottomLeft);
       } else {
         new Toast.error(
             title: "Error!",
-            message: content['Error'],
+            message: req.response,
             position: ToastPos.bottomLeft);
       }
     }
