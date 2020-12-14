@@ -44,13 +44,12 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	}
 
 	Endpoints = endpoints
-
 	AuthConfig = &oauth2.Config{
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		Endpoint:     provider.Endpoint(),
 		RedirectURL:  host + "/callback",
-		Scopes:       []string{oidc.ScopeOpenID, "blog-view", "comment-save"},
+		Scopes:       []string{oidc.ScopeOpenID, oidc.ScopeOfflineAccess, "blog-view", "comment-save"},
 	}
 
 	credConfig = &clientcredentials.Config{
@@ -78,23 +77,23 @@ func SetupRoutes(host, clientId, clientSecret string, endpoints map[string]strin
 	fs := http.FileServer(distPath)
 	r.PathPrefix("/dist/").Handler(http.StripPrefix("/dist/", fs))
 
-	lock := open.NewUILock(provider, AuthConfig)
+	lock := open.NewHybridLock(provider, credConfig, AuthConfig)
 
 	r.HandleFunc("/login", lock.Login).Methods(http.MethodGet)
 	r.HandleFunc("/callback", lock.Callback).Methods(http.MethodGet)
-	gmw := open.NewGhostware(credConfig)
+	r.HandleFunc("/logout", lock.Logout).Methods(http.MethodGet)
+	r.HandleFunc("/refresh", lock.Refresh).Methods(http.MethodGet)
 
 	fact := mix.NewPageFactory(tmpl)
 	fact.AddModifier(mix.EndpointMod(Endpoints))
 	fact.AddModifier(mix.IdentityMod(AuthConfig.ClientID))
 	fact.AddModifier(ThemeContentMod())
 
-	r.HandleFunc("/", gmw.GhostMiddleware(Index(fact))).Methods(http.MethodGet)
-
-	r.HandleFunc("/blog", gmw.GhostMiddleware(GetArticles(fact))).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}", gmw.GhostMiddleware(SearchArticles(fact))).Methods(http.MethodGet)
-	r.HandleFunc("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", gmw.GhostMiddleware(SearchArticles(fact))).Methods(http.MethodGet)
-	r.Handle("/blog/{key:[0-9]+\\x60[0-9]+}", lock.NoLoginMiddleware(ViewArticle(fact))).Methods(http.MethodGet)
+	r.Handle("/", lock.Protect(Index(fact))).Methods(http.MethodGet)
+	r.Handle("/blog", lock.Protect(GetArticles(fact))).Methods(http.MethodGet)
+	r.Handle("/blog/{pagesize:[A-Z][0-9]+}", lock.Protect(SearchArticles(fact))).Methods(http.MethodGet)
+	r.Handle("/blog/{pagesize:[A-Z][0-9]+}/{hash:[a-zA-Z0-9]+={0,2}}", lock.Protect(SearchArticles(fact))).Methods(http.MethodGet)
+	r.Handle("/blog/{key:[0-9]+\\x60[0-9]+}", lock.Protect(ViewArticle(fact))).Methods(http.MethodGet)
 
 	return r
 }

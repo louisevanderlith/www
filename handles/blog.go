@@ -2,7 +2,6 @@ package handles
 
 import (
 	"crypto/md5"
-	"encoding/json"
 	"fmt"
 	"github.com/coreos/go-oidc"
 	"github.com/louisevanderlith/blog/api"
@@ -11,11 +10,9 @@ import (
 	"github.com/louisevanderlith/comment/core/commenttype"
 	"github.com/louisevanderlith/droxolite/drx"
 	"github.com/louisevanderlith/droxolite/mix"
-	"github.com/louisevanderlith/husk/hsk"
 	"github.com/louisevanderlith/husk/keys"
 	"github.com/louisevanderlith/husk/records"
 	"golang.org/x/oauth2"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -59,46 +56,6 @@ func SearchArticles(fact mix.MixerFactory) http.HandlerFunc {
 	}
 }
 
-func FetchArticleWithSource(host string, k hsk.Key, tokenSource oauth2.TokenSource) (core.Article, error) {
-	url := fmt.Sprintf("%s/articles/%s", host, k.String())
-
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		return core.Article{}, fmt.Errorf("oidc: create GET request: %v", err)
-	}
-
-	token, err := tokenSource.Token()
-	if err != nil {
-		return core.Article{}, fmt.Errorf("oidc: get access token: %v", err)
-	}
-
-	token.SetAuthHeader(req)
-
-	resp, err := http.DefaultClient.Do(req) //doRequest(ctx, req)
-
-	if err != nil {
-		return core.Article{}, err
-	}
-	//resp, err := web.Get(url)
-
-	//if err != nil {
-	//	return core.Article{}, err
-	//}
-
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		bdy, _ := ioutil.ReadAll(resp.Body)
-		return core.Article{}, fmt.Errorf("%v: %s", resp.StatusCode, string(bdy))
-	}
-
-	result := core.Article{}
-	dec := json.NewDecoder(resp.Body)
-	err = dec.Decode(&result)
-
-	return result, err
-}
-
 func ViewArticle(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		key, err := keys.ParseKey(drx.FindParam(r, "key"))
@@ -109,23 +66,13 @@ func ViewArticle(fact mix.MixerFactory) http.HandlerFunc {
 			return
 		}
 
-		tkn := r.Context().Value("Token")
-		//var tknsrc oauth2.TokenSource
-		var clnt *http.Client
+		tkn := r.Context().Value("Token").(oauth2.Token)
+		clnt := AuthConfig.Client(r.Context(), &tkn)
 
-		if tkn != nil {
-			authTkn := tkn.(oauth2.Token)
-			clnt = AuthConfig.Client(r.Context(), &authTkn)
-			//tknsrc = AuthConfig.TokenSource(r.Context(), &authTkn)
-		} else {
-			clnt = credConfig.Client(r.Context())
-			//tknsrc = credConfig.TokenSource(r.Context())
-		}
+		//clnt := r.Context().Value(oauth2.HTTPClient).(*http.Client)
 
-		//clnt := credConfig.Client(r.Context())
 		article, err := api.FetchArticle(clnt, Endpoints["blog"], key)
 
-		//article, err := FetchArticleWithSource(Endpoints["blog"], key, tknsrc)
 		if err != nil {
 			log.Println("Fetch Article Error", err)
 			http.Error(w, "", http.StatusUnauthorized)
@@ -163,7 +110,6 @@ func getUserGravatar(r *http.Request) string {
 	tknVal := r.Context().Value("IDToken")
 
 	if tknVal == nil {
-		log.Println("ID Token not set")
 		return ""
 	}
 
