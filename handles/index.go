@@ -3,28 +3,25 @@ package handles
 import (
 	"github.com/louisevanderlith/droxolite/mix"
 	stock "github.com/louisevanderlith/stock/api"
-	"html/template"
 	"log"
 	"net/http"
 )
 
 //GetDefault returns the 'defaultsite'
-func Index(tmpl *template.Template) http.HandlerFunc {
-	pge := mix.PreparePage("Index", tmpl, "./views/index.html")
-	pge.AddModifier(mix.EndpointMod(Endpoints))
-	pge.AddModifier(mix.IdentityMod(CredConfig.ClientID))
-	pge.AddModifier(ThemeContentMod())
+func Index(fact mix.MixerFactory) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		clnt := CredConfig.Client(r.Context())
-		services, err := stock.FetchAllServices(clnt, Endpoints["stock"], "A6")
+		clnt := credConfig.Client(r.Context())
+		data, err := stock.FetchClientCategories(clnt, Endpoints["stock"], "A6")
 
 		if err != nil {
-			log.Println("Fetch Services Error", err)
+			log.Println("Fetch Categories Error", err)
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
 
-		err = mix.Write(w, pge.Create(r, services))
+		bag := mix.NewDataBag(data)
+		bag.SetValue("Title", "Home")
+		err = mix.Write(w, fact.Create(r, "Index", "./views/index.html", bag))
 
 		if err != nil {
 			log.Println("Serve Error", err)

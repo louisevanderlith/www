@@ -1,25 +1,34 @@
-{{template "master.html" .}}
-{{define "layoutcontent"}}
-    <section class="hero is-medium has-background">
-        {{.Data}}
-        <img alt="YumYum" class="hero-background"
-             src="{{ index .Endpoints "artifact" }}/download/{{.Data.Article.ImageKey}}"/>
-        <div class="hero-body">
-            <div class="container">
-                <h4 class="title is-4 has-text-white">{{.Data.Article.Title}}</h4>
-                <h5 class="subtitle colourSecondary is-5 has-text-white">Author: {{.Data.Article.WrittenBy}}</h5>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <section class="hero is-medium herocolour">
+        <!-- Begin Hero Content-->
+        <div class="hero-body"
+             style="background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Data.Article.ImageKey}}') no-repeat;">
+            <div class="container has-text-centered">
+                <h2 class="title colourTertiary is-1">{{.Data.Article.Title}}</h2>
+                <h1 class="subtitle colourPrimary profession is-3">
+                    <b>{{.Data.Article.Intro}}</b></h1>
             </div>
         </div>
-        <div class="media-right">
-            <h1 class="sharethis-inline-share-buttons is-5 has-text-left"></h1>
-        </div>
     </section>
-    <!-- main content -->
-
-    <div class="content">
-        {{.Data.Article.Content | html}}
+    <div class="main-content is-white-ter colourPrimary">
+        <div class="box">
+            <div class="container">
+                <div class="content">{{.Data.Article.Content}}</div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{.Data.Article.WrittenBy}}</p>
+                                <p class="subtitle is-6">
+                                    <time datetime="{{.Data.CreateDate}}">{{.Data.CreateDate}}</time>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{template "comment.html" .}}
+            </div>
+        </div>
     </div>
-
-    {{template "comment.html" .}}
 {{end}}

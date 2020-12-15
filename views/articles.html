@@ -1,26 +1,27 @@
-{{template "master.html" .}}
-{{define "layoutcontent"}}
-    {{template "menu.html" .}}
-    <div class="main-content">
+{{template "layout.html" .}}
+{{define "mainlayout"}}
+    <div class="main-content is-white-ter colourPrimary">
         <div class="box">
             <div class="row columns is-multiline">
                 {{$artUrl := index .Endpoints "artifact"}}
                 {{if .Data.Records}}
-                    {{range $key, $val := .Data.GetRecords.ToSlice}}
+                    {{range .Data.GetRecords.ToSlice}}
+                        {{$v := .GetValue}}
+                        {{$k := .GetKey}}
                         <div class="column is-one-quarter">
                             <div class="card">
                                 <div class="card-image">
                                     <figure class="image">
-                                        <img src="{{$artUrl}}/download/{{$val.V.ImageKey}}" alt="article image"/>
+                                        <img src="{{$artUrl}}/download/{{$v.ImageKey}}" alt="article image"/>
                                     </figure>
                                 </div>
                                 <div class="card-content">
                                     <div class="media">
                                         <div class="media-content">
                                             <p class="title no-padding"><a
-                                                        href="/blog/articles/{{$val.K}}">{{$val.V.Title}}</a>
+                                                        href="/blog/{{$k}}">{{$v.Title}}</a>
                                             </p>
-                                            <p class="subtitle colourSecondary">Author:{{$val.V.WrittenBy}}</p>
+                                            <p class="subtitle colourSecondary">Author:{{$v.WrittenBy}}</p>
                                             <nav class="level is-mobile">
                                                 <div class="level-left">
                                                     <a class="level-item">
@@ -38,18 +39,18 @@
                                         </div>
                                     </div>
                                     <div class="content">
-                                        {{$val.V.Intro}}
+                                        {{$v.Intro}}
                                         <br>
-                                        <time datetime="{{$val.K.Timestamp}}">{{$val.K.Timestamp}}</time>
-                                        <a href="/blog/articles/{{$val.K}}">Read Article</a>
+                                        <time datetime="{{$k.GetTimestamp}}">{{$k.GetTimestamp}}</time>
+                                        <a href="/blog/{{$k}}">Read Article</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {{end}}
                     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                        {{if .Data.Previous}}
-                            <a href="{{.Data.Previous}}" class="pagination-previous">Previous</a>
+                        {{if .Data.Prev}}
+                            <a href="{{.Data.Prev}}" class="pagination-previous">Previous</a>
                         {{end}}
                         {{if .Data.Next}}
                             <a href="{{.Data.Next}}" class="pagination-next">Next</a>
