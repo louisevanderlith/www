@@ -29,7 +29,9 @@ func GetArticles(fact mix.MixerFactory) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, fact.Create(r, "Articles", "./views/articles.html", mix.NewDataBag(data)))
+		bag := mix.NewDataBag(data)
+		bag.SetValue("Title", "Articles")
+		err = mix.Write(w, fact.Create(r, "Articles", "./views/articles.html", bag))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -48,7 +50,9 @@ func SearchArticles(fact mix.MixerFactory) http.HandlerFunc {
 			return
 		}
 
-		err = mix.Write(w, fact.Create(r, "Articles", "./views/articles.html", mix.NewDataBag(data)))
+		bag := mix.NewDataBag(data)
+		bag.SetValue("Title", "Articles")
+		err = mix.Write(w, fact.Create(r, "Articles", "./views/articles.html", bag))
 
 		if err != nil {
 			log.Println("Serve Error", err)
@@ -68,8 +72,6 @@ func ViewArticle(fact mix.MixerFactory) http.HandlerFunc {
 
 		tkn := r.Context().Value("Token").(oauth2.Token)
 		clnt := AuthConfig.Client(r.Context(), &tkn)
-
-		//clnt := r.Context().Value(oauth2.HTTPClient).(*http.Client)
 
 		article, err := api.FetchArticle(clnt, Endpoints["blog"], key)
 
@@ -97,8 +99,9 @@ func ViewArticle(fact mix.MixerFactory) http.HandlerFunc {
 			Gravatar:   getUserGravatar(r),
 		}
 
-		//pge.ChangeTitle("Article " + article.Title)
-		err = mix.Write(w, fact.Create(r, "Article View", "./views/articleview.html", mix.NewDataBag(data)))
+		bag := mix.NewDataBag(data)
+		bag.SetValue("Title", "Article "+article.Title)
+		err = mix.Write(w, fact.Create(r, "Article View", "./views/articleview.html", bag))
 
 		if err != nil {
 			log.Println("Serve Error", err)
