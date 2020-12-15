@@ -1,10 +1,9 @@
 {{template "layout.html" .}}
 {{define "mainlayout"}}
 <!-- Begin Hero -->
-<section class="hero is-medium herocolour">
+<section class="hero is-medium herocolour" style="background-image: url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}'); background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}') no-repeat;">
     <!-- Begin Hero Content-->
-    <div class="hero-body"
-        style="background-image: url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}'); background:linear-gradient(rgba(0, 0, 1, 0.4), rgba(0, 0, 2, 0.40)), rgba(0, 0, 0, 0.4) url('{{ index .Endpoints "artifact"}}/download/{{.Folio.Banner.Background}}') no-repeat;">
+    <div class="hero-body">
         <div class="container has-text-centered">
             <h2 class="title has-text-white-ter is-1">{{.Folio.Banner.Heading}}</h2>
             <h1 class="subtitle colourPrimary profession is-3">
