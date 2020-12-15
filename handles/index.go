@@ -19,8 +19,9 @@ func Index(fact mix.MixerFactory) http.HandlerFunc {
 			return
 		}
 
-		//pge.ChangeTitle("Home")
-		err = mix.Write(w, fact.Create(r, "Index", "./views/index.html", mix.NewDataBag(data)))
+		bag := mix.NewDataBag(data)
+		bag.SetValue("Title", "Home")
+		err = mix.Write(w, fact.Create(r, "Index", "./views/index.html", bag))
 
 		if err != nil {
 			log.Println("Serve Error", err)
