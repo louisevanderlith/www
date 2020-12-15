@@ -109,47 +109,34 @@
                             <h1 class="title has-text-centered section-title colourTertiary">Services we Offer</h1>
                         </div>
                         {{$artUrl := index .Endpoints "artifact"}}
-                        {{range .Data.Records}}
+                        {{range .Data.GetRecords.ToSlice}}
+                            {{$v := .GetValue}}
                             <div class="column is-3">
                                 <div class="card">
                                     <div class="card-image">
-                                        <a href="{{.V.Url}}" target="_blank">
+                                        <a href="{{$v.Url}}" target="_blank">
                                             <figure class="image is-4by3">
-                                                <img src="{{$artUrl}}/download/{{.V.ImageKey}}" alt="{{.V.ShortName}}">
+                                                <img src="{{$artUrl}}/download/{{$v.ImageKey}}"
+                                                     alt="{{$v.ShortName}}">
                                             </figure>
                                         </a>
                                     </div>
-                                    {{$artUrl := index .Endpoints "artifact"}}
-                                    {{range .Data.Records}}
-                                        <div class="column is-3">
-                                            <div class="card">
-                                                <div class="card-image">
-                                                    <a href="{{.V.Url}}" target="_blank">
-                                                        <figure class="image is-4by3">
-                                                            <img src="{{$artUrl}}/download/{{.V.ImageKey}}"
-                                                                 alt="{{.V.ShortName}}">
-                                                        </figure>
-                                                    </a>
-                                                </div>
-                                                <div class="card-content">
-                                                    <div class="content">
-                                                        <a href="{{.V.Url}}" target="_blank">{{.V.ShortName}}</a>
-                                                        {{range .V.Tags}}
-                                                            <span class="tag">{{.}}</span>
-                                                        {{end}}
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <a href="{{$v.Url}}" target="_blank">{{$v.ShortName}}</a>
+                                            {{range $v.Tags}}
+                                                <span class="tag">{{.}}</span>
+                                            {{end}}
                                         </div>
-                                    {{end}}
+                                    </div>
                                 </div>
                             </div>
                         {{end}}
-                        <!-- End Services Content -->
                     </div>
                 </div>
             </div>
         {{end}}
+        <!-- End Services Content -->
         <div class="section-light contact" id="contact">
             <div class="container">
                 <div class="columns is-multiline" data-aos="fade-in-up" data-aos-easing="linear">
