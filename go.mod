@@ -10,7 +10,7 @@ require (
 	github.com/louisevanderlith/husk v1.7.6
 	github.com/louisevanderlith/stock v1.0.8
 	github.com/louisevanderlith/theme v1.0.2
-	golang.org/x/net v0.0.0-20201022231255-08b38378de70
+	golang.org/x/net v0.7.0
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 )
 
